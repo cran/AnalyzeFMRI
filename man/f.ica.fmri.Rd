@@ -90,3 +90,4 @@ alg.type="parallel", alpha=1, tol=1e-04, mask.file.name=NULL, slices=NULL)
 \seealso{\code{\link{f.ica.fmri.gui}},\code{\link{f.plot.ica.fmri}} }
 
 \keyword{utilities}
+

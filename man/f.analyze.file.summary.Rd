@@ -22,3 +22,4 @@
 f.analyze.file.summary(system.file("example.img", package="AnalyzeFMRI"))
 }
 \keyword{utilities}
+

@@ -11,3 +11,4 @@ f.analyzeFMRI.gui()
 \value{No value is returned
 }
 \keyword{utilities}
+

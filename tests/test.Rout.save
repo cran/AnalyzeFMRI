@@ -1,49 +1,52 @@
-R : Copyright 2002, The R Development Core Team
-Version 1.4.1  (2002-01-30)
+
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.0.0 Under development (unstable) (2004-06-07), ISBN 3-900051-00-3
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
-Type `license()' or `licence()' for distribution details.
+Type 'license()' or 'licence()' for distribution details.
 
 R is a collaborative project with many contributors.
-Type `contributors()' for more information.
+Type 'contributors()' for more information and
+'citation()' on how to cite R in publications.
 
-Type `demo()' for some demos, `help()' for on-line help, or
-`help.start()' for a HTML browser interface to help.    
-Type `q()' to quit R.
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
 
 > ###################################
 > ## Tests for AnalyzeFMRI package ##
 > ###################################
->
+> 
 > library(AnalyzeFMRI)
->
+> 
 > ## Test that reading of examples works
->
+> 
 > a1 <- f.read.analyze.volume(system.file("example.img", package="AnalyzeFMRI"))
->
+> 
 > a1[30:40, 30:40, 10, 1]
       [,1] [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8] [,9] [,10] [,11]
  [1,] 8046 7552  7534  8118  7595  7742  8116  8324 7128  4706  5257
  [2,] 7984 7435  7453  7191  7301  6912  7540  6206 4780  5006  6141
  [3,] 6994 6477 10390 11681 11389 10080  7297  5875 5510  6674  5607
  [4,] 6585 7097 12414  8785 13735 10494  6909  4415 4175  5670  6795
- [5,] 5405 7883 10429 12885 11799  8180  5835  4327 5686  6575  6153     
+ [5,] 5405 7883 10429 12885 11799  8180  5835  4327 5686  6575  6153
  [6,] 6892 8763 13177 12606 12004 11540  8878  5820 4968  6567  5277
  [7,] 8595 8356  8470  8850  7670  7325  9916  8578 5438  5239  5394
  [8,] 8146 7924  7639  8453  9123  8496  9008 10672 8534  5373  5403
  [9,] 8159 8195  7638  7350  7678  7138  6832  7436 7337  6240  6057
 [10,] 8597 8711  8588  8384  7785  8000  8695  8101 7615  7476  6674
 [11,] 8168 8388  7921  8250  9466  9963 10092  9634 8377  7363  6834
->
->
+> 
+> 
 > ## Test that writing of examples works
->
+> 
 > a2 <- array(1:1000, dim = c(10, 10, 10, 1))
 > f.write.analyze(a2, file = "test.array", size = "float")
->
+> 
 > a3 <- f.read.analyze.volume(file = "test.array.img")
->
+> 
 > sum(a2 != a3) ## should return 0
 [1] 0
->
+> 
+> 

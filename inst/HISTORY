@@ -57,3 +57,10 @@ Version 1.0-7 :
 Version 1.0-8 :
 
 - .lib.loc references changed in preparation for 1.6.0 (with help from BDR)
+
+2004-06-08
+----------
+
+ Version 1.0-9
+
+-changed detection of blas & lapack, to be MacOS X compatible (no lsame in BLAS)

@@ -4,23 +4,24 @@ f.read.analyze.header <- function(file){
     file.name <- substring(file, 1, nchar(file) - 4)
     file.hdr <- paste(file.name, ".hdr", sep = "")
     file.img <- paste(file.name, ".img", sep = "")
-    
+
     if(file.exists(file.img) == FALSE) return(paste(file.img, "not found"))
-    if(file.exists(file.hdr) == FALSE) return(paste(file.hdr, "not found")) 
-    
+    if(file.exists(file.hdr) == FALSE) return(paste(file.hdr, "not found"))
+
 #Detect whether the data is big or little endian. The first part of a .hdr file is the size of the file which is always a C int (i.e. 4 bytes) and always has value 348. Therefore trying to read it in assuming little-endian will tell you if that is the correct mode
-    
+
     swap <- 0
-    
+
     if(.C("swaptest_wrap_JM",
           ans = integer(1),
-          file.hdr)$ans != 348)
-        swap <- 1 
+          file.hdr,
+          PACKAGE="AnalyzeFMRI")$ans != 348)
+        swap <- 1
 
 
 # A C function is used to read in all the components of the .hdr file
     a<-.C("read_analyze_header_wrap_JM",
-          file.hdr,	
+          file.hdr,
           as.integer(swap),
           integer(1),
           paste(rep(" ", 10), sep = "", collapse = ""),
@@ -64,10 +65,11 @@ f.read.analyze.header <- function(file){
           integer(1),
           integer(1),
           integer(1),
-          integer(1))
-    
+          integer(1),
+          PACKAGE="AnalyzeFMRI")
+
 #A list (called L) is created containing a selection of the useful components of the .hdr file
-    
+
     L <- list()
     L$swap <- a[[2]]
     L$file.name <- file.img
@@ -89,7 +91,7 @@ f.read.analyze.header <- function(file){
     L$pixdim <- a[[17]]
     L$glmax <- a[[26]]
     L$glmin <- a[[27]]
-    
+
     return(L)}
 
 
@@ -115,12 +117,12 @@ f.analyze.file.summary <- function(file){
 
 
 f.basic.hdr.list.create <- function(mat, file.hdr){
-    
+
 #creates a basic list that can be used to write a .hdr file
-  
+
     dim <- dim(mat)
     dim <- c(length(dim), dim, rep(0, 7 - length(dim)))
-    
+
     l <- list(file = file.hdr,
               size.of.header = 348,
               data.type = paste(rep(" ", 10), sep = "", collapse = ""),
@@ -178,72 +180,72 @@ f.read.analyze.slice <- function(file, slice, tpt){
 
   #num.dim<-hdr$dim[1]
     dim <- hdr$dim[2:3]
-    
+
     num.data.pts <- dim[1] * dim[2]
     if(tpt < 1 || tpt > hdr$dim[5]) stop("tpt is not in range")
     if(slice < 1 || slice > hdr$dim[4]) stop("slice is not in range")
-    
+
     offset <- (tpt - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4] + (slice - 1) * hdr$dim[2] * hdr$dim[3]
     if(hdr$datatype == 2){
-        
+
         vol <- .C("readchar_v1_JM",
                   mat = integer(num.data.pts),
                   file.img,
                   as.integer(hdr$swap),
                   as.integer(num.data.pts),
                   as.integer(offset * 1),
-                  as.integer(1))
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
 #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 4){
-        
-        vol <- .C("read2byte_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 2), 
-                  as.integer(1))
+
+        vol <- .C("read2byte_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 2),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
 #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 8){
-        vol <- .C("read4byte_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 4), 
-                  as.integer(1))
+        vol <- .C("read4byte_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 4),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 16){
-        vol <- .C("readfloat_v1_JM", 
-                  mat = single(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 4), 
-                  as.integer(1))
+        vol <- .C("readfloat_v1_JM",
+                  mat = single(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 4),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim=dim)
 #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 64){
-        vol <- .C("readdouble_v1_JM", 
-                  mat = numeric(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 8), 
-                  as.integer(1))
+        vol <- .C("readdouble_v1_JM",
+                  mat = numeric(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 8),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
-    
+
     if(hdr$datatype == 0 || hdr$datatype == 1 || hdr$datatype == 32 || hdr$datatype == 128 || hdr$datatype == 255) print(paste("The format", hdr$data.type, "is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"), quote=FALSE)
-    
+
     return(vol)}
 
 
@@ -257,71 +259,71 @@ f.read.analyze.tpt <- function(file, tpt){
 
   #num.dim <- hdr$dim[1]
     dim <- hdr$dim[2:4]
-  
+
     num.data.pts <- dim[1] * dim[2] * dim[3]
     if(tpt < 1 || tpt > hdr$dim[5]) stop("tpt is not in range")
-    
+
     offset <- (tpt - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4]
-    
+
     if(hdr$datatype == 2){
-        
-        vol <- .C("readchar_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 1), 
-                  as.integer(1))
+
+        vol <- .C("readchar_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 1),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
                                         #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 4){
-        vol <- .C("read2byte_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 2), 
-                  as.integer(1))
+        vol <- .C("read2byte_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 2),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 8){
-        vol <- .C("read4byte_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 4), 
-                  as.integer(1))
+        vol <- .C("read4byte_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 4),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 16){
-        vol <- .C("readfloat_v1_JM", 
-                  mat = single(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 4), 
-                  as.integer(1))
+        vol <- .C("readfloat_v1_JM",
+                  mat = single(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 4),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 64){
-        vol <- .C("readdouble_v1_JM", 
-                  mat = numeric(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(offset * 8), 
-                  as.integer(1))
+        vol <- .C("readdouble_v1_JM",
+                  mat = numeric(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(offset * 8),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
-    
+
     if(hdr$datatype == 0 || hdr$datatype == 1 || hdr$datatype == 32 || hdr$datatype == 128 || hdr$datatype == 255) print(paste("The format", hdr$data.type, "is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"), quote = FALSE)
-    
+
     return(vol)}
 
 
@@ -335,85 +337,85 @@ f.read.analyze.slice.at.all.timepoints <- function(file, slice){
 
   #num.dim <- hdr$dim[1]
     dim <- hdr$dim[2:3]
-    
+
     num.data.pts <- dim[1] * dim[2]
     if(slice < 1 || slice > hdr$dim[4]) stop("slice is not in range")
-    
+
     vl <- array(0, dim = hdr$dim[c(2, 3, 5)])
-    
+
     if(hdr$datatype == 2){
-        for(i in 1:hdr$dim[5]){          
+        for(i in 1:hdr$dim[5]){
             offset <- (i - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4] + (slice - 1) * hdr$dim[2] * hdr$dim[3]
-            vol <- .C("readchar_v1_JM", 
-                      mat = integer(num.data.pts), 
-                      file.img, 
-                      as.integer(hdr$swap), 
-                      as.integer(num.data.pts), 
-                      as.integer(offset * 1), 
-                      as.integer(1))
+            vol <- .C("readchar_v1_JM",
+                      mat = integer(num.data.pts),
+                      file.img,
+                      as.integer(hdr$swap),
+                      as.integer(num.data.pts),
+                      as.integer(offset * 1),
+                      as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
             vl[, , i] <- vol
         }
-    }          
+    }
     if(hdr$datatype == 4){
-        for(i in 1:hdr$dim[5]){          
+        for(i in 1:hdr$dim[5]){
             offset <- (i - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4] + (slice - 1) * hdr$dim[2] * hdr$dim[3]
-            vol <- .C("read2byte_v1_JM", 
-                      mat = integer(num.data.pts), 
-                      file.img, 
-                      as.integer(hdr$swap), 
-                      as.integer(num.data.pts), 
-                      as.integer(offset * 2), 
-                      as.integer(1))
+            vol <- .C("read2byte_v1_JM",
+                      mat = integer(num.data.pts),
+                      file.img,
+                      as.integer(hdr$swap),
+                      as.integer(num.data.pts),
+                      as.integer(offset * 2),
+                      as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
             vl[, , i] <- vol
         }
     }
-    
+
     if(hdr$datatype == 8){
-        for(i in 1:hdr$dim[5]){          
+        for(i in 1:hdr$dim[5]){
             offset <- (i - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4] + (slice - 1) * hdr$dim[2] * hdr$dim[3]
-            vol <- .C("read4byte_v1_JM", 
-                      mat = integer(num.data.pts), 
-                      file.img, 
-                      as.integer(hdr$swap), 
-                      as.integer(num.data.pts), 
-                      as.integer(offset * 4), 
-                      as.integer(1))
+            vol <- .C("read4byte_v1_JM",
+                      mat = integer(num.data.pts),
+                      file.img,
+                      as.integer(hdr$swap),
+                      as.integer(num.data.pts),
+                      as.integer(offset * 4),
+                      as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
             vl[, , i] <- vol
         }
     }
-    
+
     if(hdr$datatype == 16){
-        for(i in 1:hdr$dim[5]){          
+        for(i in 1:hdr$dim[5]){
             offset <- (i - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4] + (slice - 1) * hdr$dim[2] * hdr$dim[3]
-            vol <- .C("readfloat_v1_JM", 
-                      mat = single(num.data.pts), 
-                      file.img, 
-                      as.integer(hdr$swap), 
-                      as.integer(num.data.pts), 
-                      as.integer(offset * 4), 
-                      as.integer(1))
+            vol <- .C("readfloat_v1_JM",
+                      mat = single(num.data.pts),
+                      file.img,
+                      as.integer(hdr$swap),
+                      as.integer(num.data.pts),
+                      as.integer(offset * 4),
+                      as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
         }
     }
-    
+
     if(hdr$datatype == 64){
-        for(i in 1:hdr$dim[5]){          
+        for(i in 1:hdr$dim[5]){
             offset <- (i - 1) * hdr$dim[2] * hdr$dim[3] * hdr$dim[4] + (slice - 1) * hdr$dim[2] * hdr$dim[3]
-            vol <- .C("readdouble_v1_JM", 
-                      mat = numeric(num.data.pts), 
-                      file.img, 
-                      as.integer(hdr$swap), 
-                      as.integer(num.data.pts), 
-                      as.integer(offset * 8), 
-                      as.integer(1))
+            vol <- .C("readdouble_v1_JM",
+                      mat = numeric(num.data.pts),
+                      file.img,
+                      as.integer(hdr$swap),
+                      as.integer(num.data.pts),
+                      as.integer(offset * 8),
+                      as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
         }}
-    
+
     if(hdr$datatype == 0 || hdr$datatype == 1 || hdr$datatype == 32 || hdr$datatype == 128 || hdr$datatype == 255) print(paste("The format", hdr$data.type, "is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"), quote = FALSE)
-    
+
     return(vl)}
 
 f.read.analyze.ts <- function(file, x, y, z){
@@ -427,79 +429,79 @@ f.read.analyze.ts <- function(file, x, y, z){
     if(x < 1 || x > hdr$dim[2]) stop("x is not in range")
     if(y < 1 || y > hdr$dim[3]) stop("y is not in range")
     if(z < 1 || z > hdr$dim[4]) stop("z is not in range")
-  
+
     offset.start <- (z - 1) * hdr$dim[2] * hdr$dim[3] + (y - 1) * hdr$dim[2] + (x - 1)
     offset.add <- hdr$dim[2] * hdr$dim[3] * hdr$dim[4]
-    
+
     vol <- 1:hdr$dim[5]
-    
+
     if(hdr$datatype == 2){
         for(i in 1:hdr$dim[5]){
-            
-            v <- .C("readchar_v1_JM", 
-                    mat = integer(1), 
-                    file.img, 
-                    as.integer(hdr$swap), 
-                    as.integer(1), 
-                    as.integer(offset.start * 1 + 1 * (i - 1) * offset.add), 
-                    as.integer(1))
+
+            v <- .C("readchar_v1_JM",
+                    mat = integer(1),
+                    file.img,
+                    as.integer(hdr$swap),
+                    as.integer(1),
+                    as.integer(offset.start * 1 + 1 * (i - 1) * offset.add),
+                    as.integer(1), PACKAGE="AnalyzeFMRI")
             vol[i] <- v$mat}
     }
-    
+
     if(hdr$datatype  == 4){
         for(i in 1:hdr$dim[5]){
-            
-            v <- .C("read2byte_v1_JM", 
-                    mat = integer(1), 
-                    file.img, 
-                    as.integer(hdr$swap), 
-                    as.integer(1), 
-                    as.integer(offset.start * 2 + 2 * (i - 1) * offset.add), 
-                    as.integer(1))
+
+            v <- .C("read2byte_v1_JM",
+                    mat = integer(1),
+                    file.img,
+                    as.integer(hdr$swap),
+                    as.integer(1),
+                    as.integer(offset.start * 2 + 2 * (i - 1) * offset.add),
+                    as.integer(1), PACKAGE="AnalyzeFMRI")
             vol[i] <- v$mat}
     }
-    
+
     if(hdr$datatype  == 8){
         for(i in 1:hdr$dim[5]){
-            
-            v <- .C("read4byte_v1_JM", 
-                    mat = integer(1), 
-                    file.img, 
-                    as.integer(hdr$swap), 
-                    as.integer(1), 
-                    as.integer(offset.start * 4 + 4 * (i - 1) * offset.add), 
-                    as.integer(1))
+
+            v <- .C("read4byte_v1_JM",
+                    mat = integer(1),
+                    file.img,
+                    as.integer(hdr$swap),
+                    as.integer(1),
+                    as.integer(offset.start * 4 + 4 * (i - 1) * offset.add),
+                    as.integer(1), PACKAGE="AnalyzeFMRI")
             vol[i] <- v$mat}
     }
-    
+
     if(hdr$datatype == 16){
         for(i in 1:hdr$dim[5]){
-            
-            v <- .C("readfloat_v1_JM", 
-                    mat = integer(1), 
-                    file.img, 
-                    as.integer(hdr$swap), 
-                    as.integer(1), 
-                    as.integer(offset.start * 4 + 4 * (i - 1) * offset.add), 
-                    as.integer(1))
+
+            v <- .C("readfloat_v1_JM",
+                    mat = integer(1),
+                    file.img,
+                    as.integer(hdr$swap),
+                    as.integer(1),
+                    as.integer(offset.start * 4 + 4 * (i - 1) * offset.add),
+                    as.integer(1), PACKAGE="AnalyzeFMRI")
             vol[i] <- v$mat}
     }
-    
+
     if(hdr$datatype == 64){
         for(i in 1:hdr$dim[5]){
-            
-            v <- .C("readdouble_v1_JM", 
-                    mat = integer(1), 
-                    file.img, 
-                    as.integer(hdr$swap), 
-                    as.integer(1), 
-                    as.integer(offset.start * 8 + 8 * (i - 1) * offset.add), 
-                    as.integer(1))
+
+            v <- .C("readdouble_v1_JM",
+                    mat = integer(1),
+                    file.img,
+                    as.integer(hdr$swap),
+                    as.integer(1),
+                    as.integer(offset.start * 8 + 8 * (i - 1) * offset.add),
+                    as.integer(1), PACKAGE="AnalyzeFMRI")
             vol[i] <- v$mat}
     }
-    
+
     if(hdr$datatype == 0 || hdr$datatype == 1 || hdr$datatype == 32 || hdr$datatype == 128 || hdr$datatype == 255) print(paste("The format", hdr$data.type, "is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"), quote = FALSE)
-    
+
     return(vol)}
 
 
@@ -513,63 +515,63 @@ f.read.analyze.volume <- function(file){
   #f.analyze.file.summary(file)
     num.dim <- hdr$dim[1]
     dim <- hdr$dim[1:num.dim + 1]
-    
+
     num.data.pts <- 1
     for(i in 1:num.dim){num.data.pts <- num.data.pts * dim[i]}
-    
+
 
     if(hdr$datatype == 2){
-        vol <- .C("readchar_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(0), 
-                  as.integer(1))
+        vol <- .C("readchar_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(0),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 4){
-        vol <- .C("read2byte_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(0), 
-                  as.integer(1))
+        vol <- .C("read2byte_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(0),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
         vol <- array(vol$mat, dim = dim)
 #this works because array fills itself with the left most subscript moving fastest
     }
     if(hdr$datatype == 8){
-        vol <- .C("read4byte_v1_JM", 
-                  mat = integer(num.data.pts), 
-                  file.img, 
-                  as.integer(hdr$swap), 
-                  as.integer(num.data.pts), 
-                  as.integer(0), 
-                  as.integer(1))
+        vol <- .C("read4byte_v1_JM",
+                  mat = integer(num.data.pts),
+                  file.img,
+                  as.integer(hdr$swap),
+                  as.integer(num.data.pts),
+                  as.integer(0),
+                  as.integer(1), PACKAGE="AnalyzeFMRI")
     vol <- array(vol$mat, dim = dim)
 #this works because array fills itself with the left most subscript moving fastest
 }
 if(hdr$datatype == 16){
-    vol <- .C("readfloat_v1_JM", 
-              mat = single(num.data.pts), 
-              file.img, 
-              as.integer(hdr$swap), 
-              as.integer(num.data.pts), 
-              as.integer(0), 
-              as.integer(1))
+    vol <- .C("readfloat_v1_JM",
+              mat = single(num.data.pts),
+              file.img,
+              as.integer(hdr$swap),
+              as.integer(num.data.pts),
+              as.integer(0),
+              as.integer(1), PACKAGE="AnalyzeFMRI")
     vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
 }
 if(hdr$datatype == 64){
-    vol <- .C("readdouble_v1_JM", 
-              mat = numeric(num.data.pts), 
-              file.img, 
-              as.integer(hdr$swap), 
-              as.integer(num.data.pts), 
-              as.integer(0), 
-              as.integer(1))
+    vol <- .C("readdouble_v1_JM",
+              mat = numeric(num.data.pts),
+              file.img,
+              as.integer(hdr$swap),
+              as.integer(num.data.pts),
+              as.integer(0),
+              as.integer(1), PACKAGE="AnalyzeFMRI")
     vol <- array(vol$mat, dim = dim)
     #this works because array fills itself with the left most subscript moving fastest
 }
@@ -583,10 +585,10 @@ return(vol)}
 f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
 {
   #for an analyze .img file the periodogram of the time series are divided by a flat spectral estimate using the median periodogram ordinate. The resulting values are then combined within each Fourier frequency and quantiles are plotted against freequency. This provides a fast look at a fMRI dataset to identify any artefacts that reside at single frequencies.
-  
+
 ########################
 #get info about dataset
-########################  
+########################
     file.name <- substring(file, 1, nchar(file) - 4)
     file.hdr <- paste(file.name, ".hdr", sep = "")
     file.img <- paste(file.name, ".img", sep = "")
@@ -594,11 +596,11 @@ f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
     nsl <- hdr$dim[4]
     nim <- hdr$dim[5]
     pxdim <- hdr$pixdim[2:4]
-  
-##################### 
+
+#####################
 #read in/create mask
 #####################
-  
+
     f.mask.create <- function(dat, pct = .1, slices = c(0)) {
   #function that creats a mask for an fMRI dataset by thresholding the mean of the pixel time series at a percentage point of the maximum intensity of the dataset
         file.name <- substring(dat$file, 1, nchar(dat$file) - 4)
@@ -609,59 +611,59 @@ f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
         yc <- hdr$dim[3]
         if(slices[1] == 0){slices <- seq(1, nsl)}
         mask <- array(0, dim = c(xc, yc, length(slices)))
-        
+
         max.int <- 0
-        for(k in 1:length(slices)){        
+        for(k in 1:length(slices)){
             slice <- f.read.analyze.slice.at.all.timepoints(dat$file, slices[k])
             if(max(slice)>max.int){max.int <- max(slice)}
         }
-        
-        for(k in 1:length(slices)){        
+
+        for(k in 1:length(slices)){
             slice <- f.read.analyze.slice.at.all.timepoints(dat$file, slices[k])
-            
+
             for(i in 1:(xc * yc)){
                 a <- (i - 1) %/% xc + 1
-                b <- i - (a - 1) * xc     
+                b <- i - (a - 1) * xc
                 mask[b, a, k] <- mean(slice[b, a, ])
-                
+
                 if(mask[b, a, k] >= (pct * max.int)){mask[b, a, k] <- 1}
                 else{mask[b, a, k] <- 0}
             }
         }
-        
+
         return(mask)
-        
+
     }
-    
+
     if(mask.file!=FALSE){mask <- f.read.analyze.volume(mask.file)}
     else{
         dat <- list(file = file, mask.file = mask.file)
         mask <- f.mask.create(dat = dat)}
     dim(mask) <- hdr$dim[2:4]
-    
+
 ###############
 #set constants
 ###############
-  
+
     n <- floor(nim / 2) + 1
 
-  
+
 ##########################
 #initialise storage arrays
 ##########################
 
     res <- array(NA, dim = c(dim(mask), n))
- 
+
 #####################
 #main evaluation loop
 #####################
     cat("Processing slices...")
     for(l in 1:nsl){
         cat(" [", l, "]", sep = "")
-        
+
         slice <- f.read.analyze.slice.at.all.timepoints(file, l)
-        
-        
+
+
         for(i in 1:(dim(slice)[1] * dim(slice)[2])){
             a <- (i - 1) %/% dim(slice)[1] + 1
             b <- i - (a - 1) * dim(slice)[1]
@@ -673,7 +675,7 @@ f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
         }
     }
     cat("\n")
-    
+
     b <- apply(res, 4, FUN = quantile, probs = seq(.5, 1, .05), na.rm = TRUE)
     plot(c(0, n - 1), c(0, 30), type = "n", xlab = "", ylab = "", axes = FALSE)
     axis(1, at = seq(0, n, 5))
@@ -685,67 +687,68 @@ f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
 
 
 f.write.list.to.hdr <- function(L, file){
-    
+
 # Writes a list to a .hdr file
-    a <- .C("write_analyze_header_wrap_JM", 
-            file, 
-            as.integer(L$size.of.header), 
-            as.character(L$data.type), 
-            as.character(L$db.name), 
-            as.integer(L$extents), 
-            as.integer(L$session.error), 
-            as.character(L$regular), 
-            as.character(L$hkey.un0), 
-            as.integer(L$dim), 
-            as.character(L$vox.units), 
-            as.character(L$cal.units), 
-            as.integer(L$unused1), 
-            as.integer(L$datatype), 
-            as.integer(L$bitpix), 
-            as.integer(L$dim.un0), 
-            as.single(L$pixdim), 
-            as.single(L$vox.offset), 
-            as.single(L$funused1), 
-            as.single(L$funused2), 
-            as.single(L$funused3), 
-            as.single(L$cal.max), 
-            as.single(L$cal.min), 
-            as.single(L$compressed), 
-            as.single(L$verified), 
-            as.integer(L$glmax), 
-            as.integer(L$glmin), 
-            as.character(L$descrip), 
-            as.character(L$aux.file), 
-            as.character(L$orient), 
-            as.character(L$originator), 
-            as.character(L$generated), 
-            as.character(L$scannum), 
-            as.character(L$patient.id), 
-            as.character(L$exp.date), 
-            as.character(L$exp.time), 
-            as.character(L$hist.un0), 
-            as.integer(L$views), 
-            as.integer(L$vols.added), 
-            as.integer(L$start.field), 
-            as.integer(L$field.skip), 
-            as.integer(L$omax), 
-            as.integer(L$omin), 
-            as.integer(L$smax), 
-            as.integer(L$smin))
+    a <- .C("write_analyze_header_wrap_JM",
+            file,
+            as.integer(L$size.of.header),
+            as.character(L$data.type),
+            as.character(L$db.name),
+            as.integer(L$extents),
+            as.integer(L$session.error),
+            as.character(L$regular),
+            as.character(L$hkey.un0),
+            as.integer(L$dim),
+            as.character(L$vox.units),
+            as.character(L$cal.units),
+            as.integer(L$unused1),
+            as.integer(L$datatype),
+            as.integer(L$bitpix),
+            as.integer(L$dim.un0),
+            as.single(L$pixdim),
+            as.single(L$vox.offset),
+            as.single(L$funused1),
+            as.single(L$funused2),
+            as.single(L$funused3),
+            as.single(L$cal.max),
+            as.single(L$cal.min),
+            as.single(L$compressed),
+            as.single(L$verified),
+            as.integer(L$glmax),
+            as.integer(L$glmin),
+            as.character(L$descrip),
+            as.character(L$aux.file),
+            as.character(L$orient),
+            as.character(L$originator),
+            as.character(L$generated),
+            as.character(L$scannum),
+            as.character(L$patient.id),
+            as.character(L$exp.date),
+            as.character(L$exp.time),
+            as.character(L$hist.un0),
+            as.integer(L$views),
+            as.integer(L$vols.added),
+            as.integer(L$start.field),
+            as.integer(L$field.skip),
+            as.integer(L$omax),
+            as.integer(L$omin),
+            as.integer(L$smax),
+            as.integer(L$smin),
+            PACKAGE="AnalyzeFMRI")
 }
 
 
 f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.units = "mm", cal.units = "pixels"){
-    
+
   #Creates a .img and .hdr pair of files froma given array
 
     if(max(mat) == "NA") return("NA values in array not allowed. Files not written.")
-    
+
     file.img <- paste(file, ".img", sep = "")
     file.hdr <- paste(file, ".hdr", sep = "")
-    
+
     L <- f.basic.hdr.list.create(mat, file.hdr)
-    
+
     if(size == "float"){
         L$datatype <- 16
         L$bitpix <- 32
@@ -781,37 +784,37 @@ f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.
         L$glmin <- as.integer(floor(min(mat)))
         f.write.array.to.img.8bit(mat, file.img)
     }
-    
+
     f.write.list.to.hdr(L, file.hdr)
 }
 
 
 f.write.array.to.img.2bytes <- function(mat, file){
-  #writes an array into a .img file of 2 byte integers 
+  #writes an array into a .img file of 2 byte integers
 
     dm <- dim(mat)
     dm.ln <- length(dm)
     num.data.pts <- length(mat)
-    
-    .C("write2byte_JM", 
-       as.integer(mat), 
-       file, 
-       as.integer(num.data.pts))
-    
+
+    .C("write2byte_JM",
+       as.integer(mat),
+       file,
+       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+
 }
 
 f.write.array.to.img.8bit <- function(mat, file){
-#writes an array into a .img file of 8 bit (1 byte) integers 
+#writes an array into a .img file of 8 bit (1 byte) integers
 
     dm <- dim(mat)
     dm.ln <- length(dm)
     num.data.pts <- length(mat)
-    
-    .C("write8bit_JM", 
-       as.integer(mat), 
-       file, 
-       as.integer(num.data.pts))
-    
+
+    .C("write8bit_JM",
+       as.integer(mat),
+       file,
+       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+
 }
 
 
@@ -822,83 +825,84 @@ f.write.array.to.img.float <- function(mat, file){
     dm <- dim(mat)
     dm.ln <- length(dm)
     num.data.pts <- length(mat)
-    
-    .C("writefloat_JM", 
-       as.single(mat), 
-       file, 
-       as.integer(num.data.pts))
+
+    .C("writefloat_JM",
+       as.single(mat),
+       file,
+       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
 }
 
 f.analyzeFMRI.gui <- function(){
 
   #starts GUI that allows user to explore an fMRI dataset stored in an ANALYZEfile
-  
+
     path <- .path.package(package = "AnalyzeFMRI")
     path.gui <- paste(path, "AnalyzeFMRI.gui.R", sep = .Platform$file.sep)
     source(path.gui)}
 
 
 f.ica.fmri <- function(file.name, n.comp, norm.col = TRUE, fun = "logcosh", maxit = 1000, alg.type = "parallel", alpha = 1, tol = 0.0001, mask.file.name = NULL, slices = NULL){
-  
+
   #function for performing Spatial ICA on an fMRI dataset
   #The function avoids reading the dataset into R to minimise the memory used
-  
+
     hdr <- f.read.analyze.header(file.name)
-    
+
     if(length(slices) == 0) slices  <-  2:(hdr$dim[4] - 1)
     if(slices == "all") slices  <-  1:(hdr$dim[4])
     if(any(slices < 1 || slices>hdr$dim[4])) {
         return("some of selected slices out of allowable range")}
-    
+
     ns <- hdr$dim[2] * hdr$dim[3] * hdr$dim[4] * n.comp
     na <- hdr$dim[5] * n.comp
-    
+
     mask.flag <- 1
     if(length(mask.file.name) == 0){
         mask.flag <- 0
         mask.file.name <- ""}
-    
-    
+
+
     col.flag <- 1
     if(norm.col!=TRUE) col.flag <- 0
-    
+
     fun.flag <- 1
     if(fun == "exp") fun.flag <- 2
-    
+
     def.flag <- 0
     if(alg.type == "deflation") def.flag <- 1
-    
+
     W <- matrix(rnorm(n.comp * n.comp), n.comp, n.comp)
-    
-    a <- .C("ica_fmri_JM", 
-            as.character(file.name), 
-            as.single(t(W)), 
-            as.integer(n.comp), 
-            as.integer(1), 
-            as.integer(col.flag), 
-            as.integer(fun.flag), 
-            as.integer(maxit), 
-            as.integer(def.flag), 
-            as.single(alpha), 
-            as.single(tol), 
-            as.integer(mask.flag), 
-            as.character(mask.file.name), 
-            as.integer(slices), 
-            as.integer(length(slices)), 
-            S = single(ns), 
-            A = single(na))
-    
+
+    a <- .C("ica_fmri_JM",
+            as.character(file.name),
+            as.single(t(W)),
+            as.integer(n.comp),
+            as.integer(1),
+            as.integer(col.flag),
+            as.integer(fun.flag),
+            as.integer(maxit),
+            as.integer(def.flag),
+            as.single(alpha),
+            as.single(tol),
+            as.integer(mask.flag),
+            as.character(mask.file.name),
+            as.integer(slices),
+            as.integer(length(slices)),
+            S = single(ns),
+            A = single(na),
+            PACKAGE="AnalyzeFMRI")
+
     S <- array(a$S, dim = c(hdr$dim[2], hdr$dim[3], hdr$dim[4], n.comp))
-    
+
     A <- matrix(a$A, hdr$dim[5], n.comp, byrow = TRUE)
-    
+
     return(list(A = A, S = S, file = file.name, mask = mask.file.name))
 }
 
 f.plot.ica.fmri.jpg <- function(ica.obj, file = "./ica", cols = heat.colors(100), width = 700,  height = 700){
-    
+
     for(i in 1:dim(ica.obj$S)[4]){
-        
+
         jpeg(file = paste(file, ".comp.", i, ".jpeg", sep = ""), width = width, height = height)
         f.plot.ica.fmri(ica.obj,  i,  cols = cols)
         dev.off()
@@ -917,7 +921,7 @@ f.plot.ica.fmri <- function (obj.ica,  comp,  cols = heat.colors(100))
     im  <-  floor(sqrt(nsl + 3)) + 1
     par(mfrow = c(im,  im),  mar = c(.5,  .5,  .5,  .5))
     plot(c(0, 1), c(0, 1), typ = "n", axes = FALSE, xlab = "", ylab = "")
-    
+
     text(0, .9, "Spatial ICA", pos = 4, cex = 1.5)
     text(0, .75, paste("Component ", comp, sep = ""), pos = 4, cex = 1.5)
     l <- floor(nchar(obj.ica$file) / 20) + 1
@@ -926,7 +930,7 @@ f.plot.ica.fmri <- function (obj.ica,  comp,  cols = heat.colors(100))
         text(0, .6 - .07 * (i - 1), paste("       ", substring(obj.ica$file, 20 * (i - 1) + 1, 20 * i), sep = ""), pos = 4)
     }
     text(0, .6 - .07 * (l + 1), paste("Date: ", date(), sep = ""), pos = 4)
-    
+
     for (i in 1:nsl) {
         image(tmp[,  ,  i],  zlim = r,  axes = FALSE,  col = cols)
         text(.5, .98, paste("slice", i), pos = 1)
@@ -946,9 +950,9 @@ f.plot.ica.fmri <- function (obj.ica,  comp,  cols = heat.colors(100))
 }
 
 f.ica.fmri.gui <- function(){
-    
+
   #starts GUI that allows user apply Spatial ICA to an fMRI dataset
-  
+
     path <- .path.package(package = "AnalyzeFMRI")
     path.gui <- paste(path, "ICA.gui.R", sep = .Platform$file.sep)
     source(path.gui)}
