@@ -5,7 +5,7 @@
   read in the time series from a specified position in 3D into a vector.}
 \usage{f.read.analyze.ts(file, x, y, z)}
 \arguments{
-  \item{file}{The .img file}                 }
+  \item{file}{The .img file}                 
   \item{x}{The x-coordinate}
   \item{y}{The y-coordinate}
   \item{z}{The z-coordinate}}

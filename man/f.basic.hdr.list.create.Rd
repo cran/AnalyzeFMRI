@@ -22,4 +22,3 @@ file<-"temp.hdr"
 f.basic.hdr.list.create(a, file)
 }
 \keyword{utilities}
-  

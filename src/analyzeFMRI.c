@@ -76,6 +76,7 @@ void read4byte(int*, char*, int* , int, long, int);
 void readfloat(float*, char*, int*, int, long, int);
 void readdouble(double*, char*, int*, int, long, int);
 
+void readchar_v1(int*, char**, int* , int*, int*, int*);
 void read2byte_v1(int*, char**, int* , int*, int*, int*);
 void read4byte_v1(int*, char**, int* , int*, int*, int*);
 void readfloat_v1(float*, char**, int*, int*, int*, int*);
@@ -86,6 +87,7 @@ void read4byte_F(float*, char*, int* , int, long, int);
 void readfloat_F(float*, char*, int*, int, long, int);
 void readdouble_F(float*, char*, int*, int, long, int);
 
+void write8bit(int*, char**, int*);
 void write2byte(int*, char**, int*);
 void writefloat(float*, char**, int*);
 
@@ -95,6 +97,7 @@ void print_analyze_header(struct header*);
 
 void read_data_as_float(struct data_array *, struct header *, char*, int*);
 void create_data_matrix(struct data_array *,struct data_array *, int*, float*);void size_mask(struct data_array *, struct data_array *, int*);
+void mask_mask(struct data_array *, struct data_array *, int*, int*);
 void create_mask(struct data_array *, struct data_array *, int*);
 void max_vec(float*, int, float*);
   
@@ -263,6 +266,30 @@ void readdouble(double *ans, char *name, int *swapbytes, int n, long offset, int
     *(ans+i)= buf;
   }
 
+  fclose(fd);
+}
+
+
+void readchar_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
+{
+  /* Reads in a sequence of 1 byte characters */
+  FILE *fd;
+  unsigned char *tmp;
+  int i;
+
+  if((fd = fopen(name[0], "r")) ==NULL){
+  printf("Cannot open file \n");
+  exit(1);}
+
+  tmp=Calloc(*n,unsigned char);
+
+  fseek(fd, (long) *offset, *whence);
+
+  fread(tmp,1,*n,fd);
+  for(i=0;i<*n;i++){
+    *(ans+i)=(int) *(tmp+i);}
+
+  Free(tmp);
   fclose(fd);
 }
 
@@ -458,6 +485,30 @@ void readdouble_F(float *ans, char *name, int *swapbytes, int n, long offset, in
 
   fclose(fd);
 }
+
+void write8bit(int *imp, char **name, int *n)
+{
+  /* Writes in a sequence of 8 bit unsigned char integers */
+  FILE *fp;
+  unsigned char *temp;
+  int i;
+
+  temp = Calloc(*n, unsigned char);
+
+  for(i = 0; i < *n; i++) {
+/*      if((*(imp+i))>255) *(imp+1)=255; */
+/*      if((*(impp+i))<0) *(imp+1)=0; */
+    *(temp+i)=(unsigned char) *(imp+i);
+  }
+
+  fp = fopen(name[0], "w");
+  
+  fwrite(temp,1,*n,fp);
+
+  Free(temp);
+  fclose(fp);
+}
+
 void write2byte(int *imp, char **name, int *n)
 {
   /* Writes in a sequence of 2 byte short integers */
@@ -856,7 +907,7 @@ void print_analyze_header(struct header *head)
 
 /*  ICA for fMRI functions */
 
-void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *colflag1, int *funflag1, int *maxit1, int *defflag1, float *alpha1, float *lim1, int *maskflag, char **msk_file, float *ans_sources, float *ans_tc){
+void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *colflag1, int *funflag1, int *maxit1, int *defflag1, float *alpha1, float *lim1, int *maskflag, char **msk_file, int *slices, int *nsl, float *ans_sources, float *ans_tc){
 
 
   int mask_size=0,count;
@@ -912,6 +963,8 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
   nm=((*array).x*(*array).y*(*array).z);
   (*mask).n=nm;
   (*mask).data=Calloc(nm,float);
+
+
   if(mask_flag=='T'){
     printf("Reading in mask\n");
     file_name_length=strlen(mask_file);
@@ -926,6 +979,7 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
     
     read_analyze_header(mask_head, mask_hdr, &mask_swapbytes);
     read_data_as_float(mask, mask_head, mask_img, &mask_swapbytes);
+    mask_mask(array, mask, slices, nsl);
     size_mask(array, mask, &mask_size);
     printf("Mask size=%d\n",mask_size);
   }
@@ -933,6 +987,8 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
     {
       printf("Making mask\n");
       create_mask(array, mask, &mask_size); 
+      mask_mask(array, mask, slices, nsl);
+      size_mask(array, mask, &mask_size);
       printf("Mask size=%d\n",mask_size);
     }
   
@@ -1014,6 +1070,30 @@ void size_mask(struct data_array *array, struct data_array *mask, int *mask_size
   *mask_size=(int) tmp;
   return;  
 }
+
+void mask_mask(struct data_array *array, struct data_array *mask, int *slices, int *nsl){
+  
+  int i,j,k,x,y,z;
+  float tmp;
+  x=(*array).x;
+  y=(*array).y;
+  z=(*array).z;
+  
+  for(k=0;k<z;k++){
+      tmp=0;
+      for(j=0;j<*nsl;j++){
+	  if((k+1)==slices[j]) tmp=1;
+      }
+      if(tmp==0){
+	  for(i=0;i<x*y;i++){
+	      *((*mask).data+k*x*y+i)=0;
+	  }
+      }
+  }
+
+  return;  
+}
+
 
 
 void create_mask(struct data_array *array, struct data_array *mask, int *mask_size){

@@ -12,7 +12,8 @@ f.ica.fmri.gui()
   (stored in the ANALYZE format) and (optionally) a mask for the
   dataset. If no mask is supplied then an option to create mask is
   available. There is option to normalize the columns of the data matrix
-  .
+  and to exclude the top and bottom slices (which are sometimes affected
+  by the registration procedures).
 
 Once completed, the user has the option of saving the results to an R
 object or viewing the estimated components. The slices of each component

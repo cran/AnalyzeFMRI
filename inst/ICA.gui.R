@@ -77,11 +77,12 @@ gui.ica<-function(...){
   
   if(tclvar$mask!="" && tclvar$create.mask==0){msk<-tclvar$mask}
   if(tclvar$mask=="" && tclvar$create.mask==1){msk<-NULL}
-print(msk)
   var.norm<-1
   if(tclvar$var.norm==0){var.norm<-0}
+  slices<-NULL
+  if(tclvar$slices==0){slices<-"all"}
   
-tmp.ica.obj<<-f.ica.fmri(tclvar$file,n.comp=as.numeric(tclvar$n.comp),norm.col=var.norm,fun="logcosh",maxit=100,alg.type="parallel",alpha=1,tol=0.0001,mask.file.name=msk)
+tmp.ica.obj<<-f.ica.fmri(tclvar$file,n.comp=as.numeric(tclvar$n.comp),norm.col=var.norm,fun="logcosh",maxit=100,alg.type="parallel",alpha=1,tol=0.0001,mask.file.name=msk,slices)
   
   print("done")
   
@@ -118,12 +119,15 @@ gui.plot.ica<-function(...){
   
   tkgrid(ica.f2,sticky="ew")
 
+
+
   #frame for options
   ica.f3 <- tkframe(base.ica, relief="groove", borderwidth=2,bg="#555555")
 
   ica.normalise.but<-tkcheckbutton(ica.f3,text="Variance Normalise",bg="#aaaaaa",variable="var.norm") 
+  ica.slices.but<-tkcheckbutton(ica.f3,text="Exclude top/bottom slices",bg="#aaaaaa",variable="slices") 
   ica.create.mask.but<-tkcheckbutton(ica.f3,text="Create Mask",bg="#aaaaaa",variable="create.mask")
-  tkgrid(ica.normalise.but,ica.create.mask.but,padx=30,pady=10)
+  tkgrid(ica.normalise.but,ica.slices.but,ica.create.mask.but,padx=30,pady=10)
   
   tkgrid(ica.f3,sticky="ew")
 

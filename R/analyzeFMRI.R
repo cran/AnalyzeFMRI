@@ -179,6 +179,18 @@ f.read.analyze.slice<-function(file,slice,tpt){
   if(slice<1 || slice>hdr$dim[4]) stop("slice is not in range")
   
 offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
+   if(hdr$datatype==2){
+
+     vol<-.C("readchar_v1",
+             mat=integer(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*1),
+	as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
    if(hdr$datatype==4){
 
      vol<-.C("read2byte_v1",
@@ -225,7 +237,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
     #this works because array fills itself with the left most subscript moving fastest
    }
   
-     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==2||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
+     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
        
    return(vol)}
 
@@ -246,6 +258,20 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
 
   vl<-array(0,dim=hdr$dim[c(2,3,5)])
             
+   if(hdr$datatype==2){
+      for(i in 1:hdr$dim[5]){          
+  offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
+     vol<-.C("readchar_v1",
+             mat=integer(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*1),
+             as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+  vl[,,i]<-vol
+}
+    }          
    if(hdr$datatype==4){
       for(i in 1:hdr$dim[5]){          
   offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
@@ -303,7 +329,7 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
      vol<-array(vol$mat,dim=dim)
    }}
   
-     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==2||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
+     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
        
    return(vl)}
 
@@ -324,6 +350,19 @@ offset.add<-hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
   
 vol<-1:hdr$dim[5]
 
+  if(hdr$datatype==2){
+  for(i in 1:hdr$dim[5]){
+
+     v<-.C("readchar_v1",
+             mat=integer(1),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(1),
+	     as.integer(offset.start*1+1*(i-1)*offset.add),
+             as.integer(1))
+     vol[i]<-v$mat}
+   }
+  
   if(hdr$datatype==4){
   for(i in 1:hdr$dim[5]){
 
@@ -376,7 +415,7 @@ vol<-1:hdr$dim[5]
      vol[i]<-v$mat}
    }
   
-     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==2||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
+     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
        
    return(vol)}
 
@@ -396,6 +435,17 @@ f.read.analyze.volume<-function(file){
   for(i in 1:num.dim){num.data.pts<-num.data.pts*dim[i]}
   
 
+   if(hdr$datatype==2){
+     vol<-.C("readchar_v1",
+             mat=integer(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(0),
+             as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
    if(hdr$datatype==4){
      vol<-.C("read2byte_v1",
              mat=integer(num.data.pts),
@@ -441,7 +491,7 @@ f.read.analyze.volume<-function(file){
     #this works because array fills itself with the left most subscript moving fastest
    }
   
-     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==2||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
+     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
        
    return(vol)}
 
@@ -635,6 +685,18 @@ f.write.analyze<-function(mat,file,size="float",pixdim=c(4,4,6),vox.units="mm",c
     L$glmin<-as.integer(floor(min(mat)))
     f.write.array.to.img.2bytes(mat,file.img)
   }
+  if(size=="char"){
+    if(max(mat)>255 || min(mat)<0) return("Values are outside integer range. Files not written.")
+    L$datatype<-2
+    L$bitpix<-8
+    L$vox.units<-vox.units
+    L$cal.units<-cal.units
+    L$pixdim<-c(4,pixdim,0,0,0,0)
+    L$data.type<-"unsigned char"
+    L$glmax<-as.integer(floor(max(mat)))
+    L$glmin<-as.integer(floor(min(mat)))
+    f.write.array.to.img.8bit(mat,file.img)
+  }
   
   f.write.list.to.hdr(L,file.hdr)
 }
@@ -648,6 +710,20 @@ f.write.array.to.img.2bytes<-function(mat,file){
   num.data.pts<-length(mat)
   
   .C("write2byte",
+     as.integer(mat),
+     file,
+     as.integer(num.data.pts))
+
+  }
+
+f.write.array.to.img.8bit<-function(mat,file){
+  #writes an array into a .img file of 8 bit (1 byte) integers 
+
+  dm<-dim(mat)
+  dm.ln<-length(dm)
+  num.data.pts<-length(mat)
+  
+  .C("write8bit",
      as.integer(mat),
      file,
      as.integer(num.data.pts))
@@ -678,12 +754,17 @@ f.analyzeFMRI.gui<-function(){
   source(path.gui)}
 
 
-f.ica.fmri<-function(file.name,n.comp,norm.col=T,fun="logcosh",maxit=1000,alg.type="parallel",alpha=1,tol=0.0001,mask.file.name=NULL){
+f.ica.fmri<-function(file.name,n.comp,norm.col=T,fun="logcosh",maxit=1000,alg.type="parallel",alpha=1,tol=0.0001,mask.file.name=NULL,slices=NULL){
   
   #function for performing Spatial ICA on an fMRI dataset
   #The function avoids reading the dataset into R to minimise the memory used
   
   hdr<-f.read.analyze.header(file.name)
+
+  if(length(slices)==0) slices <- 2:(hdr$dim[4]-1)
+  if(slices=="all") slices <- 1:(hdr$dim[4])
+  if(any(slices<1 || slices>hdr$dim[4])) {
+      return("some of selected slices out of allowable range")}
   
   ns<-hdr$dim[2]*hdr$dim[3]*hdr$dim[4]*n.comp
   na<-hdr$dim[5]*n.comp
@@ -718,26 +799,30 @@ f.ica.fmri<-function(file.name,n.comp,norm.col=T,fun="logcosh",maxit=1000,alg.ty
         as.single(tol),
         as.integer(mask.flag),
         as.character(mask.file.name),
+        as.integer(slices),
+        as.integer(length(slices)),
         S=single(ns),
         A=single(na))
 
   S<-array(a$S,dim=c(hdr$dim[2],hdr$dim[3],hdr$dim[4],n.comp))
+ 
   A<-matrix(a$A,hdr$dim[5],n.comp,byrow=T)
 
   return(list(A=A,S=S))
 }
       
-f.plot.ica.fmri<-function(obj.ica,comp){
+f.plot.ica.fmri<-function(obj.ica,comp,cols=heat.colors(100)){
 
   #plots output of f.ica.fmri
-  
+    r<-range(obj.ica$S[,,,comp],na.rm=T)
+  tmp<-1000*(obj.ica$S[,,,comp]==0)+(obj.ica$S[,,,comp])*(obj.ica$S[,,,comp]!=0)
   ncomp<-dim(obj.ica$S)[4]
   nsl<-dim(obj.ica$S)[3]
   t<-nrow(obj.ica$A)
   im<-floor(sqrt(nsl+2))+1
   par(mfrow = c(im, im), mar = c(0,0,0,0))
   for(i in 1:nsl){
-    image(obj.ica$S[,,i,comp],zlim=range(obj.ica$S[,,,comp],na.rm=T),axes=F);box()
+    image(tmp[,,i],zlim=r,axes=F,col=cols);box()
   }
   plot(obj.ica$A[,comp],typ="l",axes=F);box()
   s<-fft(obj.ica$A[,comp])/sqrt(2*pi*t)
@@ -745,7 +830,6 @@ f.plot.ica.fmri<-function(obj.ica,comp){
   plot(s,axes=F);box()
   par(mfrow = c(1, 1), mar = c(5, 4, 4, 2))  
 }
-
 
 f.ica.fmri.gui<-function(){
 

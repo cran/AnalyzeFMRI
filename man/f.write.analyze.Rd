@@ -7,7 +7,7 @@
   \item{file}{The name of the file to be written, without .img or .hdr
     suffix}
   \item{size}{Specify the format of the .img file. Either "float" (for 4
-    byte floats) or "int" (2 byte integers).}
+    byte floats) or "int" (2 byte integers) or "char" (1 byte integers).}
   \item{pixdim}{A vector of length 3 specifying the voxel dimensions in
     mm}
   \item{vox.units}{String specifying the spatial units of measure for a
@@ -17,6 +17,7 @@
 
 \value{Nothing is returned}
 \seealso{
+  \code{\link{f.write.array.to.img.8bit}},
   \code{\link{f.write.array.to.img.2bytes}},
   \code{\link{f.write.array.to.img.float}} }    
 \examples{

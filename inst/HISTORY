@@ -2,3 +2,11 @@
 ----------
 
 Version 1.0-1 : Renamed version of AnalyzeIO with added functions and GUI to perform Spatial ICA on fMRI datasets.
+
+29/08/2001 
+----------
+
+Version 1.0-2 : 
+- Include facility to read/write unsigned char (1 byte) ANALYZE image format files. 
+- Slice selection for Spatial ICA
+- Improved plotting for Spatial ICA

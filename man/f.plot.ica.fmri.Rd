@@ -4,11 +4,12 @@
 \description{Plots a specified component from the output of f.ica.fmri
 }
 \usage{
-f.plot.ica.fmri(obj.ica, comp)
+f.plot.ica.fmri(obj.ica, comp, cols)
 }
 \arguments{
   \item{obj.ica}{R object returned by the function f.ica.fmri}
   \item{comp}{number of the component to plot}
+  \item{cols}{optional vector of colours to use for plotting}
 }
 \details{The slices of the specified component map are plotted
   sequentially in a grid followed by the components associated
@@ -19,3 +20,4 @@ f.plot.ica.fmri(obj.ica, comp)
 \seealso{\code{\link{f.ica.fmri}},\code{\link{f.ica.fmri.gui}}}
 
 \keyword{utilities}
+

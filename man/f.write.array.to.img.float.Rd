@@ -8,6 +8,7 @@
     suffix}}
  \seealso{
   \code{\link{f.write.analyze}},
-  \code{\link{f.write.array.to.img.2bytes}}   }
+  \code{\link{f.write.array.to.img.2bytes}} ,
+  \code{\link{f.write.array.to.img.8bit}}   }
 \value{Nothing is returned}
 \keyword{utilities}

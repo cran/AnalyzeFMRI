@@ -18,6 +18,8 @@ f.spectral.summary       plots graphical summary of spectral properties
 f.write.analyze          writes an array to a .img/.hdr pair
 f.write.array.to.img.2bytes
                          write array of 2 byte integers
+f.write.array.to.img.8bit
+                         write array of 1 byte integers
 f.write.array.to.img.float
                          write array of 4 byte floats
 f.write.list.to.hdr      writes a .hdr file

@@ -4,7 +4,7 @@
 \description{Reads the ANALYZE image format .hdr header file into a
   list.}
 \usage{f.read.analyze.header(file)}
-\arguments{item{file}{The .hdr file to be read}}
+\arguments{\item{file}{The .hdr file to be read}}
 \value{A list containing the information in the fields of the .hdr
   file. Only the ones considered useful are included. See comments
   included in the function definition if you want to extend the amount

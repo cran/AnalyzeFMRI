@@ -4,7 +4,8 @@
 \description{Decomposes an fMRI dataset into a specified number of
   Spatially Independent Components maps and associated time-courses using the FastICA algorithm}
 \usage{
-f.ica.fmri(file.name, n.comp, norm.col=T, fun="logcosh", maxit=1000, alg.type="parallel", alpha=1, tol=1e-04, mask.file.name=NULL)
+f.ica.fmri(file.name, n.comp, norm.col=T, fun="logcosh", maxit=1000,
+alg.type="parallel", alpha=1, tol=1e-04, mask.file.name=NULL, slices=NULL)
 }
 \arguments{
   \item{file.name}{path to fMRI dataset (ANALYZE format .img file) }
@@ -25,6 +26,7 @@ f.ica.fmri(file.name, n.comp, norm.col=T, fun="logcosh", maxit=1000, alg.type="p
     un-mixing matrix is considered to have converged.}
   \item{mask.file.name}{Optional path to file containing a 0/1 mask for
     the dataset}
+  \item{slices}{Optional vector of slices to be included}
 }
 \details{The fMRI dataset is rearranged into a 2-dimensional data matrix
   X, where the column vectors are voxel time-series. A mask is used to
