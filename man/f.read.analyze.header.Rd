@@ -9,7 +9,7 @@
   file. Only the ones considered useful are included. See comments
   included in the function definition if you want to extend the amount
   of information extracted and stored.
-\item{swap}{T or F variable indicating whether files are big or little endian}
+\item{swap}{TRUE or FALSE variable indicating whether files are big or little endian}
 \item{file.name}{path name of the .img file}
 \item{dim}{vector of image dimensions. The first entry specifies the number
   of dimensions}

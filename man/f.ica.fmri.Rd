@@ -4,7 +4,7 @@
 \description{Decomposes an fMRI dataset into a specified number of
   Spatially Independent Components maps and associated time-courses using the FastICA algorithm}
 \usage{
-f.ica.fmri(file.name, n.comp, norm.col=T, fun="logcosh", maxit=1000,
+f.ica.fmri(file.name, n.comp, norm.col=TRUE, fun="logcosh", maxit=1000,
 alg.type="parallel", alpha=1, tol=1e-04, mask.file.name=NULL, slices=NULL)
 }
 \arguments{
@@ -12,7 +12,7 @@ alg.type="parallel", alpha=1, tol=1e-04, mask.file.name=NULL, slices=NULL)
   \item{n.comp}{number of components to extract}
   \item{norm.col}{a logical value indicating whether each voxel time
     series should be standardised to have zero mean and unit variance
-    before the ICA algorithm is applied (default=T recommended in practice)}
+    before the ICA algorithm is applied (default=TRUE recommended in practice)}
   \item{fun}{the functional form of the G function used in the
     approximation to negentropy (see details)}
   \item{maxit}{maximum number of iterations to perform}

@@ -541,9 +541,9 @@ elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
   have_f77_underscore=true
 fi
 if ${have_f77_underscore}; then
-  sgesvd_func=sgesvd_
+  sgesvd_func=sgesdd_
 else
-  sgesvd_func=sgesvd
+  sgesvd_func=sgesdd
 fi
 echo $ac_n "checking for ${sgesvd_func} in -llapack""... $ac_c" 1>&6
 echo "configure:550: checking for ${sgesvd_func} in -llapack" >&5

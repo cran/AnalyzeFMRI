@@ -19,9 +19,9 @@ elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
   have_f77_underscore=true
 fi
 if ${have_f77_underscore}; then
-  sgesvd_func=sgesvd_
+  sgesvd_func=sgesdd_
 else
-  sgesvd_func=sgesvd
+  sgesvd_func=sgesdd
 fi
 AC_CHECK_LIB(lapack, ${sgesvd_func},BLAS_LIBS="-llapack ${BLAS_LIBS}", 
   NO_LIBLAPACK=1, [${BLAS_LIBS} ${FLIBS}])

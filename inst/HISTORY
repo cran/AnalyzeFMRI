@@ -28,8 +28,18 @@ Version 1.0-4 :
 - small bugs removed from f.analyzeFMRI.gui() and f.spectral.summary()
 
 
-28/11/2001
+06/12/2001
 ----------
 
 Version 1.0-5 :
 - all C functions have _JM appended to their names to stop clashes with symbols in other packages
+
+26/03/2002
+----------
+
+Version 1.0-6 :
+- C code tidied up
+- "r" and "w" changed to "rb" and "wb" in fopen calls
+- tests directory added to check read and write functions work on examples
+- proper error reporting used in C code (using error function)
+- README.win file added to inst that describes installation of the package binary for Windows

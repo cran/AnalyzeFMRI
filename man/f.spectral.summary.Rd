@@ -3,7 +3,7 @@
 \title{plots graphical summary of spectral properties of an fMRI dataset}
 \description{For an analyze .img file the periodogram of the time series are divided by a flat spectral estimate using the median periodogram ordinate. The resulting values are then combined within each Fourier frequency and quantiles are plotted against frequency. This provides a fast look at a fMRI dataset to identify any artifacts that reside at single frequencies.
 }
-\usage{f.spectral.summary(file, mask.file, ret.flag=F)}
+\usage{f.spectral.summary(file, mask.file, ret.flag=FALSE)}
 
 \arguments{
   \item{file}{\code{file} The location of .img file  }
@@ -12,7 +12,7 @@
   \item{ret.flag}{\code{ret.flag} flag specifying whether to return the
     array of quantiles at each frequency}
 }
-\value{If \code{ret.flag = T} the an array of quantiles at each
+\value{If \code{ret.flag = TRUE} the an array of quantiles at each
   frequency is returned
 }
 \seealso{
