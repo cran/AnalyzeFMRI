@@ -1,0 +1,23 @@
+f.analyze.file.summary   prints summary of .img file contents
+f.analyzeFMRI.gui        starts AnalyzeFMRI GUI
+f.basic.hdr.list.create  creates basic .hdr list
+f.ica.fmri               Applies Spatial ICA (Independent Component
+                         Analysis) to fMRI datasets
+f.ica.fmri.gui           tcltk GUI to apply ICA to fMRI datasets
+f.plot.ica.fmri          Plots a specified component from the output of
+                         f.ica.fmri
+f.read.analyze.header    read Analyze header file
+f.read.analyze.slice     read one slice from a .img file
+f.read.analyze.slice.at.all.timepoints
+                         reads a slice at all time points from a .img
+                         file
+f.read.analyze.ts        read in one voxel time series
+f.read.analyze.volume    read whole .img file
+f.spectral.summary       plots graphical summary of spectral properties
+                         of an fMRI dataset
+f.write.analyze          writes an array to a .img/.hdr pair
+f.write.array.to.img.2bytes
+                         write array of 2 byte integers
+f.write.array.to.img.float
+                         write array of 4 byte floats
+f.write.list.to.hdr      writes a .hdr file

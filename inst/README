@@ -1,0 +1,175 @@
+R Package - AnalyzeFMRI
+
+INTRODUCTION
+
+This file explains how to install the R package AnalyzeFMRI. I assume
+that you have a basic knowledge of UNIX/LINUX and that you already
+have R installed on your machine.
+
+AnalyzeFMRI is an R package that provides I/O, visualisation and analysis of functional Magnetic Resonance Imaging (fMRI) datasets stored in the ANALYZE image format. The package supercedes the packages AnalyzeIO and AnalyzeRead. 
+
+1. Datasets can be read into R in several different ways i.e. one slice, one time series, whole dataset etc and displayed quickly and simply using a tcl/tk GUI (Graphical User Interface).
+
+2. Arrays from within an R session can also be written out into the ANALYZE image format. 
+    
+3. A simple spectral summary of the dataset can be quickly calculated. 
+    
+4. Spatial ICA (Independent Component Analysis) can be applied to the dataset. This provides a decomposition of an fMRI dataset into spatially independent components, if they exist. If not the algorithm returns the Projection Pursuit directions i.e interesting projections of the multivariate dataset. In this way the Spatial ICA algorithm provides an extremely useful way of exploring large fMRI datasets.This is applied to the dataset using C code written for the fastICA package (see above). There is a tcl/tk GUI that allows Spatial ICA to be applied quickly and simply. 
+
+More functionality will be slowly added. Please let me know if you use this package and have suggestions for functionality that you would find
+useful. 
+  
+
+INSTALLATION
+
+1. Download the g-zipped tar archive  AnalyzeFMRI_1.0-1.tar.gz
+
+2. Unzip the file using        gunzip AnalyzeFMRI_1.0-1.tar.gz
+
+3. Unpack the archive using    tar -xvf AnalyzeFMRI_1.0-1.tar
+
+This will create a directory called AnalyzeFMRI and the files example.img and example.hdr (see EXAMPLES)
+
+4.  Install the package using     R CMD INSTALL -l /path/to/LIB AnalyzeFMRI
+
+/path/to/LIB should be the library directory where you wish to put the package.
+
+If you have root access to your machine then use 
+
+R CMD INSTALL AnalyzeFMRI
+
+and the package will be put into the default R library tree.
+
+5. You can then start an R session and load the package using
+
+ library(AnalyzeFMRI,lib.loc="/path/to/LIB")
+
+or 
+
+ library(AnalyzeFMRI) 
+
+(if you installed the package into the default R library tree)
+
+6. Use the EXAMPLES section to see how the functions work.
+
+FUNCTIONS
+
+The package contains the following functions 
+
+f.analyze.file.summary   prints summary of .img file contents
+f.analyzeFMRI.gui        starts AnalyzeFMRI GUI
+f.basic.hdr.list.create  creates basic .hdr list
+f.ica.fmri               Applies Spatial ICA (Independent Component
+                         Analysis) to fMRI datasets
+f.ica.fmri.gui           tcltk GUI to apply ICA to fMRI datasets
+f.plot.ica.fmri          Plots a specified component from the output of
+                         f.ica.fmri
+f.read.analyze.header    read Analyze header file
+f.read.analyze.slice     read one slice from a .img file
+f.read.analyze.slice.at.all.timepoints
+                         reads a slice at all time points from a .img
+                         file
+f.read.analyze.ts        read in one voxel time series
+f.read.analyze.volume    read whole .img file
+f.spectral.summary       plots graphical summary of spectral properties
+                         of an fMRI dataset
+f.write.analyze          writes an array to a .img/.hdr pair
+f.write.array.to.img.2bytes
+                         write array of 2 byte integers
+f.write.array.to.img.float
+                         write array of 4 byte floats
+f.write.list.to.hdr      writes a .hdr file
+
+The functions come with help files
+
+
+
+EXAMPLES
+
+During the installation the two file example.img and example.hdr will have been unpacked. These are required for the following examples.
+
+The file example.img is a 4D fMRI dataset. There are 21 axial slices
+each consisting of a 64x64 grid of 4mmx4mmx6mm voxels. There is only
+one time point.
+
+For the purpose of this example I assume you have put them in the same
+directory in which you started an R session.
+
+1.  Load the package AnalyzeFMRI (as described above).
+
+3. Get a summary of the data stored in the .img file using
+
+ >f.analyze.file.summary("./example.img") 
+[1] 
+[1]        File name:./example.img 
+[1]   Data Dimension: 4-D 
+[1]      X dimension: 64 
+[1]      Y dimension: 64 
+[1]      Z dimension: 21 
+[1]   Time dimension: 1 time points
+[1] Voxel dimensions: 4mmx4mmx6mm 
+[1]        Data type: signed short (16 bits per voxel)
+
+4. Read in the data from the .img file into an array using
+
+ >A<-f.read.analyze.volume("./example.img")
+
+5. Check the dimensions of the array
+
+ >dim(A) [1] 64 64 21 1
+
+6. Print out a slice of the dataset using
+
+ >image(A[,,10,1])
+
+7. Read in a specific slice 
+
+ >B<-f.read.analyze.slice("./example.img",slice=5,tpt=1)
+
+and plot it using
+
+ >image(B)
+
+8. Read in a time series from a given location
+
+ >f.read.analyze.ts("./example.img",x=30,y=30,z=10)
+
+NB. Because example.img consists of only one time point this will only return one value
+
+9. Create an array and save it in a file of 4 byte floats 
+
+ >a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
+ >file<-"temp"
+ >f.write.analyze(a,file,size="float")
+
+10. The GUI can be started using
+
+ >f.analyzeFMRI.gui()     NB. This depends on tcltk package
+
+ (a) Navigate to a .img file using the Select File button.
+
+ (b) Select on of the options
+
+  (i) File Summary - prints a summary of the files contents
+  (ii) Plot Time Series - plots a time series at a given location (x,y,z)
+  (iii) Plot Periodogram - plots the periodogram of a time series at a given location (x,y,z)
+  (iv) Image Slice - plots a slice (z,t)
+  (v) Image Volume - plots an entire volume (t)
+  (vi) Movie - iteratively plots a movie through time of a given slice (z)
+  (vii) Spectral Summary - provides a graphical view of the spectral properties of an fMRI dataset (see R function f.spectral.summary for details)
+
+ (c) Enter the required arguements for your option selection (see in brackets above)
+
+ (d) Press OK.
+
+ (e) You will be able to repeat if you want or press quit to stop the GUI.
+
+PROBLEMS/SUGGESTIONS
+
+If you have any problems/suggestions using this package, please email
+me on marchini@stats.ox.ac.uk
+
+
+
+
+
