@@ -13,7 +13,7 @@ f.read.analyze.slice     read one slice from a .img file
 f.read.analyze.slice.at.all.timepoints
                          reads a slice at all time points from a .img
                          file
-f.read.analyze.tpt       ~~function to do ... ~~
+f.read.analyze.tpt       Read in a volume at one time point
 f.read.analyze.ts        read in one voxel time series
 f.read.analyze.volume    read whole .img file
 f.spectral.summary       plots graphical summary of spectral properties

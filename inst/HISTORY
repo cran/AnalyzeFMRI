@@ -28,3 +28,8 @@ Version 1.0-4 :
 - small bugs removed from f.analyzeFMRI.gui() and f.spectral.summary()
 
 
+28/11/2001
+----------
+
+Version 1.0-5 :
+- all C functions have _JM appended to their names to stop clashes with symbols in other packages

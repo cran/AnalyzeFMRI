@@ -12,11 +12,11 @@ f.read.analyze.header<-function(file){
 
  swap<-0
 
- if(.C("swaptest_wrap",ans = integer(1),file.hdr)$ans!=348) swap<-1 
+ if(.C("swaptest_wrap_JM",ans = integer(1),file.hdr)$ans!=348) swap<-1 
 
 
 # A C function is used to read in all the components of the .hdr file
-a<-.C("read_analyze_header_wrap",
+a<-.C("read_analyze_header_wrap_JM",
       file.hdr,	
       as.integer(swap),
       integer(1),
@@ -182,7 +182,7 @@ f.read.analyze.slice<-function(file,slice,tpt){
 offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
    if(hdr$datatype==2){
 
-     vol<-.C("readchar_v1",
+     vol<-.C("readchar_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -194,7 +194,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
    }
    if(hdr$datatype==4){
 
-     vol<-.C("read2byte_v1",
+     vol<-.C("read2byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -205,7 +205,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==8){
-     vol<-.C("read4byte_v1",
+     vol<-.C("read4byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -216,7 +216,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==16){
-     vol<-.C("readfloat_v1",
+     vol<-.C("readfloat_v1_JM",
              mat=single(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -227,7 +227,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==64){
-     vol<-.C("readdouble_v1",
+     vol<-.C("readdouble_v1_JM",
              mat=numeric(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -261,7 +261,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
   
    if(hdr$datatype==2){
 
-     vol<-.C("readchar_v1",
+     vol<-.C("readchar_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -272,7 +272,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==4){
-     vol<-.C("read2byte_v1",
+     vol<-.C("read2byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -283,7 +283,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==8){
-     vol<-.C("read4byte_v1",
+     vol<-.C("read4byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -294,7 +294,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==16){
-     vol<-.C("readfloat_v1",
+     vol<-.C("readfloat_v1_JM",
              mat=single(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -305,7 +305,7 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==64){
-     vol<-.C("readdouble_v1",
+     vol<-.C("readdouble_v1_JM",
              mat=numeric(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -340,7 +340,7 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
    if(hdr$datatype==2){
       for(i in 1:hdr$dim[5]){          
   offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
-     vol<-.C("readchar_v1",
+     vol<-.C("readchar_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -354,7 +354,7 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
    if(hdr$datatype==4){
       for(i in 1:hdr$dim[5]){          
   offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
-     vol<-.C("read2byte_v1",
+     vol<-.C("read2byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -369,7 +369,7 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
    if(hdr$datatype==8){
      for(i in 1:hdr$dim[5]){          
   offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
-     vol<-.C("read4byte_v1",
+     vol<-.C("read4byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -384,7 +384,7 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
    if(hdr$datatype==16){
      for(i in 1:hdr$dim[5]){          
   offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
-     vol<-.C("readfloat_v1",
+     vol<-.C("readfloat_v1_JM",
              mat=single(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -398,7 +398,7 @@ f.read.analyze.slice.at.all.timepoints<-function(file,slice){
    if(hdr$datatype==64){
      for(i in 1:hdr$dim[5]){          
   offset<-(i-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
-     vol<-.C("readdouble_v1",
+     vol<-.C("readdouble_v1_JM",
              mat=numeric(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -432,7 +432,7 @@ vol<-1:hdr$dim[5]
   if(hdr$datatype==2){
   for(i in 1:hdr$dim[5]){
 
-     v<-.C("readchar_v1",
+     v<-.C("readchar_v1_JM",
              mat=integer(1),
              file.img,
              as.integer(hdr$swap),
@@ -445,7 +445,7 @@ vol<-1:hdr$dim[5]
   if(hdr$datatype==4){
   for(i in 1:hdr$dim[5]){
 
-     v<-.C("read2byte_v1",
+     v<-.C("read2byte_v1_JM",
              mat=integer(1),
              file.img,
              as.integer(hdr$swap),
@@ -458,7 +458,7 @@ vol<-1:hdr$dim[5]
   if(hdr$datatype==8){
   for(i in 1:hdr$dim[5]){
 
-     v<-.C("read4byte_v1",
+     v<-.C("read4byte_v1_JM",
              mat=integer(1),
              file.img,
              as.integer(hdr$swap),
@@ -471,7 +471,7 @@ vol<-1:hdr$dim[5]
   if(hdr$datatype==16){
   for(i in 1:hdr$dim[5]){
 
-     v<-.C("readfloat_v1",
+     v<-.C("readfloat_v1_JM",
              mat=integer(1),
              file.img,
              as.integer(hdr$swap),
@@ -484,7 +484,7 @@ vol<-1:hdr$dim[5]
   if(hdr$datatype==64){
   for(i in 1:hdr$dim[5]){
 
-     v<-.C("readdouble_v1",
+     v<-.C("readdouble_v1_JM",
              mat=integer(1),
              file.img,
              as.integer(hdr$swap),
@@ -515,7 +515,7 @@ f.read.analyze.volume<-function(file){
   
 
    if(hdr$datatype==2){
-     vol<-.C("readchar_v1",
+     vol<-.C("readchar_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -526,7 +526,7 @@ f.read.analyze.volume<-function(file){
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==4){
-     vol<-.C("read2byte_v1",
+     vol<-.C("read2byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -537,7 +537,7 @@ f.read.analyze.volume<-function(file){
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==8){
-     vol<-.C("read4byte_v1",
+     vol<-.C("read4byte_v1_JM",
              mat=integer(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -548,7 +548,7 @@ f.read.analyze.volume<-function(file){
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==16){
-     vol<-.C("readfloat_v1",
+     vol<-.C("readfloat_v1_JM",
              mat=single(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -559,7 +559,7 @@ f.read.analyze.volume<-function(file){
     #this works because array fills itself with the left most subscript moving fastest
    }
    if(hdr$datatype==64){
-     vol<-.C("readdouble_v1",
+     vol<-.C("readdouble_v1_JM",
              mat=numeric(num.data.pts),
              file.img,
              as.integer(hdr$swap),
@@ -680,7 +680,7 @@ b<-apply(res,4,FUN=quantile,probs=seq(.5,1,.05),na.rm=T)
 f.write.list.to.hdr<-function(L,file){
 
 # Writes a list to a .hdr file
-a<-.C("write_analyze_header_wrap",
+a<-.C("write_analyze_header_wrap_JM",
       file,
       as.integer(L$size.of.header),
       as.character(L$data.type),
@@ -786,7 +786,7 @@ f.write.array.to.img.2bytes<-function(mat,file){
   dm.ln<-length(dm)
   num.data.pts<-length(mat)
   
-  .C("write2byte",
+  .C("write2byte_JM",
      as.integer(mat),
      file,
      as.integer(num.data.pts))
@@ -800,7 +800,7 @@ f.write.array.to.img.8bit<-function(mat,file){
   dm.ln<-length(dm)
   num.data.pts<-length(mat)
   
-  .C("write8bit",
+  .C("write8bit_JM",
      as.integer(mat),
      file,
      as.integer(num.data.pts))
@@ -816,7 +816,7 @@ f.write.array.to.img.float<-function(mat,file){
   dm.ln<-length(dm)
   num.data.pts<-length(mat)
   
-  .C("writefloat",
+  .C("writefloat_JM",
      as.single(mat),
      file,
      as.integer(num.data.pts))
@@ -863,7 +863,7 @@ f.ica.fmri<-function(file.name,n.comp,norm.col=T,fun="logcosh",maxit=1000,alg.ty
   
   W<-matrix(rnorm(n.comp*n.comp),n.comp,n.comp)
   
-  a<-.C("ica_fmri",
+  a<-.C("ica_fmri_JM",
         as.character(file.name),
         as.single(t(W)),
         as.integer(n.comp),
@@ -934,7 +934,7 @@ f.plot.ica.fmri<-function (obj.ica, comp, cols = heat.colors(100))
     s <- Mod(s[2:(floor(t/2) + 1)])^2
     r<-c(0,max(s))
     plot(s, axes = F,typ="l",ylim=r*1.5)
-    text(length(s)/2,1.5*r[2],"Peiodogram",pos=1)
+    text(length(s)/2,1.5*r[2],"Periodogram",pos=1)
     box()
     par(mfrow = c(1, 1), mar = c(5, 4, 4, 2))
 }

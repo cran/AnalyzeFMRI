@@ -66,57 +66,57 @@ struct data_array{
   float *data;
 };
 
-void swaptest_wrap(int *, char**);
-void swaptest(int *, char*);
-void swap(void*, int);
+void swaptest_wrap_JM(int *, char**);
+void swaptest_JM(int *, char*);
+void swap_JM(void*, int);
 
-void readchar(char*, char*, int*, int, long, int);
-void read2byte(short*, char*, int* , int, long, int);
-void read4byte(int*, char*, int* , int, long, int);
-void readfloat(float*, char*, int*, int, long, int);
-void readdouble(double*, char*, int*, int, long, int);
+void readchar_JM(char*, char*, int*, int, long, int);
+void read2byte_JM(short*, char*, int* , int, long, int);
+void read4byte_JM(int*, char*, int* , int, long, int);
+void readfloat_JM(float*, char*, int*, int, long, int);
+void readdouble_JM(double*, char*, int*, int, long, int);
 
-void readchar_v1(int*, char**, int* , int*, int*, int*);
-void read2byte_v1(int*, char**, int* , int*, int*, int*);
-void read4byte_v1(int*, char**, int* , int*, int*, int*);
-void readfloat_v1(float*, char**, int*, int*, int*, int*);
-void readdouble_v1(double*, char**, int*, int*, int*, int*);
+void readchar_v1_JM(int*, char**, int* , int*, int*, int*);
+void read2byte_v1_JM(int*, char**, int* , int*, int*, int*);
+void read4byte_v1_JM(int*, char**, int* , int*, int*, int*);
+void readfloat_v1_JM(float*, char**, int*, int*, int*, int*);
+void readdouble_v1_JM(double*, char**, int*, int*, int*, int*);
 
-void read2byte_F(float*, char*, int* , int, long, int);
-void read4byte_F(float*, char*, int* , int, long, int);
-void readfloat_F(float*, char*, int*, int, long, int);
-void readdouble_F(float*, char*, int*, int, long, int);
+void read2byte_F_JM(float*, char*, int* , int, long, int);
+void read4byte_F_JM(float*, char*, int* , int, long, int);
+void readfloat_F_JM(float*, char*, int*, int, long, int);
+void readdouble_F_JM(float*, char*, int*, int, long, int);
 
-void write8bit(int*, char**, int*);
-void write2byte(int*, char**, int*);
-void writefloat(float*, char**, int*);
+void write8bit_JM(int*, char**, int*);
+void write2byte_JM(int*, char**, int*);
+void writefloat_JM(float*, char**, int*);
 
 
-void read_analyze_header(struct header*, char*, int*);
-void print_analyze_header(struct header*);
+void read_analyze_header_JM(struct header*, char*, int*);
+void print_analyze_header_JM(struct header*);
 
-void read_data_as_float(struct data_array *, struct header *, char*, int*);
-void create_data_matrix(struct data_array *,struct data_array *, int*, float*);void size_mask(struct data_array *, struct data_array *, int*);
-void mask_mask(struct data_array *, struct data_array *, int*, int*);
-void create_mask(struct data_array *, struct data_array *, int*);
-void max_vec(float*, int, float*);
+void read_data_as_float_JM(struct data_array *, struct header *, char*, int*);
+void create_data_matrix_JM(struct data_array *,struct data_array *, int*, float*);void size_mask_JM(struct data_array *, struct data_array *, int*);
+void mask_mask_JM(struct data_array *, struct data_array *, int*, int*);
+void create_mask_JM(struct data_array *, struct data_array *, int*);
+void max_vec_JM(float*, int, float*);
   
-void rowcentre(float*,int,int);
-void colstandard(float*,int,int);
-void mmult(float*,int,int,float*,int,int,float*);
-void onefy(float*,int,float*);
-void bff(float*,int,float*,int,int,float,float*,float*);
-void bff2(float*,int,float*,int,int,float,float*,float*);
-void gramsch(float*,int,int,int);
-void rowstd(float*,int,int,int);
-void anfu(float*,int,float*,int,int,float,float*);
-void anfu2(float*,int,float*,int,int,float,float*);
+void rowcentre_JM(float*,int,int);
+void colstandard_JM(float*,int,int);
+void mmult_JM(float*,int,int,float*,int,int,float*);
+void onefy_JM(float*,int,float*);
+void bff_JM(float*,int,float*,int,int,float,float*,float*);
+void bff2_JM(float*,int,float*,int,int,float,float*,float*);
+void gramsch_JM(float*,int,int,int);
+void rowstd_JM(float*,int,int,int);
+void anfu_JM(float*,int,float*,int,int,float,float*);
+void anfu2_JM(float*,int,float*,int,int,float,float*);
 
-void icainc(float* ,float* ,int* ,int* ,int* ,float* ,int* ,int* ,int* ,int* ,float* ,int* ,float* ,float* ,float* ,float* ,float*);
+void icainc_JM(float* ,float* ,int* ,int* ,int* ,float* ,int* ,int* ,int* ,int* ,float* ,int* ,float* ,float* ,float* ,float* ,float*);
 
-void transpose_mat(float*, int*, int*, float*);
-int min(int*, int*);
-int max(int*, int*);
+void transpose_mat_JM(float*, int*, int*, float*);
+int min_JM(int*, int*);
+int max_JM(int*, int*);
 
 void F77_NAME(sgesvd)(char*, char*, int*, int*, float*, int*, float*, float*, int*, float*, int*, float*, int*, int*);
 
@@ -125,7 +125,7 @@ void F77_NAME(sgemm)(char*,char*,int*,int*,int*,float*,float*,int*,float*,int*,f
 
 /*  I/O functions */
 
-void swap(void *result, int size)
+void swap_JM(void *result, int size)
 {
   /* Swaps the bytes when required */
   int i;
@@ -138,12 +138,12 @@ void swap(void *result, int size)
 	p[size - i - 1] = tmp;
     }}
 
-void swaptest_wrap(int *ans, char **name)
+void swaptest_wrap_JM(int *ans, char **name)
 {
-  swaptest(ans,name[0]);
+  swaptest_JM(ans,name[0]);
 }
 
-void swaptest(int *ans, char *name)
+void swaptest_JM(int *ans, char *name)
 {
   /*This function tests for the endian-ness of the files by checking the first field of the .hdr file which is always 348 (i.e. the header file length in bytes)*/ 
   FILE *fd;
@@ -157,7 +157,7 @@ void swaptest(int *ans, char *name)
   fclose(fd);
 }
 
-void readchar(char *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void readchar_JM(char *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 1 byte characters */
   FILE *fd;
@@ -173,7 +173,7 @@ void readchar(char *ans, char *name, int *swapbytes, int n, long offset, int whe
   fclose(fd);
 }
 
-void read2byte(short *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void read2byte_JM(short *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 2 byte short integers */
   FILE *fd;
@@ -190,7 +190,7 @@ void read2byte(short *ans, char *name, int *swapbytes, int n, long offset, int w
   
   for(i=0;i<n;i++){
     nread=fread(&buf,2,1,fd);
-    if (*swapbytes==1) swap(&buf, 2);
+    if (*swapbytes==1) swap_JM(&buf, 2);
     *(ans+i)= buf;
   }
 
@@ -198,7 +198,7 @@ void read2byte(short *ans, char *name, int *swapbytes, int n, long offset, int w
 }
 
 
-void read4byte(int *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void read4byte_JM(int *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 4 byte short integers */
   FILE *fd;
@@ -215,13 +215,13 @@ void read4byte(int *ans, char *name, int *swapbytes, int n, long offset, int whe
   
   for(i=0;i<n;i++){
     nread=fread(&buf,4,1,fd);
-    if (*swapbytes==1) swap(&buf, 4);
+    if (*swapbytes==1) swap_JM(&buf, 4);
     *(ans+i)= buf;
   }
 
   fclose(fd);
 }
-void readfloat(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void readfloat_JM(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 4 byte floats */
   FILE *fd;
@@ -238,14 +238,14 @@ void readfloat(float *ans, char *name, int *swapbytes, int n, long offset, int w
   
   for(i=0;i<n;i++){
     nread=fread(&buf,4,1,fd);
-    if (*swapbytes==1) swap(&buf, 4);
+    if (*swapbytes==1) swap_JM(&buf, 4);
     *(ans+i)= buf;
   }
 
   fclose(fd);
 }
 
-void readdouble(double *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void readdouble_JM(double *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 8 byte doubles */
   FILE *fd;
@@ -262,7 +262,7 @@ void readdouble(double *ans, char *name, int *swapbytes, int n, long offset, int
  
   for(i=0;i<n;i++){
     nread=fread(&buf,8,1,fd);
-    if (*swapbytes==1) swap(&buf, 8);
+    if (*swapbytes==1) swap_JM(&buf, 8);
     *(ans+i)= buf;
   }
 
@@ -270,7 +270,7 @@ void readdouble(double *ans, char *name, int *swapbytes, int n, long offset, int
 }
 
 
-void readchar_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
+void readchar_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
 {
   /* Reads in a sequence of 1 byte characters */
   FILE *fd;
@@ -293,7 +293,7 @@ void readchar_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, int
   fclose(fd);
 }
 
-void read2byte_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
+void read2byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
 {
   /* Reads in a sequence of 2 byte short integers, converts them to int  */
   
@@ -311,13 +311,13 @@ void read2byte_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, in
   
   for(i=0;i<*n;i++){
     nread=fread(&buf,2,1,fd);
-    if (*swapbytes==1) swap(&buf, 2);
+    if (*swapbytes==1) swap_JM(&buf, 2);
     *(ans+i)= (int) buf;
   }
 
   fclose(fd);
 }
-void read4byte_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
+void read4byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
 {
   /* Reads in a sequence of 4 byte short integers and converts them to int */
   FILE *fd;
@@ -334,7 +334,7 @@ void read4byte_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, in
   
   for(i=0;i<*n;i++){
     nread=fread(&buf,4,1,fd);
-    if (*swapbytes==1) swap(&buf, 4);
+    if (*swapbytes==1) swap_JM(&buf, 4);
     *(ans+i)= buf;
   }
 
@@ -342,7 +342,7 @@ void read4byte_v1(int *ans, char **name, int *swapbytes, int *n, int *offset, in
 }
 
 
-void readfloat_v1(float *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
+void readfloat_v1_JM(float *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
 {
   /* Reads in a sequence of 4 byte floats */
   FILE *fd;
@@ -359,14 +359,14 @@ void readfloat_v1(float *ans, char **name, int *swapbytes, int *n, int *offset, 
   
   for(i=0;i<*n;i++){
     nread=fread(&buf,4,1,fd);
-    if (*swapbytes==1) swap(&buf, 4);
+    if (*swapbytes==1) swap_JM(&buf, 4);
     *(ans+i)= buf;
   }
 
   fclose(fd);
 }
 
-void readdouble_v1(double *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
+void readdouble_v1_JM(double *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
 {
   /* Reads in a sequence of 8 byte doubles */
   FILE *fd;
@@ -383,14 +383,14 @@ void readdouble_v1(double *ans, char **name, int *swapbytes, int *n, int *offset
  
   for(i=0;i<*n;i++){
     nread=fread(&buf,8,1,fd);
-    if (*swapbytes==1) swap(&buf, 8);
+    if (*swapbytes==1) swap_JM(&buf, 8);
     *(ans+i)= buf;
   }
 
   fclose(fd);
 }
 
-void read2byte_F(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void read2byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 2 byte short integers */
   FILE *fd;
@@ -407,14 +407,14 @@ void read2byte_F(float *ans, char *name, int *swapbytes, int n, long offset, int
   
   for(i=0;i<n;i++){
     nread=fread(&buf,2,1,fd);
-    if (*swapbytes==1) swap(&buf, 2);
+    if (*swapbytes==1) swap_JM(&buf, 2);
     *(ans+i)= (float) buf;
   }
 
   fclose(fd);
 }
 
-void read4byte_F(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void read4byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 2 byte short integers */
   FILE *fd;
@@ -431,14 +431,14 @@ void read4byte_F(float *ans, char *name, int *swapbytes, int n, long offset, int
   
   for(i=0;i<n;i++){
     nread=fread(&buf,4,1,fd);
-    if (*swapbytes==1) swap(&buf, 4);
+    if (*swapbytes==1) swap_JM(&buf, 4);
     *(ans+i)= (float) buf;
   }
 
   fclose(fd);
 }
 
-void readfloat_F(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void readfloat_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 4 byte floats */
   FILE *fd;
@@ -455,14 +455,14 @@ void readfloat_F(float *ans, char *name, int *swapbytes, int n, long offset, int
   
   for(i=0;i<n;i++){
     nread=fread(&buf,4,1,fd);
-    if (*swapbytes==1) swap(&buf, 4);
+    if (*swapbytes==1) swap_JM(&buf, 4);
     *(ans+i)= buf;
   }
 
   fclose(fd);
 }
 
-void readdouble_F(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
+void readdouble_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
 {
   /* Reads in a sequence of 8 byte doubles */
   FILE *fd;
@@ -479,14 +479,14 @@ void readdouble_F(float *ans, char *name, int *swapbytes, int n, long offset, in
  
   for(i=0;i<n;i++){
     nread=fread(&buf,8,1,fd);
-    if (*swapbytes==1) swap(&buf, 8);
+    if (*swapbytes==1) swap_JM(&buf, 8);
     *(ans+i)= (float) buf;
   }
 
   fclose(fd);
 }
 
-void write8bit(int *imp, char **name, int *n)
+void write8bit_JM(int *imp, char **name, int *n)
 {
   /* Writes in a sequence of 8 bit unsigned char integers */
   FILE *fp;
@@ -509,7 +509,7 @@ void write8bit(int *imp, char **name, int *n)
   fclose(fp);
 }
 
-void write2byte(int *imp, char **name, int *n)
+void write2byte_JM(int *imp, char **name, int *n)
 {
   /* Writes in a sequence of 2 byte short integers */
   FILE *fp;
@@ -530,7 +530,7 @@ void write2byte(int *imp, char **name, int *n)
   fclose(fp);
 }
 
-void writefloat(float *imp, char **name, int *n)
+void writefloat_JM(float *imp, char **name, int *n)
 {
   /* Writes a sequence of 4 byte floats  */
   FILE *fp;
@@ -543,7 +543,7 @@ void writefloat(float *imp, char **name, int *n)
 }
 
 
-void read_data_as_float(struct data_array *array, struct header *head, char *img_file, int *swapbytes){
+void read_data_as_float_JM(struct data_array *array, struct header *head, char *img_file, int *swapbytes){
 
 	
   int n;
@@ -553,15 +553,15 @@ void read_data_as_float(struct data_array *array, struct header *head, char *img
   (*array).z=(*head).dim[3];
   (*array).t=(*head).dim[4];
 
-  if((*head).datatype==4){read2byte_F((*array).data, img_file, swapbytes, n, 0L,0);}
-  if((*head).datatype==8){read4byte_F((*array).data, img_file, swapbytes, n, 0L,0);}
-  if((*head).datatype==16){readfloat_F((*array).data, img_file, swapbytes, n, 0L,0);}
-  if((*head).datatype==64){readdouble_F((*array).data, img_file, swapbytes, n, 0L,0);}
+  if((*head).datatype==4){read2byte_F_JM((*array).data, img_file, swapbytes, n, 0L,0);}
+  if((*head).datatype==8){read4byte_F_JM((*array).data, img_file, swapbytes, n, 0L,0);}
+  if((*head).datatype==16){readfloat_F_JM((*array).data, img_file, swapbytes, n, 0L,0);}
+  if((*head).datatype==64){readdouble_F_JM((*array).data, img_file, swapbytes, n, 0L,0);}
   
   
   return;
 }
-void read_analyze_header_wrap(char **name, 
+void read_analyze_header_wrap_JM(char **name, 
 			      int *swapbytes, 
 			      int *sizeof_hdr,
 			      char **data_type,
@@ -614,128 +614,128 @@ void read_analyze_header_wrap(char **name,
   int i;
   short tmp,tmp1[8];
   
-  read4byte(sizeof_hdr, name[0], swapbytes, 1, 0L,0);
+  read4byte_JM(sizeof_hdr, name[0], swapbytes, 1, 0L,0);
   
-  readchar(data_type[0],name[0], swapbytes, 10, 4L,0);
+  readchar_JM(data_type[0],name[0], swapbytes, 10, 4L,0);
 
-  readchar(db_name[0],name[0], swapbytes, 18, 14L,0);
+  readchar_JM(db_name[0],name[0], swapbytes, 18, 14L,0);
   
-  read4byte(extents, name[0], swapbytes, 1, 32L,1);
+  read4byte_JM(extents, name[0], swapbytes, 1, 32L,1);
   
-  read2byte(&tmp, name[0], swapbytes, 1, 36L,1);
+  read2byte_JM(&tmp, name[0], swapbytes, 1, 36L,1);
   *session_error=(int) tmp;
 
-  readchar(regular[0],name[0], swapbytes, 1, 38L,0);
-  readchar(hkey_un0[0],name[0], swapbytes, 1, 39L,0);
-  read2byte(tmp1, name[0], swapbytes, 8, 40L,1);
+  readchar_JM(regular[0],name[0], swapbytes, 1, 38L,0);
+  readchar_JM(hkey_un0[0],name[0], swapbytes, 1, 39L,0);
+  read2byte_JM(tmp1, name[0], swapbytes, 8, 40L,1);
   for(i=0;i<8;i++){dim[i]=(int) tmp1[i];}
 
-  readchar(vox_units[0],name[0], swapbytes, 4, 56L,0);
-  readchar(cal_units[0],name[0], swapbytes, 8, 60L,0);
+  readchar_JM(vox_units[0],name[0], swapbytes, 4, 56L,0);
+  readchar_JM(cal_units[0],name[0], swapbytes, 8, 60L,0);
  
-  read2byte(&tmp, name[0], swapbytes, 1, 68L,1);
+  read2byte_JM(&tmp, name[0], swapbytes, 1, 68L,1);
   *unused1=(int) tmp;
 
-  read2byte(&tmp, name[0], swapbytes, 1, 70L,1);
+  read2byte_JM(&tmp, name[0], swapbytes, 1, 70L,1);
   *datatype=(int) tmp;
 
-  read2byte(&tmp, name[0], swapbytes, 1, 72L,1);
+  read2byte_JM(&tmp, name[0], swapbytes, 1, 72L,1);
   *bitpix=(int) tmp;
 
-  read2byte(&tmp, name[0], swapbytes, 1, 74L,1);
+  read2byte_JM(&tmp, name[0], swapbytes, 1, 74L,1);
   *dim_un0=(int) tmp;
 
-  readfloat(pixdim, name[0], swapbytes, 8, 76L,1);
-  readfloat(vox_offset, name[0], swapbytes, 1, 108L,1);
-  readfloat(funused1, name[0], swapbytes, 1, 112L,1);
-  readfloat(funused2, name[0], swapbytes, 1, 116L,1);
-  readfloat(funused3, name[0], swapbytes, 1, 120L,1);
-  readfloat(cal_max, name[0], swapbytes, 1, 124L,1);
-  readfloat(cal_min, name[0], swapbytes, 1, 128L,1);
-  readfloat(compressed, name[0], swapbytes, 1, 132L,1);
-  readfloat(verified, name[0], swapbytes, 1, 136L,1);
-  read4byte(glmax, name[0], swapbytes, 1, 140L,1);
-  read4byte(glmin, name[0], swapbytes, 1, 144L,1);
-  readchar(descrip[0],name[0], swapbytes, 80, 148L,0);
-  readchar(aux_file[0],name[0], swapbytes, 24, 228L,0);
-  readchar(orient[0],name[0], swapbytes, 1, 252L,0);
-  readchar(originator[0],name[0], swapbytes, 10, 252L,0);
-  readchar(generated[0],name[0], swapbytes, 10, 263L,0);
-  readchar(scannum[0],name[0], swapbytes, 10, 273L,0);
-  readchar(patient_id[0],name[0], swapbytes, 10, 283L,0);
-  readchar(exp_date[0],name[0], swapbytes, 10, 293L,0);
-  readchar(exp_time[0],name[0], swapbytes, 10, 303L,0);
-  readchar(hist_un0[0],name[0], swapbytes, 4, 313L,0);
-  read4byte(views, name[0], swapbytes, 1, 316L,1);
-  read4byte(vols_added, name[0], swapbytes, 1, 320L,1);
-  read4byte(start_field, name[0], swapbytes, 1, 324L,1);
-  read4byte(field_skip, name[0], swapbytes, 1, 328L,1);
-  read4byte(omax, name[0], swapbytes, 1, 332L,1);
-  read4byte(omin, name[0], swapbytes, 1, 336L,1);
-  read4byte(smax, name[0], swapbytes, 1, 340L,1);
-  read4byte(smin, name[0], swapbytes, 1, 344L,1);
+  readfloat_JM(pixdim, name[0], swapbytes, 8, 76L,1);
+  readfloat_JM(vox_offset, name[0], swapbytes, 1, 108L,1);
+  readfloat_JM(funused1, name[0], swapbytes, 1, 112L,1);
+  readfloat_JM(funused2, name[0], swapbytes, 1, 116L,1);
+  readfloat_JM(funused3, name[0], swapbytes, 1, 120L,1);
+  readfloat_JM(cal_max, name[0], swapbytes, 1, 124L,1);
+  readfloat_JM(cal_min, name[0], swapbytes, 1, 128L,1);
+  readfloat_JM(compressed, name[0], swapbytes, 1, 132L,1);
+  readfloat_JM(verified, name[0], swapbytes, 1, 136L,1);
+  read4byte_JM(glmax, name[0], swapbytes, 1, 140L,1);
+  read4byte_JM(glmin, name[0], swapbytes, 1, 144L,1);
+  readchar_JM(descrip[0],name[0], swapbytes, 80, 148L,0);
+  readchar_JM(aux_file[0],name[0], swapbytes, 24, 228L,0);
+  readchar_JM(orient[0],name[0], swapbytes, 1, 252L,0);
+  readchar_JM(originator[0],name[0], swapbytes, 10, 252L,0);
+  readchar_JM(generated[0],name[0], swapbytes, 10, 263L,0);
+  readchar_JM(scannum[0],name[0], swapbytes, 10, 273L,0);
+  readchar_JM(patient_id[0],name[0], swapbytes, 10, 283L,0);
+  readchar_JM(exp_date[0],name[0], swapbytes, 10, 293L,0);
+  readchar_JM(exp_time[0],name[0], swapbytes, 10, 303L,0);
+  readchar_JM(hist_un0[0],name[0], swapbytes, 4, 313L,0);
+  read4byte_JM(views, name[0], swapbytes, 1, 316L,1);
+  read4byte_JM(vols_added, name[0], swapbytes, 1, 320L,1);
+  read4byte_JM(start_field, name[0], swapbytes, 1, 324L,1);
+  read4byte_JM(field_skip, name[0], swapbytes, 1, 328L,1);
+  read4byte_JM(omax, name[0], swapbytes, 1, 332L,1);
+  read4byte_JM(omin, name[0], swapbytes, 1, 336L,1);
+  read4byte_JM(smax, name[0], swapbytes, 1, 340L,1);
+  read4byte_JM(smin, name[0], swapbytes, 1, 344L,1);
 
 }
 
-void read_analyze_header(struct header *head, char *name, int *swapbytes)
+void read_analyze_header_JM(struct header *head, char *name, int *swapbytes)
 
 {
   /*Reads in all the fields of a .hdr header file*/
   
 
-  read4byte(&head->sizeof_hdr, name, swapbytes, 1, 0L,0);
+  read4byte_JM(&head->sizeof_hdr, name, swapbytes, 1, 0L,0);
   
-  readchar(head->data_type,name, swapbytes, 10, 4L,0);
+  readchar_JM(head->data_type,name, swapbytes, 10, 4L,0);
 
-  readchar(head->db_name,name, swapbytes, 18, 14L,0);
+  readchar_JM(head->db_name,name, swapbytes, 18, 14L,0);
   
-  read4byte(&head->extents, name, swapbytes, 1, 32L,1);
+  read4byte_JM(&head->extents, name, swapbytes, 1, 32L,1);
   
-  read2byte(&head->session_error, name, swapbytes, 1, 36L,1);
+  read2byte_JM(&head->session_error, name, swapbytes, 1, 36L,1);
   
-  readchar(&head->regular,name, swapbytes, 1, 38L,0);
-  readchar(&head->hkey_un0,name, swapbytes, 1, 39L,0);
-  read2byte(&head->dim[0], name, swapbytes, 8, 40L,1);
+  readchar_JM(&head->regular,name, swapbytes, 1, 38L,0);
+  readchar_JM(&head->hkey_un0,name, swapbytes, 1, 39L,0);
+  read2byte_JM(&head->dim[0], name, swapbytes, 8, 40L,1);
 
-  readchar(head->vox_units,name, swapbytes, 4, 56L,0);
-  readchar(head->cal_units,name, swapbytes, 8, 60L,0);
-  read2byte(&head->unused1, name, swapbytes, 1, 68L,1);
-  read2byte(&head->datatype, name, swapbytes, 1, 70L,1);
-  read2byte(&head->bitpix, name, swapbytes, 1, 72L,1);
-  read2byte(&head->dim_un0, name, swapbytes, 1, 74L,1);
-  readfloat(&head->pixdim[0], name, swapbytes, 8, 76L,1);
-  readfloat(&head->vox_offset, name, swapbytes, 1, 108L,1);
-  readfloat(&head->funused1, name, swapbytes, 1, 112L,1);
-  readfloat(&head->funused2, name, swapbytes, 1, 116L,1);
-  readfloat(&head->funused3, name, swapbytes, 1, 120L,1);
-  readfloat(&head->cal_max, name, swapbytes, 1, 124L,1);
-  readfloat(&head->cal_min, name, swapbytes, 1, 128L,1);
-  readfloat(&head->compressed, name, swapbytes, 1, 132L,1);
-  readfloat(&head->verified, name, swapbytes, 1, 136L,1);
-  read4byte(&head->glmax, name, swapbytes, 1, 140L,1);
-  read4byte(&head->glmin, name, swapbytes, 1, 144L,1);
-  readchar(head->descrip,name, swapbytes, 80, 148L,0);
-  readchar(head->aux_file,name, swapbytes, 24, 228L,0);
-  readchar(&head->orient,name, swapbytes, 1, 252L,0);
-  readchar(head->originator,name, swapbytes, 10, 252L,0);
-  readchar(head->generated,name, swapbytes, 10, 263L,0);
-  readchar(head->scannum,name, swapbytes, 10, 273L,0);
-  readchar(head->patient_id,name, swapbytes, 10, 283L,0);
-  readchar(head->exp_date,name, swapbytes, 10, 293L,0);
-  readchar(head->exp_time,name, swapbytes, 10, 303L,0);
-  readchar(head->hist_un0,name, swapbytes, 4, 313L,0);
-  read4byte(&head->views, name, swapbytes, 1, 316L,1);
-  read4byte(&head->vols_added, name, swapbytes, 1, 320L,1);
-  read4byte(&head->start_field, name, swapbytes, 1, 324L,1);
-  read4byte(&head->field_skip, name, swapbytes, 1, 328L,1);
-  read4byte(&head->omax, name, swapbytes, 1, 332L,1);
-  read4byte(&head->omin, name, swapbytes, 1, 336L,1);
-  read4byte(&head->smax, name, swapbytes, 1, 340L,1);
-  read4byte(&head->smin, name, swapbytes, 1, 344L,1);
+  readchar_JM(head->vox_units,name, swapbytes, 4, 56L,0);
+  readchar_JM(head->cal_units,name, swapbytes, 8, 60L,0);
+  read2byte_JM(&head->unused1, name, swapbytes, 1, 68L,1);
+  read2byte_JM(&head->datatype, name, swapbytes, 1, 70L,1);
+  read2byte_JM(&head->bitpix, name, swapbytes, 1, 72L,1);
+  read2byte_JM(&head->dim_un0, name, swapbytes, 1, 74L,1);
+  readfloat_JM(&head->pixdim[0], name, swapbytes, 8, 76L,1);
+  readfloat_JM(&head->vox_offset, name, swapbytes, 1, 108L,1);
+  readfloat_JM(&head->funused1, name, swapbytes, 1, 112L,1);
+  readfloat_JM(&head->funused2, name, swapbytes, 1, 116L,1);
+  readfloat_JM(&head->funused3, name, swapbytes, 1, 120L,1);
+  readfloat_JM(&head->cal_max, name, swapbytes, 1, 124L,1);
+  readfloat_JM(&head->cal_min, name, swapbytes, 1, 128L,1);
+  readfloat_JM(&head->compressed, name, swapbytes, 1, 132L,1);
+  readfloat_JM(&head->verified, name, swapbytes, 1, 136L,1);
+  read4byte_JM(&head->glmax, name, swapbytes, 1, 140L,1);
+  read4byte_JM(&head->glmin, name, swapbytes, 1, 144L,1);
+  readchar_JM(head->descrip,name, swapbytes, 80, 148L,0);
+  readchar_JM(head->aux_file,name, swapbytes, 24, 228L,0);
+  readchar_JM(&head->orient,name, swapbytes, 1, 252L,0);
+  readchar_JM(head->originator,name, swapbytes, 10, 252L,0);
+  readchar_JM(head->generated,name, swapbytes, 10, 263L,0);
+  readchar_JM(head->scannum,name, swapbytes, 10, 273L,0);
+  readchar_JM(head->patient_id,name, swapbytes, 10, 283L,0);
+  readchar_JM(head->exp_date,name, swapbytes, 10, 293L,0);
+  readchar_JM(head->exp_time,name, swapbytes, 10, 303L,0);
+  readchar_JM(head->hist_un0,name, swapbytes, 4, 313L,0);
+  read4byte_JM(&head->views, name, swapbytes, 1, 316L,1);
+  read4byte_JM(&head->vols_added, name, swapbytes, 1, 320L,1);
+  read4byte_JM(&head->start_field, name, swapbytes, 1, 324L,1);
+  read4byte_JM(&head->field_skip, name, swapbytes, 1, 328L,1);
+  read4byte_JM(&head->omax, name, swapbytes, 1, 332L,1);
+  read4byte_JM(&head->omin, name, swapbytes, 1, 336L,1);
+  read4byte_JM(&head->smax, name, swapbytes, 1, 340L,1);
+  read4byte_JM(&head->smin, name, swapbytes, 1, 344L,1);
 }
 
 
-void write_analyze_header_wrap(char **name, 
+void write_analyze_header_wrap_JM(char **name, 
 			       int *sizeof_hdr,
 			       char **data_type,
 			       char **db_name,
@@ -838,7 +838,7 @@ void write_analyze_header_wrap(char **name,
 }
 
 
-void print_analyze_header(struct header *head)
+void print_analyze_header_JM(struct header *head)
 {
   
 
@@ -907,7 +907,7 @@ void print_analyze_header(struct header *head)
 
 /*  ICA for fMRI functions */
 
-void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *colflag1, int *funflag1, int *maxit1, int *defflag1, float *alpha1, float *lim1, int *maskflag, char **msk_file, int *slices, int *nsl, float *ans_sources, float *ans_tc){
+void ica_fmri_JM(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *colflag1, int *funflag1, int *maxit1, int *defflag1, float *alpha1, float *lim1, int *maskflag, char **msk_file, int *slices, int *nsl, float *ans_sources, float *ans_tc){
 
 
   int mask_size=0,count;
@@ -947,17 +947,17 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
   strcat(hdr_file,".hdr");
   
 
-  swaptest(&ans, hdr_file);
+  swaptest_JM(&ans, hdr_file);
   if(ans==348) swapbytes=0;
   
-  read_analyze_header(head, hdr_file, &swapbytes);
-/*    print_analyze_header(head); */
+  read_analyze_header_JM(head, hdr_file, &swapbytes);
+/*    print_analyze_header_JM(head); */
   
   n=((*head).dim[1]*(*head).dim[2]*(*head).dim[3]*(*head).dim[4]); 
   (*array).n=n;
   (*array).data=Calloc((*array).n,float);
   
-  read_data_as_float(array, head, img_file, &swapbytes);
+  read_data_as_float_JM(array, head, img_file, &swapbytes);
   
   /*  Read in/create mask */
   nm=((*array).x*(*array).y*(*array).z);
@@ -973,29 +973,29 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
     strncat(mask_hdr,mask_file,file_name_length-4);
     strcat(mask_hdr,".hdr");
     
-    swaptest(&ans, mask_hdr);
+    swaptest_JM(&ans, mask_hdr);
     if(ans==348) mask_swapbytes=0;
     
     
-    read_analyze_header(mask_head, mask_hdr, &mask_swapbytes);
-    read_data_as_float(mask, mask_head, mask_img, &mask_swapbytes);
-    mask_mask(array, mask, slices, nsl);
-    size_mask(array, mask, &mask_size);
+    read_analyze_header_JM(mask_head, mask_hdr, &mask_swapbytes);
+    read_data_as_float_JM(mask, mask_head, mask_img, &mask_swapbytes);
+    mask_mask_JM(array, mask, slices, nsl);
+    size_mask_JM(array, mask, &mask_size);
     printf("Mask size=%d\n",mask_size);
   }
   else
     {
       printf("Making mask\n");
-      create_mask(array, mask, &mask_size); 
-      mask_mask(array, mask, slices, nsl);
-      size_mask(array, mask, &mask_size);
+      create_mask_JM(array, mask, &mask_size); 
+      mask_mask_JM(array, mask, slices, nsl);
+      size_mask_JM(array, mask, &mask_size);
       printf("Mask size=%d\n",mask_size);
     }
   
   /*  Create 2D data matrix (columns are voxel time series) */
   printf("Creating data matrix\n");
   data_matrix=Calloc(mask_size*(*array).t,float);
-  create_data_matrix(array, mask, &mask_size, data_matrix);
+  create_data_matrix_JM(array, mask, &mask_size, data_matrix);
   Free((*array).data);
   
   
@@ -1011,7 +1011,7 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
 
 
   printf("Running ICA\n");
-  icainc(data_matrix, w_matrix, &t, &mask_size, &nc, &alpha, &rowflag, &colflag, &funflag, &maxit, &lim, &defflag, pre_processed_data_matrix, k_matrix, w_calc_matrix, a_matrix, s_matrix); 
+  icainc_JM(data_matrix, w_matrix, &t, &mask_size, &nc, &alpha, &rowflag, &colflag, &funflag, &maxit, &lim, &defflag, pre_processed_data_matrix, k_matrix, w_calc_matrix, a_matrix, s_matrix); 
 
 
      /*  Free memory */
@@ -1055,7 +1055,7 @@ void ica_fmri(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *col
 }
 
 
-void size_mask(struct data_array *array, struct data_array *mask, int *mask_size){
+void size_mask_JM(struct data_array *array, struct data_array *mask, int *mask_size){
   
   int i,x,y,z;
   float tmp;
@@ -1071,7 +1071,7 @@ void size_mask(struct data_array *array, struct data_array *mask, int *mask_size
   return;  
 }
 
-void mask_mask(struct data_array *array, struct data_array *mask, int *slices, int *nsl){
+void mask_mask_JM(struct data_array *array, struct data_array *mask, int *slices, int *nsl){
   
   int i,j,k,x,y,z;
   float tmp;
@@ -1096,7 +1096,7 @@ void mask_mask(struct data_array *array, struct data_array *mask, int *slices, i
 
 
 
-void create_mask(struct data_array *array, struct data_array *mask, int *mask_size){
+void create_mask_JM(struct data_array *array, struct data_array *mask, int *mask_size){
   
   int i,j,k,l,x,y,z,t,n;
   float max;
@@ -1116,7 +1116,7 @@ void create_mask(struct data_array *array, struct data_array *mask, int *mask_si
       }}}
 
   
-  max_vec((*mask).data,(x*y*z),&max);
+  max_vec_JM((*mask).data,(x*y*z),&max);
   max/=10;
   
   *mask_size=0;
@@ -1133,7 +1133,7 @@ void create_mask(struct data_array *array, struct data_array *mask, int *mask_si
   return;  
 }
  
-void max_vec(float *vec, int n, float *ans){
+void max_vec_JM(float *vec, int n, float *ans){
 
   int i;
   *ans=*vec;
@@ -1143,7 +1143,7 @@ void max_vec(float *vec, int n, float *ans){
   return;
 }
 
-void create_data_matrix(struct data_array *array, struct data_array *mask, int *mask_size, float *data_matrix){
+void create_data_matrix_JM(struct data_array *array, struct data_array *mask, int *mask_size, float *data_matrix){
   
   int i,j,k,l,x,y,z,t,count,n;
   x=(*array).x;
@@ -1169,7 +1169,7 @@ void create_data_matrix(struct data_array *array, struct data_array *mask, int *
 
 /*  ICA computations functions */
 
-void rowcentre(float *ans,int n,int p){
+void rowcentre_JM(float *ans,int n,int p){
   double tmp;
   int i,j;
   printf("Centering rows\n");
@@ -1180,7 +1180,7 @@ void rowcentre(float *ans,int n,int p){
     for(j=0;j<p;j++){ans[p*i+j]-=(float) tmp;}}
 }
 
-void colstandard(float *ans,int n,int p){
+void colstandard_JM(float *ans,int n,int p){
   double tmp[2];
   double tmp1;
   int i,j;
@@ -1210,7 +1210,7 @@ void colstandard(float *ans,int n,int p){
 
 
 
-void svd(float *mat, int *n, int *p, float *u, float *d, float *v){
+void svd_JM(float *mat, int *n, int *p, float *u, float *d, float *v){
 
 /*    mat is a pointer to an nxp array of floats */
 /*    n is a pointer to an integer specifying the no. of rows of mat */
@@ -1224,22 +1224,22 @@ void svd(float *mat, int *n, int *p, float *u, float *d, float *v){
   float *work, *mat1, *u1, *v1;
   char jobu='A',jobvt='A';
 
-  i=3*min(n,p)+max(n,p);
-  j=5*min(n,p);
-  lwork=10*max(&i,&j);
+  i=3*min_JM(n,p)+max_JM(n,p);
+  j=5*min_JM(n,p);
+  lwork=10*max_JM(&i,&j);
   
   work=Calloc(lwork,float);
   mat1=Calloc((*n)*(*p),float);
   u1=Calloc((*n)*(*n),float);
   v1=Calloc((*p)*(*p),float);
 
-  transpose_mat(mat, n, p, mat1);
+  transpose_mat_JM(mat, n, p, mat1);
 
   F77_CALL(sgesvd)(&jobu, &jobvt, n, p, mat1, n, d, u1, n, v1, p, work, &lwork, &info);
   
-  transpose_mat(u1, n, n, u);
+  transpose_mat_JM(u1, n, n, u);
 
-  transpose_mat(v1, p, p, v);
+  transpose_mat_JM(v1, p, p, v);
 
 
   Free(mat1);
@@ -1249,7 +1249,7 @@ void svd(float *mat, int *n, int *p, float *u, float *d, float *v){
 
 }
 
-void transpose_mat(float *mat, int *n, int *p, float *ans){
+void transpose_mat_JM(float *mat, int *n, int *p, float *ans){
   
   int i,j;
   
@@ -1259,7 +1259,7 @@ void transpose_mat(float *mat, int *n, int *p, float *ans){
 }
 
 
-int min(int *a, int *b){
+int min_JM(int *a, int *b){
 
   int ans;
 
@@ -1269,7 +1269,7 @@ int min(int *a, int *b){
   return ans;
 }
 
-int max(int *a, int *b){
+int max_JM(int *a, int *b){
 
   int ans;
 
@@ -1279,7 +1279,7 @@ int max(int *a, int *b){
   return ans;
 }
 
-void mmult(float *A,int n,int p,float *B,int q,int r,float *C){
+void mmult_JM(float *A,int n,int p,float *B,int q,int r,float *C){
   /*    A is (n*p) and B is (q*r), A*B returned to C  */
 
   float alpha=1.0,beta=0.0;
@@ -1297,12 +1297,12 @@ void mmult(float *A,int n,int p,float *B,int q,int r,float *C){
     matC=Calloc(M*N,float);
 
    
-    transpose_mat(A,&M,&K,matA);
+    transpose_mat_JM(A,&M,&K,matA);
    
-    transpose_mat(B,&K,&N,matB);
+    transpose_mat_JM(B,&K,&N,matB);
    
     F77_CALL(sgemm)(&transA,&transB,&M,&N,&K,&alpha,matA,&M,matB,&K,&beta,matC,&M);
-    transpose_mat(matC,&N,&M,C);
+    transpose_mat_JM(matC,&N,&M,C);
 
     Free(matA);
     Free(matB);
@@ -1311,22 +1311,22 @@ void mmult(float *A,int n,int p,float *B,int q,int r,float *C){
 }
 
 
-void onefy(float *ww,int e,float *tmpm){
+void onefy_JM(float *ww,int e,float *tmpm){
   /* take ww, (e*e), and return to tmpm "ww1" */
   float *u,*v,*d,*temp;int i;
    u=Calloc(e*e,float);
    d=Calloc(e,float);
    v=Calloc(e*e,float);
    temp=Calloc(e*e,float);
-   svd(ww,&e,&e,u,d,v);
+   svd_JM(ww,&e,&e,u,d,v);
    for(i=0;i<e;i++){temp[i*e+i]=1/(d[i]);}
-   mmult(u,e,e,temp,e,e,v);
-   transpose_mat(u,&e,&e,temp); 
-   mmult(v,e,e,temp,e,e,u);
-   mmult(u,e,e,ww,e,e,tmpm);
+   mmult_JM(u,e,e,temp,e,e,v);
+   transpose_mat_JM(u,&e,&e,temp); 
+   mmult_JM(v,e,e,temp,e,e,u);
+   mmult_JM(u,e,e,ww,e,e,tmpm);
    Free(u);Free(v);Free(d);Free(temp);
 }
-void bff(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl,float *Tol){
+void bff_JM(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl,float *Tol){
   float *mat1,*mat2,*mat3,*mat4,*mat5,*mat6;
   int i,j;
   float mean;
@@ -1340,28 +1340,28 @@ void bff(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl,float *T
    mat5=Calloc(e*e,float);
    mat6=Calloc(e*e,float);
 
-   mmult(ww,e,e,ans,e,p,mat1);/*mat1 is WX*/
+   mmult_JM(ww,e,e,ans,e,p,mat1);/*mat1 is WX*/
 
 
    for(i=0;i<e;i++){for(j=0;j<p;j++){mat1[i*p+j]=tanh(alpha*mat1[i*p+j]);}}/*mat1 is GWX*/
-    transpose_mat(ans,&e,&p,mat2);
+    transpose_mat_JM(ans,&e,&p,mat2);
 for(i=0;i<e;i++){for(j=0;j<p;j++){mat2[i*p+j]=(mat2[i*p+j])/p;}}/*mat2 is t(X)/p */
-    mmult(mat1,e,p,mat2,p,e,mat3); /*mat3 is V1 */
+    mmult_JM(mat1,e,p,mat2,p,e,mat3); /*mat3 is V1 */
 for(i=0;i<e;i++){for(j=0;j<p;j++){mat1[i*p+j]=(alpha*(1-(mat1[i*p+j])*(mat1[i*p+j])));}}
 /*mat1 is GWX1*/
  for(i=0;i<e;i++){mean=0;for(j=0;j<p;j++){mean+=((mat1[i*p+j])/p);}
  mat4[i*e+i]=mean;}  /*mat4 is D */
- mmult(mat4,e,e,ww,e,e,mat5);  /* mat5 is V2 */
+ mmult_JM(mat4,e,e,ww,e,e,mat5);  /* mat5 is V2 */
  for(i=0;i<e;i++){for(j=0;j<e;j++){mat4[i*e+j]=(mat3[i*e+j]-mat5[i*e+j]);}}
  /* mat4 is W1 */
- transpose_mat(ww,&e,&e,mat6);
- onefy(mat4,e,wwpl); /* wwpl is W2 (sic) */
+ transpose_mat_JM(ww,&e,&e,mat6);
+ onefy_JM(mat4,e,wwpl); /* wwpl is W2 (sic) */
 
 
 
 
 
- mmult(wwpl,e,e,mat6,e,e,mat5); /*mat5 is C */
+ mmult_JM(wwpl,e,e,mat6,e,e,mat5); /*mat5 is C */
  mean=0;
  for(i=0;i<e;i++){
 if(fabs(1-fabs(mat5[i*e+i]))>mean){
@@ -1369,7 +1369,7 @@ mean=(fabs(1-fabs(mat5[i*e+i])));}}
  *Tol=mean;
  Free(mat1);Free(mat2);Free(mat3);Free(mat4);Free(mat5);Free(mat6);
   }}
-void anfu(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl){
+void anfu_JM(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl){
   float *mat1,*mat2,*mat3,*mat4,*mat5;
   int i,j;
   float mean;
@@ -1382,14 +1382,14 @@ void anfu(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl){
    mat4=Calloc(1*e,float);
    mat5=Calloc(1*e,float);
  
-   mmult(ww,1,e,ans,e,p,mat1);/*mat1 is WX*/
+   mmult_JM(ww,1,e,ans,e,p,mat1);/*mat1 is WX*/
 
 
    for(i=0;i<p;i++){mat1[i]=tanh(alpha*mat1[i]);}/*mat1 is GWX*/
-    transpose_mat(ans,&e,&p,mat2);
+    transpose_mat_JM(ans,&e,&p,mat2);
 for(i=0;i<e;i++){for(j=0;j<p;j++){mat2[i*p+j]=(mat2[i*p+j])/p;}}
  /*mat2 is t(X)/p */
-    mmult(mat1,1,p,mat2,p,e,mat3); /*mat3 is V1 */
+    mmult_JM(mat1,1,p,mat2,p,e,mat3); /*mat3 is V1 */
    for(i=0;i<p;i++){mat1[i]=(alpha*(1-(mat1[i])*(mat1[i])));}
 /*mat1 is GWX1*/
 mean=0;
@@ -1402,7 +1402,7 @@ for(i=0;i<e;i++){mat5[i]=(ww[i])*mean;}  /* mat5 is V2 */
  
   }}
 
-void bff2(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl,float *Tol){
+void bff2_JM(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl,float *Tol){
   float *mat1,*mat2,*mat3,*mat4,*mat5,*mat0,*mat6;
   int i,j;
   float mean;
@@ -1416,22 +1416,22 @@ void bff2(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl,float *
    mat4=Calloc(e*e,float);
    mat5=Calloc(e*e,float);
    mat6=Calloc(e*e,float);
-   mmult(ww,e,e,ans,e,p,mat1);/*mat1 is WX*/
+   mmult_JM(ww,e,e,ans,e,p,mat1);/*mat1 is WX*/
    for(i=0;i<e;i++){for(j=0;j<p;j++){mat0[i*p+j]=(mat1[i*p+j])*exp(-0.5*(mat1[i*p+j])*(mat1[i*p+j]));}}/*mat0 is GWX*/
-    transpose_mat(ans,&e,&p,mat2);
+    transpose_mat_JM(ans,&e,&p,mat2);
 for(i=0;i<e;i++){for(j=0;j<p;j++){mat2[i*p+j]=(mat2[i*p+j])/p;}}/*mat2 is t(X)/p */
-    mmult(mat0,e,p,mat2,p,e,mat3); /*mat3 is V1 */
+    mmult_JM(mat0,e,p,mat2,p,e,mat3); /*mat3 is V1 */
 for(i=0;i<e;i++){for(j=0;j<p;j++){mat1[i*p+j]=((1-(mat1[i*p+j])*(mat1[i*p+j]))*exp(-0.5*(mat1[i*p+j])*(mat1[i*p+j])));}}
 /*mat1 is GWX1*/
  for(i=0;i<e;i++){mean=0;for(j=0;j<p;j++){mean+=((mat1[i*p+j])/p);}
  mat4[i*e+i]=mean;}  /*mat4 is D */
- mmult(mat4,e,e,ww,e,e,mat5);  /* mat5 is V2 */
+ mmult_JM(mat4,e,e,ww,e,e,mat5);  /* mat5 is V2 */
  for(i=0;i<e;i++){for(j=0;j<e;j++){mat4[i*e+j]=(mat3[i*e+j]-mat5[i*e+j]);}}
  /* mat4 is W1 */
- transpose_mat(ww,&e,&e,mat6);
- onefy(mat4,e,wwpl); /* wwpl is W2 (sic) */
+ transpose_mat_JM(ww,&e,&e,mat6);
+ onefy_JM(mat4,e,wwpl); /* wwpl is W2 (sic) */
 
- mmult(wwpl,e,e,mat6,e,e,mat5); /*mat5 is C */
+ mmult_JM(wwpl,e,e,mat6,e,e,mat5); /*mat5 is C */
  mean=0;
  for(i=0;i<e;i++){
 if(fabs(1-fabs(mat5[i*e+i]))>mean){
@@ -1440,7 +1440,7 @@ mean=(fabs(1-fabs(mat5[i*e+i])));}}
  Free(mat1);Free(mat2);Free(mat3);Free(mat4);Free(mat5);Free(mat0);Free(mat6);
   }}
 
-void anfu2(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl){
+void anfu2_JM(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl){
   float *mat1,*mat2,*mat3,*mat4,*mat5;
   int i,j;
   float mean;
@@ -1453,16 +1453,16 @@ void anfu2(float *ww,int e,float *ans,int f,int p,float alpha,float *wwpl){
    mat4=Calloc(1*e,float);
    mat5=Calloc(1*e,float);
  
-   mmult(ww,1,e,ans,e,p,mat1); /*mat1 is WX*/
+   mmult_JM(ww,1,e,ans,e,p,mat1); /*mat1 is WX*/
 
    for(i=0;i<p;i++){mat1[i]=((mat1[i])*exp(-0.5*(mat1[i])*(mat1[i])));}
 /*mat1 is GWX*/
-    transpose_mat(ans,&e,&p,mat2);
+    transpose_mat_JM(ans,&e,&p,mat2);
 for(i=0;i<e;i++){for(j=0;j<p;j++){mat2[i*p+j]=(mat2[i*p+j])/p;}}
  /*mat2 is t(X)/p */
-    mmult(mat1,1,p,mat2,p,e,mat3); /*mat3 is V1 */
+    mmult_JM(mat1,1,p,mat2,p,e,mat3); /*mat3 is V1 */
 
-   mmult(ww,1,e,ans,e,p,mat1);/*mat1 is WX (again) */
+   mmult_JM(ww,1,e,ans,e,p,mat1);/*mat1 is WX (again) */
 for(i=0;i<p;i++){mat1[i]=((1-(mat1[i])*(mat1[i]))*exp(-.5*(mat1[i])*(mat1[i])));}  /*mat1 is GWX1*/
 mean=0;
  for(j=0;j<p;j++){mean+=((mat1[j])/p);}
@@ -1474,7 +1474,7 @@ for(i=0;i<e;i++){mat5[i]=(ww[i])*mean;}  /* mat5 is V2 */
  
   }}
 
-void gramsch(float *ww,int n,int m,int k){
+void gramsch_JM(float *ww,int n,int m,int k){
   int ip,jp;float tmp;
   /* do Gram-Schmidt on row k of (n*m) matrix ww */ 
   k-=1;
@@ -1484,7 +1484,7 @@ void gramsch(float *ww,int n,int m,int k){
     for(jp=0;jp<m;jp++){tmp+=((ww[m*ip+jp])*(ww[m*k+jp]));}
     for(jp=0;jp<m;jp++){ww[m*k+jp]=(ww[m*k+jp]-((ww[m*ip+jp])*tmp));}}}}
 
-void rowstd(float *ww,int n,int m, int k){
+void rowstd_JM(float *ww,int n,int m, int k){
   /* for ww (n*m), make ||ww[k, ]|| equal 1 */
   float tmp=0;int i;k-=1;
  if(k>n){printf("\nError in rowstd\n");}
@@ -1496,7 +1496,7 @@ void rowstd(float *ww,int n,int m, int k){
 
 
 
-void icainc(float *data_matrix,float *w_matrix,int *nn,int *pp,int *ee,float *alpha,int *rowflag,int *colflag,int *funflag,int *maxit,float *lim,int *defflag,float *ansx,float *ansk,float *answ,float *ansa,float *ansx2){ 
+void icainc_JM(float *data_matrix,float *w_matrix,int *nn,int *pp,int *ee,float *alpha,int *rowflag,int *colflag,int *funflag,int *maxit,float *lim,int *defflag,float *ansx,float *ansk,float *answ,float *ansa,float *ansx2){ 
 
 int i,j,k,n,p,e;
 float tol;
@@ -1509,17 +1509,17 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
 
   for(i=0;i<n;i++){for(j=0;j<p;j++){ans[i*p+j]=data_matrix[i*p+j];}}
 
-  if(*rowflag==1){  rowcentre(ans,n,p);}
+  if(*rowflag==1){  rowcentre_JM(ans,n,p);}
 
-  if(*colflag==1){  colstandard(ans,n,p);}
+  if(*colflag==1){  colstandard_JM(ans,n,p);}
 
    pwh=Calloc(n*n,float);
    pwhh=Calloc(n*p,float);
 
-   transpose_mat(ans,&n,&p,pwhh);
+   transpose_mat_JM(ans,&n,&p,pwhh);
    printf("Calculating covariance matrix\n");
 
-   mmult(ans,n,p,pwhh,p,n,pwh);
+   mmult_JM(ans,n,p,pwhh,p,n,pwh);
    
    Free(pwhh);
    for(i=0;i<n;i++){
@@ -1530,12 +1530,12 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
    dd=Calloc(n,float);
    vv=Calloc(n*n,float);
    
-   svd(pwh,&n,&n,uu,dd,vv);
+   svd_JM(pwh,&n,&n,uu,dd,vv);
    pwhh=Calloc(n*n,float);
    for(i=0;i<n;i++){pwhh[n*i+i]=1/sqrt(dd[i]);}
   tmpm=Calloc(n*n,float);
-  transpose_mat(uu,&n,&n,tmpm);
-  mmult(pwhh,n,n,tmpm,n,n,pwh);
+  transpose_mat_JM(uu,&n,&n,tmpm);
+  mmult_JM(pwhh,n,n,tmpm,n,n,pwh);
   Free(tmpm);Free(pwhh);
 /*    Have ans as X, preprocessed data, (n*p) */
 /*    Have pwh as K, prewhitening matrix, (n*n) */
@@ -1543,7 +1543,7 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
   pwhh=Calloc(e*p,float);/* xone*/
   for(i=0;i<e;i++){
     for(j=0;j<n;j++){mat1[i*n+j]=pwh[i*n+j];}} 
-  mmult(mat1,e,n,ans,n,p,pwhh);
+  mmult_JM(mat1,e,n,ans,n,p,pwhh);
 /*    have mat1 as K1 */
 
 /*    Have pwhh as X1, (e*p) */
@@ -1556,7 +1556,7 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
 
 
 
-  onefy(ww,e,tmpm);  /*  Have tmpm as W1 */
+  onefy_JM(ww,e,tmpm);  /*  Have tmpm as W1 */
   wwpl=Calloc(e*e,float);
  
   /*--------------------------------------------------------------*/
@@ -1566,11 +1566,11 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
       printf("Symmetric FastICA using tanh approx. to neg-entropy function\n");
       i=1;
 /*        bff is initially taking W1 and X1 as args */
-      bff(tmpm,e,pwhh,e,p,*alpha,wwpl,&tol);
+      bff_JM(tmpm,e,pwhh,e,p,*alpha,wwpl,&tol);
       printf("Iteration %d tol=%f\n",i,tol);
       i=2;
       while((tol>(*lim)) && (i<(*maxit))){
-	bff(wwpl,e,pwhh,e,p,*alpha,wwpl,&tol);
+	bff_JM(wwpl,e,pwhh,e,p,*alpha,wwpl,&tol);
 	printf("Iteration %d tol=%f\n",i,tol);i+=1;
       } 
     }
@@ -1579,11 +1579,11 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
       printf("Symmetric FastICA using exp approx. to neg-entropy function\n");
       i=1;
 /*        bff is initially taking W1 and X1 as args */
-      bff2(tmpm,e,pwhh,e,p,*alpha,wwpl,&tol);
+      bff2_JM(tmpm,e,pwhh,e,p,*alpha,wwpl,&tol);
       printf("Iteration %d tol=%f\n",i,tol);
       i=2;
       while((tol>(*lim)) && (i<(*maxit))){
-	bff2(wwpl,e,pwhh,e,p,*alpha,wwpl,&tol);
+	bff2_JM(wwpl,e,pwhh,e,p,*alpha,wwpl,&tol);
 	printf("Iteration %d tol=%f\n",i,tol);i+=1;
       } 
 }
@@ -1597,16 +1597,16 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
       printf("Deflation FastICA using logcosh approx. to neg-entropy function\n");
      
      for(i=0;i<e;i++){k=0;
-     gramsch(ww,e,e,i+1);
-     rowstd(ww,e,e,i+1);
+     gramsch_JM(ww,e,e,i+1);
+     rowstd_JM(ww,e,e,i+1);
      tol=1;
      
      while((tol>(*lim)) & (k<(*maxit))){
        for(j=0;j<e;j++){dd[j]=ww[i*e+j];}  
-       anfu(dd,e,pwhh,e,p,*alpha,uu);
+       anfu_JM(dd,e,pwhh,e,p,*alpha,uu);
        for(j=0;j<e;j++){ww[i*e+j]=uu[j];}  
-       gramsch(ww,e,e,i+1);
-       rowstd(ww,e,e,i+1); 
+       gramsch_JM(ww,e,e,i+1);
+       rowstd_JM(ww,e,e,i+1); 
        tol=0;
        for(j=0;j<e;j++){tol+=((dd[j])*(ww[i*e+j]));}
        tol=(fabs(fabs(tol)-1));
@@ -1620,16 +1620,16 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
      
       printf("Deflation FastICA using logcosh approx. to neg-entropy function\n");
      for(i=0;i<e;i++){k=0;
-     gramsch(ww,e,e,i+1);
-     rowstd(ww,e,e,i+1);
+     gramsch_JM(ww,e,e,i+1);
+     rowstd_JM(ww,e,e,i+1);
      tol=1;
      
      while((tol>(*lim)) & (k<(*maxit))){
        for(j=0;j<e;j++){dd[j]=ww[i*e+j];}  
-       anfu2(dd,e,pwhh,e,p,*alpha,uu);
+       anfu2_JM(dd,e,pwhh,e,p,*alpha,uu);
        for(j=0;j<e;j++){ww[i*e+j]=uu[j];}  
-       gramsch(ww,e,e,i+1);
-       rowstd(ww,e,e,i+1); 
+       gramsch_JM(ww,e,e,i+1);
+       rowstd_JM(ww,e,e,i+1); 
        tol=0;
        for(j=0;j<e;j++){tol+=((dd[j])*(ww[i*e+j]));}
        tol=(fabs(fabs(tol)-1));
@@ -1648,29 +1648,29 @@ float *ans,*uu,*dd,*vv,*pwh,*pwhh,*tmpm,*ww,*wwpl;
  mat3=Calloc(e*p,float);
  mat4=Calloc(n*e,float);
 
- mmult(wwpl,e,e,mat1,e,n,mat2);/*    mat2 is UW (checked) */
- mmult(mat2,e,n,ans,n,p,mat3); /*   mat3 is X2 (checked) */
- transpose_mat(mat2,&e,&n,mat4); /*   mat4 is t(UW) (checked) */
+ mmult_JM(wwpl,e,e,mat1,e,n,mat2);/*    mat2 is UW (checked) */
+ mmult_JM(mat2,e,n,ans,n,p,mat3); /*   mat3 is X2 (checked) */
+ transpose_mat_JM(mat2,&e,&n,mat4); /*   mat4 is t(UW) (checked) */
 
  Free(mat1); mat1=Calloc(e*e,float);
- mmult(mat2,e,n,mat4,n,e,mat1); /*   mat1 to be inverted */
+ mmult_JM(mat2,e,n,mat4,n,e,mat1); /*   mat1 to be inverted */
 
  Free(uu);Free(dd);Free(vv);
  uu=Calloc(e*e,float);
  dd=Calloc(e,float);
  vv=Calloc(e*e,float);
  Free(mat2); 
- svd(mat1,&e,&e,uu,dd,vv); mat2=Calloc(e*e,float);
+ svd_JM(mat1,&e,&e,uu,dd,vv); mat2=Calloc(e*e,float);
  for(i=0;i<e;i++){mat2[e*i+i]=1/(dd[i]);}
  
  mat5=Calloc(e*e,float);
  mat6=Calloc(e*e,float);
- transpose_mat(vv,&e,&e,mat6);
- mmult(mat6,e,e,mat2,e,e,mat5);
- transpose_mat(uu,&e,&e,vv);
- mmult(mat5,e,e,vv,e,e,uu);
+ transpose_mat_JM(vv,&e,&e,mat6);
+ mmult_JM(mat6,e,e,mat2,e,e,mat5);
+ transpose_mat_JM(uu,&e,&e,vv);
+ mmult_JM(mat5,e,e,vv,e,e,uu);
  Free(mat2); mat2=Calloc(n*e,float);
- mmult(mat4,n,e,uu,e,e,mat2);  /*  mat2 is A (checked)   */
+ mmult_JM(mat4,n,e,uu,e,e,mat2);  /*  mat2 is A (checked)   */
  
  
  for(i=0;i<n;i++){for(j=0;j<p;j++){ansx[i*p+j]=ans[i*p+j];}}

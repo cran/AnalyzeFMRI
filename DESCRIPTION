@@ -1,6 +1,6 @@
 Package: AnalyzeFMRI
-Version: 1.0-4
-Date: 27/11/2001
+Version: 1.0-5
+Date: 28/11/2001
 Title: Functions for analysis of fMRI datasets stored in the ANALYZE format.
 Author: J L Marchini <marchini@stats.ox.ac.uk>
 Maintainer: J L Marchini <marchini@stats.ox.ac.uk>
