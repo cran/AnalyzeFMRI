@@ -15,7 +15,6 @@ N2G.Likelihood.Ratio(data, par)
 }
 \author{J. L. Marchini}
 
- ~Make other sections like WARNING with \section{WARNING }{....} ~
 
 \seealso{\code{\link{N2G.Class.Probability}},   \code{\link{N2G.Spatial.Mixture}},
  \code{\link{N2G.Density}} ,         \code{\link{N2G.Likelihood}} ,   \code{\link{N2G.Transform}},

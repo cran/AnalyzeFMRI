@@ -6,11 +6,11 @@
 /* functions for calculating spatial clusters and their properties by thresholding a statistic map/image. A neighbouthood matrix nmat is used to determine connectivity. */
 
 
-void twovoxtyp(long*, long*, long*, long*, long*); 
+void twovoxtyp(Sint*, Sint*, Sint*, Sint*, Sint*); 
 
 
-void cluster_mass(float *array, long *array_dim, long *nmat, long *nmat_dim,
-float *thresh_value, long *ans, float *ans1){
+void cluster_mass(float *array, Sint *array_dim, Sint *nmat, Sint *nmat_dim,
+float *thresh_value, Sint *ans, float *ans1){
 
   /* thresholds a 3D array and calculates the number of clusters, the maximum entry in each cluster and the mass above the threshold of each cluster
      
@@ -24,7 +24,7 @@ float *thresh_value, long *ans, float *ans1){
  
  
   int i,j,k,num=0,n,row,comp,clust_num;
-  long *vox_mat,*vox_rel,x,y,z,t;  
+  Sint *vox_mat,*vox_rel,x,y,z,t;  
   float *vox_mat_vals;
   
   
@@ -33,7 +33,7 @@ float *thresh_value, long *ans, float *ans1){
  y= *(array_dim+1);
  z= *(array_dim+2);
 
- vox_mat=Calloc(3,long);
+ vox_mat=Calloc(3,Sint);
  vox_mat_vals=Calloc(1,float);
 
 
@@ -43,12 +43,12 @@ float *thresh_value, long *ans, float *ans1){
 	
 	if(*(array+i*y*z+j*z+k)>*thresh_value){
 
-	  vox_mat=Realloc(vox_mat,3*(num+1),long);
+	  vox_mat=Realloc(vox_mat,3*(num+1),Sint);
 	  vox_mat_vals=Realloc(vox_mat_vals,(num+1),float);
 	  
-	  *(vox_mat+num*3)=(long) i+1;
-	  *(vox_mat+num*3+1)=(long) j+1;
-	  *(vox_mat+num*3+2)=(long) k+1;
+	  *(vox_mat+num*3)=(Sint) i+1;
+	  *(vox_mat+num*3+1)=(Sint) j+1;
+	  *(vox_mat+num*3+2)=(Sint) k+1;
 	  *(vox_mat_vals+num)=*(array+i*y*z+j*z+k);
 	  num+=1;
 	 
@@ -58,7 +58,7 @@ float *thresh_value, long *ans, float *ans1){
  }
  
     if(num>0){
-	vox_rel=Calloc(num*num,long);
+	vox_rel=Calloc(num*num,Sint);
 	
 	for(i=0;i<(num-1);i++){
 	  for(j=i+1;j<num;j++){
@@ -94,7 +94,7 @@ float *thresh_value, long *ans, float *ans1){
 		for(i=0;i<num*(n-row);i++) *(vox_rel+(row-1)*num+i)=*(vox_rel+(row)*num+i);
 	  
 		n-=1;
-		vox_rel=Realloc(vox_rel,num*n,long);
+		vox_rel=Realloc(vox_rel,num*n,Sint);
 		comp=0;
 	      }
 	    else { comp-=1;}
@@ -102,11 +102,11 @@ float *thresh_value, long *ans, float *ans1){
 	    }
 	  row-=1;}  
     
-	*ans=(long) n;
+	*ans=(Sint) n;
 	
 	for(i=0;i<n;i++){
 	  for(j=0;j<num;j++){
-	    if(*(vox_rel+i*num+j)>0) *(vox_rel+i*num+j)=(long) i+1;
+	    if(*(vox_rel+i*num+j)>0) *(vox_rel+i*num+j)=(Sint) i+1;
 	  }
 	}
 
@@ -159,13 +159,13 @@ float *thresh_value, long *ans, float *ans1){
 
 
 
-void twovoxtyp(long *voxel1, long *voxel2, long *nmat, long *nmat_dim, long *ans){ 
+void twovoxtyp(Sint *voxel1, Sint *voxel2, Sint *nmat, Sint *nmat_dim, Sint *ans){ 
 /* tests whether two voxels are neighbours using neighbourhood matrix nmat */
 
 
   int i;
-  long *dif; 
-  dif=Calloc(3,long); 
+  Sint *dif; 
+  dif=Calloc(3,Sint); 
  
   *ans=0;
  

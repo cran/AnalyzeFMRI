@@ -64,3 +64,10 @@ Version 1.0-8 :
  Version 1.0-9
 
 -changed detection of blas & lapack, to be MacOS X compatible (no lsame in BLAS)
+
+2004-12-23
+----------
+
+ Version 1.1-0
+
+-implemented Brian's changes

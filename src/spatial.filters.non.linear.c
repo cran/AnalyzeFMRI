@@ -6,12 +6,12 @@
   (i)   3D arrays
   (ii)  4D arrays (using sums of squared differences between time-series)*/
 
-void non_lin_gauss_smooth(float *array, long *array_dim, float *mask, float *radius, float *g, float *pixdim, float *ans_array){
+void non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, float *radius, float *g, float *pixdim, float *ans_array){
 
 /* spatial smoothing using a gaussian kernel with sd=g to supply the weights */
 
   int i,j,k,l,i1,j1,k1,nk,*u;
-  long x,y,z;
+  Sint x,y,z;
   float f=0.0,total=0.0,a,b,c,dist,yi,yj;
 
  x= *(array_dim);
@@ -74,11 +74,11 @@ void non_lin_gauss_smooth(float *array, long *array_dim, float *mask, float *rad
 
 }
 
-void temporal_non_lin_gauss_smooth(float *array, long *array_dim, float *mask, float *radius, float *g, float *pixdim, float *ans_array){
+void temporal_non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, float *radius, float *g, float *pixdim, float *ans_array){
 
   /*smooths time-series spatially based on sums of squared differences in pairs of time-series*/
   int i,j,k,l,m,n,i1,j1,k1,nk,*u;
-  long x,y,z,t;
+  Sint x,y,z,t;
   float f=0.0,total=0.0,a,b,c,dist,temp;
 
  x= *(array_dim);
