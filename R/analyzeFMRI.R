@@ -5,7 +5,8 @@ f.read.analyze.header<-function(file){
  file.hdr<-paste(file.name,".hdr",sep="")
  file.img<-paste(file.name,".img",sep="")
 
-
+ if(file.exists(file.img)==F) return(paste(file.img,"not found"))
+ if(file.exists(file.hdr)==F) return(paste(file.hdr,"not found")) 
  
 #Detect whether the data is big or little endian. The first part of a .hdr file is the size of the file which is always a C int (i.e. 4 bytes) and always has value 348. Therefore trying to read it in assuming little-endian will tell you if that is the correct mode
 
@@ -233,6 +234,84 @@ offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]+(slice-1)*hdr$dim[2]*hdr$dim[3]
              as.integer(num.data.pts),
 	     as.integer(offset*8),
              as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
+  
+     if(hdr$datatype==0||hdr$datatype==1||hdr$datatype==32||hdr$datatype==128||hdr$datatype==255) print(paste("The format",hdr$data.type,"is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"),quote=F)
+       
+   return(vol)}
+
+
+f.read.analyze.tpt<-function(file,tpt){
+  #Reads in one timepoint of a .img file into an array
+  file.name<-substring(file,1,nchar(file)-4)
+   file.hdr<-paste(file.name,".hdr",sep="")
+   file.img<-paste(file.name,".img",sep="")
+   hdr<-f.read.analyze.header(file.hdr)
+  #f.analyze.file.summary(file)
+
+  #num.dim<-hdr$dim[1]
+   dim<-hdr$dim[2:4]
+  
+  num.data.pts<-dim[1]*dim[2]*dim[3]
+  if(tpt<1 || tpt>hdr$dim[5]) stop("tpt is not in range")
+  
+offset<-(tpt-1)*hdr$dim[2]*hdr$dim[3]*hdr$dim[4]
+  
+   if(hdr$datatype==2){
+
+     vol<-.C("readchar_v1",
+             mat=integer(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*1),
+	as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
+   if(hdr$datatype==4){
+     vol<-.C("read2byte_v1",
+             mat=integer(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*2),
+             as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
+   if(hdr$datatype==8){
+     vol<-.C("read4byte_v1",
+             mat=integer(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*4),
+	as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
+   if(hdr$datatype==16){
+     vol<-.C("readfloat_v1",
+             mat=single(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*4),
+	as.integer(1))
+     vol<-array(vol$mat,dim=dim)
+    #this works because array fills itself with the left most subscript moving fastest
+   }
+   if(hdr$datatype==64){
+     vol<-.C("readdouble_v1",
+             mat=numeric(num.data.pts),
+             file.img,
+             as.integer(hdr$swap),
+             as.integer(num.data.pts),
+	     as.integer(offset*8),
+	as.integer(1))
      vol<-array(vol$mat,dim=dim)
     #this works because array fills itself with the left most subscript moving fastest
    }
@@ -524,9 +603,8 @@ f.spectral.summary<-function(file,mask.file,ret.flag=F)
   nsl<-hdr$dim[4]
   xc<-hdr$dim[2]
   yc<-hdr$dim[3]
- 
   if(slices[1]==0){slices<-seq(1,nsl)}
-  mask<-array(0,dim=c(length(slices),xc,yc))
+  mask<-array(0,dim=c(xc,yc,length(slices)))
 
   max.int<-0
   for(k in 1:length(slices)){        
@@ -535,15 +613,16 @@ f.spectral.summary<-function(file,mask.file,ret.flag=F)
   }
 
   for(k in 1:length(slices)){        
-    slice<-f.read.analyze.slice.at.all.timepoints(dat$file,slices[k])
-
+      slice<-f.read.analyze.slice.at.all.timepoints(dat$file,slices[k])
+    
     for(i in 1:(xc*yc)){
       a<-(i-1)%/%xc+1
       b<-i-(a-1)*xc     
-      mask[k,b,a]<-mean(slice[b,a,])}
-
-    if(mask[k,b,a]>=(pct*max.int)){mask[k,b,a]<-1}
-    else{mask[k,b,a]<-0}
+      mask[b,a,k]<-mean(slice[b,a,])
+      
+      if(mask[b,a,k]>=(pct*max.int)){mask[b,a,k]<-1}
+      else{mask[b,a,k]<-0}
+  }
   }
 
   return(mask)
@@ -553,10 +632,8 @@ f.spectral.summary<-function(file,mask.file,ret.flag=F)
   if(mask.file!=F){mask<-f.read.analyze.volume(mask.file)}
   else{
 dat<-list(file=file,mask.file=mask.file)
-    mask<-f.mask.create(dat)}
-  dim(mask)<-hdr$dim[2:4]
-    
-###############
+    mask<-f.mask.create(dat=dat)}
+  dim(mask)<-hdr$dim[2:4]###############
 #set constants
 ###############
   
@@ -835,13 +912,14 @@ f.plot.ica.fmri<-function (obj.ica, comp, cols = heat.colors(100))
     par(mfrow = c(im, im), mar = c(.5, .5, .5, .5))
     plot(c(0,1),c(0,1),typ="n",axes=F,xlab="",ylab="")
 
-    text(0,.9,paste("ICA component ",comp,sep=""),pos=4,cex=1.5)
+    text(0,.9,"Spatial ICA",pos=4,cex=1.5)
+    text(0,.75,paste("Component ",comp,sep=""),pos=4,cex=1.5)
     l<-floor(nchar(obj.ica$file)/20)+1
-    text(0,.7,paste("file: ",substring(obj.ica$file,1,20),sep=""),pos=4)
+    text(0,.6,paste("file: ",substring(obj.ica$file,1,20),sep=""),pos=4)
     for(i in 2:l){
-    text(0,.7-.07*(i-1),paste("       ",substring(obj.ica$file,20*(i-1)+1,20*i),sep=""),pos=4)
+    text(0,.6-.07*(i-1),paste("       ",substring(obj.ica$file,20*(i-1)+1,20*i),sep=""),pos=4)
 }
-     text(0,.7-.07*(l+1),paste("Date: ",date(),sep=""),pos=4)
+     text(0,.6-.07*(l+1),paste("Date: ",date(),sep=""),pos=4)
     
     for (i in 1:nsl) {
         image(tmp[, , i], zlim = r, axes = F, col = cols)
@@ -854,11 +932,13 @@ f.plot.ica.fmri<-function (obj.ica, comp, cols = heat.colors(100))
     box()
     s <- fft(obj.ica$A[, comp])/sqrt(2 * pi * t)
     s <- Mod(s[2:(floor(t/2) + 1)])^2
-    plot(s, axes = F,typ="l")
-    text(length(s)/2,max(s),"Peiodogram",pos=1)
+    r<-c(0,max(s))
+    plot(s, axes = F,typ="l",ylim=r*1.5)
+    text(length(s)/2,1.5*r[2],"Peiodogram",pos=1)
     box()
     par(mfrow = c(1, 1), mar = c(5, 4, 4, 2))
 }
+
 f.ica.fmri.gui<-function(){
 
   #starts GUI that allows user apply Spatial ICA to an fMRI dataset

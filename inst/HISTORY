@@ -17,3 +17,14 @@ Version 1.0-2 :
 Version 1.0-3 : 
 - Include facility to plot results out to jpeg files
 - Improve format of plotting
+
+
+27/11/2001
+----------
+
+Version 1.0-4 :
+- Checks for existence of .hdr and .img files are now made
+- New file finding GUI
+- small bugs removed from f.analyzeFMRI.gui() and f.spectral.summary()
+
+
