@@ -43,3 +43,10 @@ Version 1.0-6 :
 - tests directory added to check read and write functions work on examples
 - proper error reporting used in C code (using error function)
 - README.win file added to inst that describes installation of the package binary for Windows
+
+15/04/2002
+----------
+
+Version 1.0-7 :
+
+- tcltk scripts updated to avoid use of deprecated $.tclvar 
