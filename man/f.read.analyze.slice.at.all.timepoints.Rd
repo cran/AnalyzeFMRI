@@ -17,6 +17,8 @@
   \code{\link{f.read.analyze.volume}}   
 
 }
-\examples{a<-f.read.analyze.slice.at.all.timepoints(paste(.lib.loc,"AnalyzeFMRI","example.img",sep=.Platform$file.sep),10)}
+\examples{
+a<-f.read.analyze.slice.at.all.timepoints(system.file("example.img", package="AnalyzeFMRI"),10)
 dim(a)
+}
 \keyword{utilities}

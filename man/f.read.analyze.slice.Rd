@@ -18,6 +18,8 @@
   \code{\link{f.read.analyze.volume}}
  
 }
-\examples{a<-f.read.analyze.slice(paste(.lib.loc,"AnalyzeFMRI","example.img",sep=.Platform$file.sep),10,1)
-dim(a)}
+\examples{
+a<-f.read.analyze.slice(system.file("example.img", package="AnalyzeFMRI"),10,1)
+dim(a)
+}
 \keyword{utilities}

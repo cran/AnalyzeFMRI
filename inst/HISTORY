@@ -1,9 +1,9 @@
-10/08/2001
+2001-10-08
 ----------
 
 Version 1.0-1 : Renamed version of AnalyzeIO with added functions and GUI to perform Spatial ICA on fMRI datasets.
 
-29/08/2001 
+2001-08-29 
 ----------
 
 Version 1.0-2 : 
@@ -11,7 +11,7 @@ Version 1.0-2 :
 - Slice selection for Spatial ICA
 - Improved plotting for Spatial ICA
 
-08/09/2001 
+2001-09-08 
 ----------
 
 Version 1.0-3 : 
@@ -19,7 +19,7 @@ Version 1.0-3 :
 - Improve format of plotting
 
 
-27/11/2001
+2001-11-27
 ----------
 
 Version 1.0-4 :
@@ -28,13 +28,13 @@ Version 1.0-4 :
 - small bugs removed from f.analyzeFMRI.gui() and f.spectral.summary()
 
 
-06/12/2001
+2001-12-06
 ----------
 
 Version 1.0-5 :
 - all C functions have _JM appended to their names to stop clashes with symbols in other packages
 
-26/03/2002
+2002-03-26
 ----------
 
 Version 1.0-6 :
@@ -44,9 +44,16 @@ Version 1.0-6 :
 - proper error reporting used in C code (using error function)
 - README.win file added to inst that describes installation of the package binary for Windows
 
-15/04/2002
+2002-04-15
 ----------
 
 Version 1.0-7 :
 
 - tcltk scripts updated to avoid use of deprecated $.tclvar 
+
+2002-09-09
+----------
+
+Version 1.0-8 :
+
+- .lib.loc references changed in preparation for 1.6.0 (with help from BDR)

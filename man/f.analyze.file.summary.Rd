@@ -18,5 +18,7 @@
   \code{\link{f.write.array.to.img.float}},
   \code{\link{f.write.list.to.hdr}},
    \code{\link{f.basic.hdr.list.create}}   }
-\examples{f.analyze.file.summary(paste(.lib.loc,"AnalyzeFMRI","example.img",sep=.Platform$file.sep))}
+ \examples{
+f.analyze.file.summary(system.file("example.img", package="AnalyzeFMRI"))
+}
 \keyword{utilities}

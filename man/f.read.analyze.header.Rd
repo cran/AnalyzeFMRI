@@ -23,7 +23,9 @@
 \item{glmin}{minimum voxel value}}
 \seealso{
   \code{\link{f.analyze.file.summary}}}
-\examples{f.read.analyze.header(paste(.lib.loc,"AnalyzeFMRI","example.hdr",sep=.Platform$file.sep))}
+\examples{
+f.read.analyze.header(system.file("example.hdr", package="AnalyzeFMRI"))
+}
 \keyword{utilities}
 
 

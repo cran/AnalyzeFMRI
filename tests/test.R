@@ -6,7 +6,7 @@ library(AnalyzeFMRI)
 
 ## Test that reading of examples works
 
-a1 <- f.read.analyze.volume(paste(.lib.loc, "AnalyzeFMRI", "example.img", sep = .Platform$file.sep))
+a1 <- f.read.analyze.volume(system.file("example.img", package="AnalyzeFMRI"))
 
 a1[30:40, 30:40, 10, 1]
 

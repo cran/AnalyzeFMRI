@@ -14,5 +14,7 @@ seealso{
   \code{\link{f.read.analyze.slice}},
   \code{\link{f.read.analyze.slice.at.all.timepoints}},
   \code{\link{f.write.analyze}}, }
-\examples{f.read.analyze.tpt(paste(.lib.loc,"AnalyzeFMRI","example.img",sep=.Platform$file.sep),1)}
+\examples{
+f.read.analyze.tpt(system.file("example.img", package="AnalyzeFMRI"),1)
+}
 \keyword{utilities}
