@@ -6,6 +6,8 @@ f.ica.fmri               Applies Spatial ICA (Independent Component
 f.ica.fmri.gui           tcltk GUI to apply ICA to fMRI datasets
 f.plot.ica.fmri          Plots a specified component from the output of
                          f.ica.fmri
+f.plot.ica.fmri.jpg      Plot the components of the ouput of f.ica.fmri
+                         to a series of jpeg files
 f.read.analyze.header    read Analyze header file
 f.read.analyze.slice     read one slice from a .img file
 f.read.analyze.slice.at.all.timepoints

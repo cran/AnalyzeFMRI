@@ -74,7 +74,10 @@ alg.type="parallel", alpha=1, tol=1e-04, mask.file.name=NULL, slices=NULL)
   
   \item{A}{estimated mixing matrix}
   \item{S}{estimated source matrix that has been rearranged spatially
-    i.e. S is a 4-D array and S[,,,i] contains the 3-D map of the ith component}
+    i.e. S is a 4-D array and S[,,,i] contains the 3-D map of the ith
+    component}
+  \item{file}{the name of the data file}
+  \item{mask}{the name of the mask file}
 }
 \references{A. Hyvarinen and E. Oja (2000) Independent Component
   Analysis: Algorithms and Applications, Neural Networks,

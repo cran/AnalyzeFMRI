@@ -808,29 +808,57 @@ f.ica.fmri<-function(file.name,n.comp,norm.col=T,fun="logcosh",maxit=1000,alg.ty
  
   A<-matrix(a$A,hdr$dim[5],n.comp,byrow=T)
 
-  return(list(A=A,S=S))
-}
-      
-f.plot.ica.fmri<-function(obj.ica,comp,cols=heat.colors(100)){
-
-  #plots output of f.ica.fmri
-    r<-range(obj.ica$S[,,,comp],na.rm=T)
-  tmp<-1000*(obj.ica$S[,,,comp]==0)+(obj.ica$S[,,,comp])*(obj.ica$S[,,,comp]!=0)
-  ncomp<-dim(obj.ica$S)[4]
-  nsl<-dim(obj.ica$S)[3]
-  t<-nrow(obj.ica$A)
-  im<-floor(sqrt(nsl+2))+1
-  par(mfrow = c(im, im), mar = c(0,0,0,0))
-  for(i in 1:nsl){
-    image(tmp[,,i],zlim=r,axes=F,col=cols);box()
-  }
-  plot(obj.ica$A[,comp],typ="l",axes=F);box()
-  s<-fft(obj.ica$A[,comp])/sqrt(2*pi*t)
-  s<-Mod(s[2:(floor(t/2)+1)])^2
-  plot(s,axes=F);box()
-  par(mfrow = c(1, 1), mar = c(5, 4, 4, 2))  
+  return(list(A=A,S=S,file=file.name,mask=mask.file.name))
 }
 
+f.plot.ica.fmri.jpg<-function(ica.obj,file="./ica",cols = heat.colors(100),width =700, height =700){
+
+    for(i in 1:dim(ica.obj$S)[4]){
+
+        jpeg(file=paste(file,".comp.",i,".jpeg",sep=""),width=width,height=height)
+        f.plot.ica.fmri(ica.obj, i, cols = cols)
+        dev.off()
+    }
+    return()
+}
+        
+     
+f.plot.ica.fmri<-function (obj.ica, comp, cols = heat.colors(100))
+{
+    r <- range(obj.ica$S[, , , comp], na.rm = T)
+    tmp <- 1000 * (obj.ica$S[, , , comp] == 0) + (obj.ica$S[,
+        , , comp]) * (obj.ica$S[, , , comp] != 0)
+    ncomp <- dim(obj.ica$S)[4]
+    nsl <- dim(obj.ica$S)[3]
+    t <- nrow(obj.ica$A)
+    im <- floor(sqrt(nsl + 3)) + 1
+    par(mfrow = c(im, im), mar = c(.5, .5, .5, .5))
+    plot(c(0,1),c(0,1),typ="n",axes=F,xlab="",ylab="")
+
+    text(0,.9,paste("ICA component ",comp,sep=""),pos=4,cex=1.5)
+    l<-floor(nchar(obj.ica$file)/20)+1
+    text(0,.7,paste("file: ",substring(obj.ica$file,1,20),sep=""),pos=4)
+    for(i in 2:l){
+    text(0,.7-.07*(i-1),paste("       ",substring(obj.ica$file,20*(i-1)+1,20*i),sep=""),pos=4)
+}
+     text(0,.7-.07*(l+1),paste("Date: ",date(),sep=""),pos=4)
+    
+    for (i in 1:nsl) {
+        image(tmp[, , i], zlim = r, axes = F, col = cols)
+        text(.5,.98,paste("slice",i),pos=1)
+        box()
+    }
+    r<-range(obj.ica$A[, comp])
+    plot(obj.ica$A[, comp], typ = "l", axes = F,ylim=r*1.5)
+    text(length(obj.ica$A[, comp])/2,1.5*r[2],"Time course",pos=1)
+    box()
+    s <- fft(obj.ica$A[, comp])/sqrt(2 * pi * t)
+    s <- Mod(s[2:(floor(t/2) + 1)])^2
+    plot(s, axes = F,typ="l")
+    text(length(s)/2,max(s),"Peiodogram",pos=1)
+    box()
+    par(mfrow = c(1, 1), mar = c(5, 4, 4, 2))
+}
 f.ica.fmri.gui<-function(){
 
   #starts GUI that allows user apply Spatial ICA to an fMRI dataset

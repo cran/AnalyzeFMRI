@@ -88,6 +88,13 @@ tmp.ica.obj<<-f.ica.fmri(tclvar$file,n.comp=as.numeric(tclvar$n.comp),norm.col=v
   
 }
 
+gui.jpeg<-function(...){  
+  f.plot.ica.fmri.jpg(tmp.ica.obj,tclvar$jpeg,width=700,height=700)}
+
+gui.end<-function(...){
+    rm(tmp.ica.obj,envir=.GlobalEnv)
+    tkdestroy(base.ica)
+}
 gui.plot.ica<-function(...){  
   f.plot.ica.fmri(tmp.ica.obj,as.numeric(tclvar$comp))}
 
@@ -140,20 +147,30 @@ gui.plot.ica<-function(...){
   
   tkgrid(ica.f4,sticky="ew")
 
-  #frame for plotting components
+  #frame for plotting components to jpeg files
   ica.f5 <- tkframe(base.ica, relief="groove", borderwidth=2,bg="#555555")
 
-  ica.plot.entry<-tkentry(ica.f5, textvariable="comp",width=5,bg="#ffffff")
-  ica.plot.but <- tkbutton(ica.f5, text="Plot component",width=15, command=gui.plot.ica,bg="#aaaaaa")
-  tkgrid(ica.plot.but,ica.plot.entry,padx=10,pady=10)
+  ica.jpeg.entry<-tkentry(ica.f5, textvariable="jpeg",width=40,bg="#ffffff")
+  ica.jpeg.but <- tkbutton(ica.f5, text="Save to jpeg files",width=15, command=gui.jpeg,bg="#aaaaaa")
+  tkgrid(ica.jpeg.but,ica.jpeg.entry,padx=10,pady=10)
   
   tkgrid(ica.f5,sticky="ew")
+
+
+  #frame for plotting components
+  ica.f6 <- tkframe(base.ica, relief="groove", borderwidth=2,bg="#555555")
+
+  ica.plot.entry<-tkentry(ica.f6, textvariable="comp",width=5,bg="#ffffff")
+  ica.plot.but <- tkbutton(ica.f6, text="Plot component",width=15, command=gui.plot.ica,bg="#aaaaaa")
+  tkgrid(ica.plot.but,ica.plot.entry,padx=10,pady=10)
+  
+  tkgrid(ica.f6,sticky="ew")
   
   #frame for start and end buttons     
   fr3 <- tkframe(base.ica, borderwidth=2,bg="#555555")
   go.but<- tkbutton(fr3,text="Start",bg="#aaaaaa",command=gui.ica)
   q.but <- tkbutton(fr3,text="Quit",
-                    command=function()tkdestroy(base.ica),bg="#aaaaaa")
+                    command=gui.end,bg="#aaaaaa")
   tkgrid(go.but,q.but,padx=30,pady=20)
   tkgrid(fr3)
 

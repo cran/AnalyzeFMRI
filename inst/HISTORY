@@ -10,3 +10,10 @@ Version 1.0-2 :
 - Include facility to read/write unsigned char (1 byte) ANALYZE image format files. 
 - Slice selection for Spatial ICA
 - Improved plotting for Spatial ICA
+
+08/09/2001 
+----------
+
+Version 1.0-3 : 
+- Include facility to plot results out to jpeg files
+- Improve format of plotting
