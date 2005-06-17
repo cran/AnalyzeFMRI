@@ -398,6 +398,7 @@ f.read.analyze.slice.at.all.timepoints <- function(file, slice){
                       as.integer(offset * 4),
                       as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
+            vl[, , i] <- vol
         }
     }
 
@@ -412,6 +413,7 @@ f.read.analyze.slice.at.all.timepoints <- function(file, slice){
                       as.integer(offset * 8),
                       as.integer(1), PACKAGE="AnalyzeFMRI")
             vol <- array(vol$mat, dim = dim)
+            vl[, , i] <- vol
         }}
 
     if(hdr$datatype == 0 || hdr$datatype == 1 || hdr$datatype == 32 || hdr$datatype == 128 || hdr$datatype == 255) print(paste("The format", hdr$data.type, "is not supported yet. Please contact me if you want me to extend the functions to do this (marchini@stats.ox.ac.uk)"), quote = FALSE)
