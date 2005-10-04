@@ -78,3 +78,10 @@ Version 1.0-8 :
  Version 1.1-3
 
 -bug fix in function f.read.analyze.slice.at.all.timepoints discovered by Russell V. Lenth
+
+2005-10-04
+----------
+
+ Version 1.1-4
+
+-put continuation lines in fortran code to make compatible with default use of gfortran in R-2.2.0

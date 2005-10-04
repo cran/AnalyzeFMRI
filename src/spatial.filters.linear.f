@@ -1,9 +1,11 @@
-	subroutine gaussfilter1(mat,mx,my,mz,mw,filtermat,ksiz,mask,smoothed) 	
+	subroutine gaussfilter1(mat,mx,my,mz,mw,filtermat,ksiz,mask,smoo
+     1  thed) 	
 
 COMMENT applies a 3D discrete filter to a 4D array using a mask
 
 	integer mx,my,mz,mw,ksiz,m1,m2,m3,e,i,j,k,m
-	double precision mat(mx,my,mz,mw),filtermat(ksiz,ksiz,ksiz),smoothed(mx,my,mz,mw),mask(mx,my,mz),total,f
+	double precision mat(mx,my,mz,mw),filtermat(ksiz,ksiz,ksiz)
+	double precision smoothed(mx,my,mz,mw),mask(mx,my,mz),total,f
 	
 
 	e=(ksiz+1)/2
@@ -19,13 +21,14 @@ COMMENT applies a 3D discrete filter to a 4D array using a mask
 			  do m2=1,ksiz
 			     do m3=1,ksiz
 				
-				if((0.lt.(i-e+m1)).and.((i-e+m1).le.mx).and.(0.lt.(j-e+m2))) then
-				   if(((j-e+m2).le.my).and.(0.lt.(k-e+m3)).and.((k-e+m3).le.mz))then
+	if((0.lt.(i-e+m1)).and.((i-e+m1).le.mx).and.(0.lt.(j-e+m2))) then
+	if(((j-e+m2).le.my).and.(0.lt.(k-e+m3)).and.((k-e+m3).le.mz))then
 				      
 				      
-				      total=total+filtermat(m1,m2,m3)*mat(i-e+m1,j-e+m2,k-e+m3,m)*mask(i-e+m1,j-e+m2,k-e+m3)
+	total=total+filtermat(m1,m2,m3)*mat(i-e+m1,j-e+m2,k-e+m3,m)*
+     1  mask(i-e+m1,j-e+m2,k-e+m3)
 				      
-				      f=f+filtermat(m1,m2,m3)*mask(i-e+m1,j-e+m2,k-e+m3)
+	f=f+filtermat(m1,m2,m3)*mask(i-e+m1,j-e+m2,k-e+m3)
 				      
 				   end if
 				end if
@@ -51,11 +54,14 @@ COMMENT applies a 3D discrete filter to a 4D array using a mask
 
 
 
-	subroutine gaussfilter2(mat, mx, my, mz, mw, filtermat, d, mask, smoothed)
+	subroutine gaussfilter2(mat, mx, my, mz, mw, filtermat, d, 
+     1  mask, smoothed)
 	
 COMMENT applies a 3D discrete filter to a 4D array and normalises so variance is unchanged
 	integer mx, my, mz, mw, d, m1, m2, m3, e, i, j, k, l
-	double precision mat(mx, my, mz, mw), filtermat(d, d, d), smoothed(mx, my, mz, mw), mask(mx, my, mz), total, f, f2 	
+	double precision mat(mx, my, mz, mw), filtermat(d, d, d)
+	double precision smoothed(mx, my, mz, mw), mask(mx, my, mz),
+     1  total, f, f2 	
 
 	e = (d + 1) / 2
 	do i = 1, mx
@@ -72,11 +78,14 @@ COMMENT applies a 3D discrete filter to a 4D array and normalises so variance is
 			  do m2 = 1, d
 			     do m3 = 1, d
 				
-				if((0.lt.(i - e + m1)).and.((i - e + m1).le.mx).and.(0.lt.(j - e + m2))) then
-				   if(((j - e + m2).le.my).and.(0.lt.(k - e + m3)).and.((k - e + m3).le.mz))then
-				      total = total + filtermat(m1, m2, m3) * mat(i - e + m1, j - e + m2, k - e + m3, l)
-COMMENT				      f = f + filtermat(m1, m2, m3)
-				      f2 = f2 + filtermat(m1, m2, m3) ** (2.0)
+	if((0.lt.(i - e + m1)).and.((i - e + m1).le.mx).and.
+     1  (0.lt.(j - e + m2))) then
+	if(((j - e + m2).le.my).and.(0.lt.(k - e + m3)).and.
+     1  ((k - e + m3).le.mz))then
+	total = total + filtermat(m1, m2, m3) * 
+     1  mat(i - e + m1, j - e + m2, k - e + m3, l)
+COMMENT	      f = f + filtermat(m1, m2, m3)
+	 f2 = f2 + filtermat(m1, m2, m3) ** (2.0)
 				      
 				   end if
 				end if 			
