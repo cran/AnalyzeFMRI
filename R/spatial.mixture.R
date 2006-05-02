@@ -282,7 +282,7 @@ cluster.threshold <- function(x, nmat = NULL, level.thr = 0.5, size.thr) {
             as.integer(dim(x)),
             as.integer(t(nmat)),
             as.integer(dim(nmat)),
-            as.integer(level.thr),
+            as.single(level.thr),
             num.c = integer(1),
             res.c = single(1000 * 6),
             PACKAGE = "AnalyzeFMRI")

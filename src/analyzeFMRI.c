@@ -95,7 +95,8 @@ void read_analyze_header_JM(struct header*, char*, int*);
 void print_analyze_header_JM(struct header*);
 
 void read_data_as_float_JM(struct data_array *, struct header *, char*, int*);
-void create_data_matrix_JM(struct data_array *,struct data_array *, int*, float*);void size_mask_JM(struct data_array *, struct data_array *, int*);
+void create_data_matrix_JM(struct data_array *,struct data_array *, int*, float*);
+void size_mask_JM(struct data_array *, struct data_array *, int*);
 void mask_mask_JM(struct data_array *, struct data_array *, int*, int*);
 void create_mask_JM(struct data_array *, struct data_array *, int*);
 void max_vec_JM(float*, int, float*);
@@ -1136,8 +1137,8 @@ void create_data_matrix_JM(struct data_array *array, struct data_array *mask, in
   for(i = 0;i<x;i++){
     for(j = 0;j<y;j++){
       for(k = 0;k<z;k++){
-	if(*((*mask).data + k*x*y + j*y + i) == 1.0){	
-	  for(l = 0;l<t;l++){*(data_matrix + l*(*mask_size) + count) = *((*array).data + l*(x*y*z) + k*x*y + j*y + i);}
+	if(*((*mask).data + k*x*y + j*x + i) == 1.0){	
+	  for(l = 0;l<t;l++){*(data_matrix + l*(*mask_size) + count) = *((*array).data + l*(x*y*z) + k*x*y + j*x + i);}
 	  count+=1;}
       }
     }

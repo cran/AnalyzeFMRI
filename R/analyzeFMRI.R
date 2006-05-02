@@ -1,4 +1,5 @@
 
+
 f.read.analyze.header <- function(file){
   #This function reads in the information from an ANALYZE format .hdr file
     file.name <- substring(file, 1, nchar(file) - 4)
@@ -480,7 +481,7 @@ f.read.analyze.ts <- function(file, x, y, z){
         for(i in 1:hdr$dim[5]){
 
             v <- .C("readfloat_v1_JM",
-                    mat = integer(1),
+                    mat = single(1),
                     file.img,
                     as.integer(hdr$swap),
                     as.integer(1),
@@ -493,7 +494,7 @@ f.read.analyze.ts <- function(file, x, y, z){
         for(i in 1:hdr$dim[5]){
 
             v <- .C("readdouble_v1_JM",
-                    mat = integer(1),
+                    mat = numeric(1),
                     file.img,
                     as.integer(hdr$swap),
                     as.integer(1),

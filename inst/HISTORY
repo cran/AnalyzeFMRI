@@ -85,3 +85,11 @@ Version 1.0-8 :
  Version 1.1-4
 
 -put continuation lines in fortran code to make compatible with default use of gfortran in R-2.2.0
+
+2006-05-02
+----------
+
+ Version 1.1-5
+
+-bug fixes in R functions cluster.threshold and f.read.analyze.ts
+-bug fix in C function create_data_matrix_JM

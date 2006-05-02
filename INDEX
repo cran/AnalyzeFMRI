@@ -1,35 +1,8 @@
-EC.3D                   Expected Euler Characteristic for a 3D Random
-                        Field
-GaussSmoothArray        Spatially smooth an array with Gaussian
-                        kernel.
-GaussSmoothKernel       Calculates a discrete Gaussian smoothing
-                        kernel.
-N2G                     Fits the N2G model
-N2G.Class.Probability   Posterior Probabilities for N2G model
-N2G.Density             Calculates the density function for the N2G
-                        model
-N2G.Fit                 Optimzation function for N2G model
-N2G.Inverse             Transform parameters of N2G model back to
-                        their real domains
-N2G.Likelihood          Calculates the (negative) Likelihood of the
-                        N2G model
-N2G.Likelihood.Ratio    N2G Likelihood Ratio's
-N2G.Region              N2G Normal component interval
-N2G.Spatial.Mixture     fMRI Spatial Mixture Modelling
-N2G.Transform           Transform parameters of N2G model so as to lie
-                        on the real line.
-NonLinearSmoothArray    Non-linear spatial smmothing of 3D and 4D
-                        arrays.
-Sim.3D.GRF              Simulate a GRF
-Sim.3D.GammaRF          Simulate Gamma distributed Random Field
-SmoothEst               Estimate the variance-covariance matrix of a
-                        Gaussian random field
-Threshold.Bonferroni    Calculates Bonferroni Threshold
-Threshold.FDR           False Discovery Rate (FDR) Threshold
-Threshold.RF            Random Field Theory Thersholds.
 cluster.threshold       Cluster threshold an array.
 cov.est                 Estimates the covariance between neighbouring
                         voxels
+EC.3D                   Expected Euler Characteristic for a 3D Random
+                        Field
 f.analyze.file.summary
                         prints summary of .img file contents
 f.analyzeFMRI.gui       starts AnalyzeFMRI GUI
@@ -60,6 +33,32 @@ f.write.array.to.img.8bit
 f.write.array.to.img.float
                         write array of 4 byte floats
 f.write.list.to.hdr     writes a .hdr file
+GaussSmoothArray        Spatially smooth an array with Gaussian kernel.
+GaussSmoothKernel       Calculates a discrete Gaussian smoothing
+                        kernel.
 model.2.cov.func        Calculates covariance from Hartvig Model 2
 model.2.est.gamma       Estimate gamma for Model 2 of Hartvig and
                         Jensen (2000)
+N2G                     Fits the N2G model
+N2G.Class.Probability   Posterior Probabilities for N2G model
+N2G.Density             Calculates the density function for the N2G
+                        model
+N2G.Fit                 Optimzation function for N2G model
+N2G.Inverse             Transform parameters of N2G model back to their
+                        real domains
+N2G.Likelihood          Calculates the (negative) Likelihood of the N2G
+                        model
+N2G.Likelihood.Ratio    N2G Likelihood Ratio's
+N2G.Region              N2G Normal component interval
+N2G.Spatial.Mixture     fMRI Spatial Mixture Modelling
+N2G.Transform           Transform parameters of N2G model so as to lie
+                        on the real line.
+NonLinearSmoothArray    Non-linear spatial smmothing of 3D and 4D
+                        arrays.
+Sim.3D.GammaRF          Simulate Gamma distributed Random Field
+Sim.3D.GRF              Simulate a GRF
+SmoothEst               Estimate the variance-covariance matrix of a
+                        Gaussian random field
+Threshold.Bonferroni    Calculates Bonferroni Threshold
+Threshold.FDR           False Discovery Rate (FDR) Threshold
+Threshold.RF            Random Field Theory Thersholds.
