@@ -52,7 +52,7 @@ f.read.analyze.header <- function(file){
           paste(rep(" ", 80), sep = "", collapse = ""),
           paste(rep(" ", 24), sep = "", collapse = ""),
           paste(rep(" ", 1), sep = "", collapse = ""),
-          paste(rep(" ", 10), sep = "", collapse = ""),
+         integer(5),
           paste(rep(" ", 10), sep = "", collapse = ""),
           paste(rep(" ", 10), sep = "", collapse = ""),
           paste(rep(" ", 10), sep = "", collapse = ""),
@@ -92,6 +92,7 @@ f.read.analyze.header <- function(file){
     L$pixdim <- a[[17]]
     L$glmax <- a[[26]]
     L$glmin <- a[[27]]
+    L$originator <- a[[31]]
 
     return(L)}
 

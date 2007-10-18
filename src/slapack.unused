@@ -11445,7 +11445,8 @@
          END IF
       END IF
 *
-   70 CONTINUE
+*     commented out by pierre
+*     70 CONTINUE
 *
       IF( DMIN.LT.ZERO .OR. SAFMIN*QMAX.LT.MIN( Z( 4*N0+PP-1 ),
      $    Z( 4*N0+PP-9 ), DMIN2+Z( 4*N0-PP ) ) ) THEN
@@ -15454,7 +15455,10 @@
 *
       RETURN
       END
-      INTEGER          FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3,
+*     commented out by pierre
+*      INTEGER          FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3,
+*     $                 N4 )
+      INTEGER          FUNCTION ILAENV( ISPEC, NAME, N1, N2, 
      $                 N4 )
 *
 *  -- LAPACK auxiliary routine (version 3.0) --
@@ -15463,8 +15467,12 @@
 *     June 30, 1999
 *
 *     .. Scalar Arguments ..
-      CHARACTER*( * )    NAME, OPTS
-      INTEGER            ISPEC, N1, N2, N3, N4
+
+*     commented out by pierre
+*      CHARACTER*( * )    NAME, OPTS
+*      INTEGER            ISPEC, N1, N2, N3, N4
+      CHARACTER*( * )    NAME
+      INTEGER            ISPEC, N1, N2, N4
 *     ..
 *
 *  Purpose

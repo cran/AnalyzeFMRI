@@ -38,7 +38,8 @@ struct header{
   char descrip[80];
   char aux_file[24];
   char orient;
-  char originator[10];
+  short originator[5];
+  //  char originator[10];
   char generated[10];
   char scannum[10];
   char patient_id[10];
@@ -571,7 +572,8 @@ void read_analyze_header_wrap_JM(char **name,
 			      char **descrip,
 			      char **aux_file,
 			      char **orient,
-			      char **originator,
+			      int *originator,
+				 //char **originator,
 			      char **generated,
 			      char **scannum,
 			      char **patient_id,
@@ -592,7 +594,7 @@ void read_analyze_header_wrap_JM(char **name,
   /*Reads in all the fields of a .hdr header file*/
   
   int i;
-  short tmp,tmp1[8];
+  short tmp,tmp1[8], tmp2[5];
   
   read4byte_JM(sizeof_hdr, name[0], swapbytes, 1, 0L, 0);
   
@@ -639,7 +641,12 @@ void read_analyze_header_wrap_JM(char **name,
   readchar_JM(descrip[0], name[0], swapbytes, 80, 148L, 0);
   readchar_JM(aux_file[0], name[0], swapbytes, 24, 228L, 0);
   readchar_JM(orient[0], name[0], swapbytes, 1, 252L, 0);
-  readchar_JM(originator[0], name[0], swapbytes, 10, 252L, 0);
+
+
+  read2byte_JM(tmp2, name[0], swapbytes, 5, 253L, 1);
+  for(i = 0; i < 5; i++){originator[i] = (int) tmp2[i];}
+
+  //  readchar_JM(originator[0], name[0], swapbytes, 10, 253L, 0);
   readchar_JM(generated[0], name[0], swapbytes, 10, 263L, 0);
   readchar_JM(scannum[0], name[0], swapbytes, 10, 273L, 0);
   readchar_JM(patient_id[0], name[0], swapbytes, 10, 283L, 0);
@@ -697,7 +704,9 @@ void read_analyze_header_JM(struct header *head, char *name, int *swapbytes)
   readchar_JM(head->descrip, name, swapbytes, 80, 148L, 0);
   readchar_JM(head->aux_file, name, swapbytes, 24, 228L, 0);
   readchar_JM(&head->orient, name, swapbytes, 1, 252L, 0);
-  readchar_JM(head->originator, name, swapbytes, 10, 252L, 0);
+
+  read2byte_JM(&head->originator[0], name, swapbytes, 5, 253L, 1);
+  //  readchar_JM(head->originator, name, swapbytes, 10, 253L, 0);
   readchar_JM(head->generated, name, swapbytes, 10, 263L, 0);
   readchar_JM(head->scannum, name, swapbytes, 10, 273L, 0);
   readchar_JM(head->patient_id, name, swapbytes, 10, 283L, 0);

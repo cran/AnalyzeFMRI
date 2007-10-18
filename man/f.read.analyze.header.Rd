@@ -20,7 +20,8 @@
 \item{bit.pix}{the number of bits per voxel}
 \item{pixdim}{parallel vector to dim giving real world voxel unit measurements}
 \item{glmax}{maximum voxel value}
-\item{glmin}{minimum voxel value}}
+\item{glmin}{minimum voxel value}
+\item{originator}{image central voxel coordinates}}
 \seealso{
   \code{\link{f.analyze.file.summary}}}
 \examples{

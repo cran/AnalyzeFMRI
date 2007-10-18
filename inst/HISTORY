@@ -101,3 +101,11 @@ Version 1.0-8 :
 
 -Brian made changes to separate out slamc.f
 
+2007-10-18
+----------
+
+ Version 1.1-7
+
+-modification of R function f.read.analyze.header to add the output value 'originator' : coordinates of the central voxel of the image
+-bug fix in C function read_analyze_header_wrap_JM: originator should begin at 253L ; originator was char[10] and is now int[5]
+-removing of compilation warnings in slapack.f
