@@ -38,8 +38,18 @@ struct header{
   char descrip[80];
   char aux_file[24];
   char orient;
-  short originator[5];
+
+  /*
+SPM uses one of the Analyze header fields in an unorthodox way. This is the Originator field (data_history.originator - see Mayo/Analyze site ). 
+In the basic format, this is meant to be 10 bytes of text. In SPM, this space is used to contain three short (two byte) integers. 
+These numbers describe the current centre or 'Origin' of the image. Specifically, they give the coordinate of the central voxel, in voxels, in X, then Y then Z. 
+For example, for images that are aligned to the templates, this Origin field would contain the coordinates of the voxel nearest to the midline of the Anterior Commisure. 
+Note that if the Origin is set to 0 0 0, then SPM routines will assume that the origin is in fact the central voxel of the image.
+  */
+
   //  char originator[10];
+  short originator[5];
+
   char generated[10];
   char scannum[10];
   char patient_id[10];
@@ -572,8 +582,8 @@ void read_analyze_header_wrap_JM(char **name,
 			      char **descrip,
 			      char **aux_file,
 			      char **orient,
-			      int *originator,
 				 //char **originator,
+			      int *originator,
 			      char **generated,
 			      char **scannum,
 			      char **patient_id,
@@ -753,7 +763,8 @@ void write_analyze_header_wrap_JM(char **name,
 			       char **descrip,
 			       char **aux_file,
 			       char **orient,
-			       char **originator,
+				 //char **originator,
+			      int *originator,
 			       char **generated,
 			       char **scannum,
 			       char **patient_id,
@@ -773,7 +784,7 @@ void write_analyze_header_wrap_JM(char **name,
   /*Writes all the fields of a .hdr header file*/ 
   FILE *fp;
   int i;
-  short dim1[8],tmp;
+  short dim1[8],tmp, tmp2[5];
 
   fp = fopen(name[0],"wb");
   if(fp == NULL) error("file writing error");
@@ -807,7 +818,10 @@ void write_analyze_header_wrap_JM(char **name,
   for(i = 0; i < 80; i++) fwrite(*(descrip) + i, 1, 1, fp);
   for(i = 0; i < 24; i++) fwrite(*(aux_file) + i, 1, 1, fp);
   fwrite(*orient, 1, 1, fp);
-  for(i = 0; i < 10; i++) fwrite(*(originator) + i, 1, 1, fp);
+  //  for(i = 0; i < 10; i++) fwrite(*(originator) + i, 1, 1, fp);
+  for(i = 0; i < 5; i++) tmp2[i] = (short) *(originator + i);
+  fwrite(&tmp2, 2, 5, fp);
+
   for(i = 0; i < 10; i++) fwrite(*(generated) + i, 1, 1, fp);
   for(i = 0; i < 10; i++) fwrite(*(scannum) + i, 1, 1, fp);
   for(i = 0; i < 10; i++) fwrite(*(patient_id) + i, 1, 1, fp); 

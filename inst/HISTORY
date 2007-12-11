@@ -109,3 +109,14 @@ Version 1.0-8 :
 -modification of R function f.read.analyze.header to add the output value 'originator' : coordinates of the central voxel of the image
 -bug fix in C function read_analyze_header_wrap_JM: originator should begin at 253L ; originator was char[10] and is now int[5]
 -removing of compilation warnings in slapack.f
+
+2007-12-11
+----------
+
+ Version 1.1-8
+
+-modification of R function f.read.analyze.header to output all the components of the .hdr file (in basic Analyze 7.5 format but with originator field modified)
+-modification of R function f.basic.hdr.list.create : originator field was modified (In the basic format, this is meant to be 10 bytes of text. In SPM, this space is used to contain three short (two byte) integers.) from 10 char (1 byte) to 5 short int (2 bytes)
+-modification of R function f.write.list.to.hdr : L$originator from character to integer
+-modification of R function  f.write.analyze: i added the 'originator' argument to the function (with rep(0,5) default value)
+-modification of C function  write_analyze_header_wrap_JM : originator from char** to int* 

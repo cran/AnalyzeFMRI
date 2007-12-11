@@ -16,67 +16,77 @@ f.read.analyze.header <- function(file){
     if(.C("swaptest_wrap_JM",
           ans = integer(1),
           file.hdr,
-          PACKAGE="AnalyzeFMRI")$ans != 348)
+          PACKAGE="AnalyzeFMRI")$ans != 348) # $ans is sizeof_hdr
         swap <- 1
 
 
+    
 # A C function is used to read in all the components of the .hdr file
     a<-.C("read_analyze_header_wrap_JM",
-          file.hdr,
-          as.integer(swap),
-          integer(1),
-          paste(rep(" ", 10), sep = "", collapse = ""),
-          paste(rep(" ", 18), sep = "", collapse = ""),
-          integer(1),
-          integer(1),
-          paste(rep(" ", 1), sep = "", collapse = ""),
-          paste(rep(" ", 1), sep = "", collapse = ""),
-          integer(8),
-          paste(rep(" ", 4), sep = "", collapse = ""),
-          paste(rep(" ", 8), sep = "", collapse = ""),
-          integer(1),
-          integer(1),
-          integer(1),
-          integer(1),
-          single(8),
-          single(1),
-          single(1),
-          single(1),
-          single(1),
-          single(1),
-          single(1),
-          single(1),
-          single(1),
-          integer(1),
-          integer(1),
-          paste(rep(" ", 80), sep = "", collapse = ""),
-          paste(rep(" ", 24), sep = "", collapse = ""),
-          paste(rep(" ", 1), sep = "", collapse = ""),
-         integer(5),
-          paste(rep(" ", 10), sep = "", collapse = ""),
-          paste(rep(" ", 10), sep = "", collapse = ""),
-          paste(rep(" ", 10), sep = "", collapse = ""),
-          paste(rep(" ", 10), sep = "", collapse = ""),
-          paste(rep(" ", 10), sep = "", collapse = ""),
-          paste(rep(" ",3 ), sep = "",collapse = ""),
-          integer(1),
-          integer(1),
-          integer(1),
-          integer(1),
-          integer(1),
-          integer(1),
-          integer(1),
-          integer(1),
+          file.hdr,  # name of hdr file (with .hdr extension)       1
+          as.integer(swap), # as defined above                      2
+          integer(1), # sizeof_hdr                                  3
+          paste(rep(" ", 10), sep = "", collapse = ""), # data_type 4
+          paste(rep(" ", 18), sep = "", collapse = ""), # db_name   5
+          integer(1), # extents                                     6
+          integer(1), # session_error                               7
+          paste(rep(" ", 1), sep = "", collapse = ""), # regular    8
+          paste(rep(" ", 1), sep = "", collapse = ""), # hkey_un0   9
+          integer(8), # dim                                         10
+          paste(rep(" ", 4), sep = "", collapse = ""), # vox_units  11
+          paste(rep(" ", 8), sep = "", collapse = ""), # cal_units  12
+          integer(1), # unused1                                     13
+          integer(1), # datatype                                    14
+          integer(1), # bitpix                                      15
+          integer(1), # dim_un0                                     16
+          single(8), # pixdim                                       17
+          single(1), # vox_offset                                   18
+          single(1), # funused1                                     19
+          single(1), # funused2                                     20
+          single(1), # funused3                                     21
+          single(1), # cal_max                                      22
+          single(1), # cal_min                                      23
+          single(1), # compressed                                   24
+          single(1), # verified                                     25
+          integer(1), # glmax                                       26
+          integer(1), # glmin                                       27
+          paste(rep(" ", 80), sep = "", collapse = ""), # descrip   28
+          paste(rep(" ", 24), sep = "", collapse = ""), # aux_file  29
+          paste(rep(" ", 1), sep = "", collapse = ""), # orient     30
+         integer(5), # originator                                   31
+#          paste(rep(" ", 10), sep = "", collapse = ""),
+          paste(rep(" ", 10), sep = "", collapse = ""), # generated 32
+          paste(rep(" ", 10), sep = "", collapse = ""), # scannum   33
+          paste(rep(" ", 10), sep = "", collapse = ""),# patient_id 34
+          paste(rep(" ", 10), sep = "", collapse = ""), # exp_date  35
+          paste(rep(" ", 10), sep = "", collapse = ""), # exp_time  36
+          paste(rep(" ",3 ), sep = "",collapse = ""), # hist_un0    37
+          integer(1), # views                                       38
+          integer(1), # vols_added                                  39
+          integer(1), # start_field                                 40
+          integer(1), # field_skip                                  41
+          integer(1), # omax                                        42
+          integer(1), # omin                                        43
+          integer(1), # smax                                        44
+          integer(1), # smin                                        45
           PACKAGE="AnalyzeFMRI")
 
-#A list (called L) is created containing a selection of the useful components of the .hdr file
+# A list (called L) is created containing all the components of the .hdr file
 
     L <- list()
-    L$swap <- a[[2]]
     L$file.name <- file.img
+    L$swap <- a[[2]]
+    L$sizeof.hdr <- a[[3]]
+    L$data.type <- a[[4]]
+    L$db.name <- a[[5]]
+    L$extents <- a[[6]]
+    L$session.error <- a[[7]]
+    L$regular <- a[[8]]
+    L$hkey.un0 <- a[[9]]
     L$dim <- a[[10]]
     L$vox.units <- a[[11]]
     L$cal.units <- a[[12]]
+    L$unused1 <- a[[13]]
     L$datatype <- a[[14]]
     if(L$datatype == 0 ) L$data.type <- "unknown"
     if(L$datatype == 1) L$data.type <- "binary"
@@ -89,10 +99,36 @@ f.read.analyze.header <- function(file){
     if(L$datatype == 128) L$data.type <- "rgb data"
     if(L$datatype == 255) L$data.type <- "all"
     L$bitpix <- a[[15]]
+    L$dim.un0 <- a[[16]]
     L$pixdim <- a[[17]]
+    L$vox.offset <- a[[18]]
+    L$scale <- a[[19]]  # SPM extends the Analyze format by using a scaling factor for the image from the header.
+    L$funused2 <- a[[20]]
+    L$funused3 <- a[[21]]
+    L$cal.max <- a[[22]]
+    L$cal.min <- a[[23]]
+    L$compressed <- a[[24]]
+    L$verified <- a[[25]]
     L$glmax <- a[[26]]
     L$glmin <- a[[27]]
-    L$originator <- a[[31]]
+    L$descrip <- a[[28]]
+    L$aux.file <- a[[29]]
+    L$orient <- a[[30]]
+    L$originator <- a[[31]] # SPM uses one of the Analyze header fields in an unorthodox way. This is the Originator field
+    L$generated <- a[[32]]
+    L$scannum <- a[[33]]
+    L$patient.id <- a[[34]]
+    L$exp.date <- a[[35]]
+    L$exp.time <- a[[36]]
+    L$hist.un0 <- a[[37]]
+    L$views <- a[[38]]
+    L$vols.added <- a[[39]]
+    L$start.field <- a[[40]]
+    L$field.skip <- a[[41]]
+    L$omax <- a[[42]]
+    L$omin <- a[[43]]
+    L$smax <- a[[44]]
+    L$smin <- a[[45]]
 
     return(L)}
 
@@ -154,7 +190,8 @@ f.basic.hdr.list.create <- function(mat, file.hdr){
               descrip = paste(rep(" ", 80), sep = "", collapse = ""),
               aux.file = paste(rep(" ", 24), sep = "", collapse = ""),
               orient = paste(rep(" ", 1), sep = "", collapse = ""),
-              originator = paste(rep(" ", 10), sep = "", collapse = ""),
+        originator =  integer(5),
+#              originator = paste(rep(" ", 10), sep = "", collapse = ""),
               generated = paste(rep(" ", 10), sep = "", collapse = ""),
               scannum = paste(rep(" ", 10), sep = "", collapse = ""),
               patient.id = paste(rep(" ", 10), sep = "", collapse = ""),
@@ -723,7 +760,8 @@ f.write.list.to.hdr <- function(L, file){
             as.character(L$descrip),
             as.character(L$aux.file),
             as.character(L$orient),
-            as.character(L$originator),
+ #           as.character(L$originator),
+           as.integer(L$originator),
             as.character(L$generated),
             as.character(L$scannum),
             as.character(L$patient.id),
@@ -742,9 +780,9 @@ f.write.list.to.hdr <- function(L, file){
 }
 
 
-f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.units = "mm", cal.units = "pixels"){
+f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.units = "mm", cal.units = "pixels", originator = rep(0,5)){
 
-  #Creates a .img and .hdr pair of files froma given array
+  #Creates a .img and .hdr pair of files from a given array
 
     if(max(mat) == "NA") return("NA values in array not allowed. Files not written.")
 
@@ -753,39 +791,33 @@ f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.
 
     L <- f.basic.hdr.list.create(mat, file.hdr)
 
-    if(size == "float"){
-        L$datatype <- 16
-        L$bitpix <- 32
+
         L$vox.units <- vox.units
         L$cal.units <- cal.units
         L$pixdim <- c(4, pixdim, 0, 0, 0, 0)
-        L$data.type <- "float"
         L$glmax <- as.integer(floor(max(mat)))
         L$glmin <- as.integer(floor(min(mat)))
+        L$originator <- as.integer(originator)
+
+    
+    if(size == "float"){
+        L$datatype <- 16
+        L$bitpix <- 32
+       L$data.type <- "float"
         f.write.array.to.img.float(mat, file.img)
     }
     if(size == "int"){
         if(max(mat)>32767 || min(mat) < ( -32768)) return("Values are outside integer range. Files not written.")
         L$datatype <- 4
         L$bitpix <- 16
-        L$vox.units <- vox.units
-        L$cal.units <- cal.units
-        L$pixdim <- c(4, pixdim, 0, 0, 0, 0)
-        L$data.type <- "signed short"
-        L$glmax <- as.integer(floor(max(mat)))
-        L$glmin <- as.integer(floor(min(mat)))
+        L$data.type <- "signed sho" # signed short
         f.write.array.to.img.2bytes(mat, file.img)
     }
     if(size == "char"){
         if(max(mat)>255 || min(mat) < 0) return("Values are outside integer range. Files not written.")
         L$datatype <- 2
         L$bitpix <- 8
-        L$vox.units <- vox.units
-        L$cal.units <- cal.units
-        L$pixdim <- c(4, pixdim, 0, 0, 0, 0)
-        L$data.type <- "unsigned char"
-        L$glmax <- as.integer(floor(max(mat)))
-        L$glmin <- as.integer(floor(min(mat)))
+        L$data.type <- "unsignchar" # unsigned char
         f.write.array.to.img.8bit(mat, file.img)
     }
 
