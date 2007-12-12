@@ -106,6 +106,7 @@ Version 1.0-8 :
 
  Version 1.1-7
 
+-I (P.Lafaye de Micheaux) began to maintain this package.
 -modification of R function f.read.analyze.header to add the output value 'originator' : coordinates of the central voxel of the image
 -bug fix in C function read_analyze_header_wrap_JM: originator should begin at 253L ; originator was char[10] and is now int[5]
 -removing of compilation warnings in slapack.f
@@ -120,3 +121,11 @@ Version 1.0-8 :
 -modification of R function f.write.list.to.hdr : L$originator from character to integer
 -modification of R function  f.write.analyze: i added the 'originator' argument to the function (with rep(0,5) default value)
 -modification of C function  write_analyze_header_wrap_JM : originator from char** to int* 
+
+2007-12-12
+----------
+
+ Version 1.1-9
+
+-I added the files niftiFMRI.c and niftiFMRI.R to be able to read the new Nifti format for .hdr files
+-I completed the documentation of the outputs of f.read.analyze.header and f.read.nifti.header
