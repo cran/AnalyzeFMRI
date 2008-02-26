@@ -1,4 +1,3 @@
-
 #include <R.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -179,12 +178,13 @@ void readchar_JM(char *ans, char *name, int *swapbytes, int n, long offset, int 
 {
   /* Reads in a sequence of 1 byte characters */
   FILE *fd;
+  int nread;
   
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file \n");
 
   fseek(fd, offset, whence);
 
-  fread(ans, 1, n, fd);
+  nread = fread(ans, 1, n, fd);
 
   fclose(fd);
 }
@@ -283,7 +283,7 @@ void readchar_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, 
   /* Reads in a sequence of 1 byte characters */
   FILE *fd;
   unsigned char *tmp;
-  int i;
+  int i, nread;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file \n");
 
@@ -291,7 +291,7 @@ void readchar_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, 
 
   fseek(fd, (long) *offset, *whence);
 
-  fread(tmp, 1, *n, fd);
+  nread = fread(tmp, 1, *n, fd);
   for(i = 0; i < *n; i++){
 	  *(ans + i) = (int) *(tmp + i);}
   
@@ -482,7 +482,7 @@ void write8bit_JM(int *imp, char **name, int *n)
   /* Writes in a sequence of 8 bit unsigned char integers */
   FILE *fp;
   unsigned char *temp;
-  int i;
+  int i, nwritten;
 
   temp = Calloc(*n, unsigned char);
 
@@ -494,7 +494,7 @@ void write8bit_JM(int *imp, char **name, int *n)
 
   fp = fopen(name[0], "wb");
   
-  fwrite(temp, 1, *n, fp);
+  nwritten = fwrite(temp, 1, *n, fp);
 
   Free(temp);
   fclose(fp);
@@ -505,7 +505,7 @@ void write2byte_JM(int *imp, char **name, int *n)
   /* Writes in a sequence of 2 byte short integers */
   FILE *fp;
   short *temp;
-  int i;
+  int i, nwritten;
 
   temp = Calloc(*n, short);
 
@@ -515,7 +515,7 @@ void write2byte_JM(int *imp, char **name, int *n)
 
   fp = fopen(name[0], "wb");
   
-  fwrite(temp, 2, *n, fp);
+  nwritten = fwrite(temp, 2, *n, fp);
 
   Free(temp);
   fclose(fp);
@@ -525,10 +525,11 @@ void writefloat_JM(float *imp, char **name, int *n)
 {
   /* Writes a sequence of 4 byte floats  */
   FILE *fp;
-  
+  int nwritten;  
+
   fp = fopen(name[0], "wb");
   
-  fwrite(imp, 4, *n, fp);
+  nwritten = fwrite(imp, 4, *n, fp);
 
   fclose(fp);
 }
@@ -783,59 +784,59 @@ void write_analyze_header_wrap_JM(char **name,
 
   /*Writes all the fields of a .hdr header file*/ 
   FILE *fp;
-  int i;
+  int i, nwritten;
   short dim1[8],tmp, tmp2[5];
 
   fp = fopen(name[0],"wb");
-  if(fp == NULL) error("file writing error");
+  if (fp == NULL) error("file writing error");
   
-  fwrite(sizeof_hdr, 4, 1, fp);
-  for(i = 0; i < 10; i++) fwrite(*(data_type) + i, 1, 1, fp);
-  for(i = 0; i < 18; i++) fwrite(*(db_name) + i, 1, 1, fp);
-  fwrite(extents, 4, 1, fp);
-  fwrite(session_error, 2, 1, fp);
-  fwrite(*(regular), 1, 1, fp);
-  fwrite(*(hkey_un0), 1, 1, fp);
+  nwritten = fwrite(sizeof_hdr, 4, 1, fp);
+  for(i = 0; i < 10; i++) nwritten = fwrite(*(data_type) + i, 1, 1, fp);
+  for(i = 0; i < 18; i++) nwritten = fwrite(*(db_name) + i, 1, 1, fp);
+  nwritten = fwrite(extents, 4, 1, fp);
+  nwritten = fwrite(session_error, 2, 1, fp);
+  nwritten = fwrite(*(regular), 1, 1, fp);
+  nwritten = fwrite(*(hkey_un0), 1, 1, fp);
   for(i = 0; i < 8; i++) dim1[i] = (short) *(dim + i);
-  fwrite(&dim1, 2, 8, fp);
-  for(i = 0; i < 4; i++) fwrite(*(vox_units) + i, 1, 1, fp);
-  for(i = 0; i < 8; i++) fwrite(*(cal_units) + i, 1, 1, fp);
-  tmp = (short) *unused1; fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *datatype; fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *bitpix; fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *dim_un0; fwrite(&tmp, 2, 1, fp);
-  fwrite(pixdim, 4, 8, fp);
-  fwrite(vox_offset, 4, 1, fp);
-  fwrite(funused1, 4, 1, fp);
-  fwrite(funused2, 4, 1, fp);
-  fwrite(funused3, 4, 1, fp);
-  fwrite(cal_max, 4, 1, fp);
-  fwrite(cal_min, 4, 1, fp);
-  fwrite(compressed, 4, 1, fp);
-  fwrite(verified, 4, 1, fp);
-  fwrite(glmax, 4, 1, fp);
-  fwrite(glmin, 4, 1, fp);
-  for(i = 0; i < 80; i++) fwrite(*(descrip) + i, 1, 1, fp);
-  for(i = 0; i < 24; i++) fwrite(*(aux_file) + i, 1, 1, fp);
-  fwrite(*orient, 1, 1, fp);
-  //  for(i = 0; i < 10; i++) fwrite(*(originator) + i, 1, 1, fp);
+  nwritten = fwrite(&dim1, 2, 8, fp);
+  for(i = 0; i < 4; i++) nwritten = fwrite(*(vox_units) + i, 1, 1, fp);
+  for(i = 0; i < 8; i++) nwritten = fwrite(*(cal_units) + i, 1, 1, fp);
+  tmp = (short) *unused1; nwritten = fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *datatype; nwritten = fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *bitpix; nwritten = fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *dim_un0; nwritten = fwrite(&tmp, 2, 1, fp);
+  nwritten = fwrite(pixdim, 4, 8, fp);
+  nwritten = fwrite(vox_offset, 4, 1, fp);
+  nwritten = fwrite(funused1, 4, 1, fp);
+  nwritten = fwrite(funused2, 4, 1, fp);
+  nwritten = fwrite(funused3, 4, 1, fp);
+  nwritten = fwrite(cal_max, 4, 1, fp);
+  nwritten = fwrite(cal_min, 4, 1, fp);
+  nwritten = fwrite(compressed, 4, 1, fp);
+  nwritten = fwrite(verified, 4, 1, fp);
+  nwritten = fwrite(glmax, 4, 1, fp);
+  nwritten = fwrite(glmin, 4, 1, fp);
+  for(i = 0; i < 80; i++) nwritten = fwrite(*(descrip) + i, 1, 1, fp);
+  for(i = 0; i < 24; i++) nwritten = fwrite(*(aux_file) + i, 1, 1, fp);
+  nwritten = fwrite(*orient, 1, 1, fp);
+  //  for(i = 0; i < 10; i++) nwritten = fwrite(*(originator) + i, 1, 1, fp);
   for(i = 0; i < 5; i++) tmp2[i] = (short) *(originator + i);
-  fwrite(&tmp2, 2, 5, fp);
+  nwritten = fwrite(&tmp2, 2, 5, fp);
 
-  for(i = 0; i < 10; i++) fwrite(*(generated) + i, 1, 1, fp);
-  for(i = 0; i < 10; i++) fwrite(*(scannum) + i, 1, 1, fp);
-  for(i = 0; i < 10; i++) fwrite(*(patient_id) + i, 1, 1, fp); 
-  for(i = 0; i < 10; i++) fwrite(*(exp_date) + i, 1, 1, fp);
-  for(i = 0; i < 10; i++) fwrite(*(exp_time) + i, 1, 1, fp);
-  for(i = 0; i < 3; i++) fwrite(*(hist_un0) + i, 1, 1, fp);
-  fwrite(views, 4, 1, fp);
-  fwrite(vols_added, 4, 1, fp);
-  fwrite(start_field, 4, 1, fp);
-  fwrite(field_skip, 4, 1, fp);
-  fwrite(omax, 4, 1, fp);
-  fwrite(omin, 4, 1, fp);
-  fwrite(smax, 4, 1, fp);
-  fwrite(smin, 4, 1, fp);
+  for(i = 0; i < 10; i++) nwritten = fwrite(*(generated) + i, 1, 1, fp);
+  for(i = 0; i < 10; i++) nwritten = fwrite(*(scannum) + i, 1, 1, fp);
+  for(i = 0; i < 10; i++) nwritten = fwrite(*(patient_id) + i, 1, 1, fp); 
+  for(i = 0; i < 10; i++) nwritten = fwrite(*(exp_date) + i, 1, 1, fp);
+  for(i = 0; i < 10; i++) nwritten = fwrite(*(exp_time) + i, 1, 1, fp);
+  for(i = 0; i < 3; i++) nwritten = fwrite(*(hist_un0) + i, 1, 1, fp);
+  nwritten = fwrite(views, 4, 1, fp);
+  nwritten = fwrite(vols_added, 4, 1, fp);
+  nwritten = fwrite(start_field, 4, 1, fp);
+  nwritten = fwrite(field_skip, 4, 1, fp);
+  nwritten = fwrite(omax, 4, 1, fp);
+  nwritten = fwrite(omin, 4, 1, fp);
+  nwritten = fwrite(smax, 4, 1, fp);
+  nwritten = fwrite(smin, 4, 1, fp);
 
   fclose(fp);
 }

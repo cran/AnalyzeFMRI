@@ -1,5 +1,3 @@
-
-
 f.read.analyze.header <- function(file){
   #This function reads in the information from an ANALYZE format .hdr file
     file.name <- substring(file, 1, nchar(file) - 4)
@@ -102,7 +100,7 @@ f.read.analyze.header <- function(file){
     L$dim.un0 <- a[[16]]
     L$pixdim <- a[[17]]
     L$vox.offset <- a[[18]]
-    L$scale <- a[[19]]  # SPM extends the Analyze format by using a scaling factor for the image from the header.
+    L$funused1 <- a[[19]]  # SPM extends the Analyze format by using a scaling factor for the image from the header.
     L$funused2 <- a[[20]]
     L$funused3 <- a[[21]]
     L$cal.max <- a[[22]]
@@ -162,7 +160,7 @@ f.basic.hdr.list.create <- function(mat, file.hdr){
     dim <- c(length(dim), dim, rep(0, 7 - length(dim)))
 
     l <- list(file = file.hdr,
-              size.of.header = 348,
+              sizeof.hdr = 348,
               data.type = paste(rep(" ", 10), sep = "", collapse = ""),
               db.name = paste(rep(" ", 18), sep = "", collapse = ""),
               extents = 0,
@@ -732,7 +730,7 @@ f.write.list.to.hdr <- function(L, file){
 # Writes a list to a .hdr file
     a <- .C("write_analyze_header_wrap_JM",
             file,
-            as.integer(L$size.of.header),
+            as.integer(L$sizeof.hdr),
             as.character(L$data.type),
             as.character(L$db.name),
             as.integer(L$extents),

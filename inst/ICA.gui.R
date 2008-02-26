@@ -5,11 +5,11 @@ local({
 
 
     gui.file<-function(){
-        tclvalue(file.name) <- tkcmd("tk_getOpenFile")   }
+        tclvalue(file.name) <- tcl("tk_getOpenFile")   }
     
     
     gui.mask<-function(){
-        tclvalue(mask) <- tkcmd("tk_getOpenFile")  }
+        tclvalue(mask) <- tcl("tk_getOpenFile")  }
     
     gui.save<-function(...){
         assign(tclvalue(save.r), tmp.ica.obj, envir = .GlobalEnv)

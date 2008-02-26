@@ -1,6 +1,6 @@
 \name{f.basic.hdr.list.create}
 \alias{f.basic.hdr.list.create}
-\title{creates basic .hdr list}
+\title{creates basic .hdr list in ANALYZE format}
 \description{Creates a basic list that can be used to write a .hdr file
 }
 \usage{f.basic.hdr.list.create(mat, file.hdr)

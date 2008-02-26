@@ -1,6 +1,6 @@
 \name{f.write.analyze}
 \alias{f.write.analyze}
-\title{writes an array to a .img/.hdr pair}
+\title{writes an array to a .img/.hdr pair in ANALYZE format}
 \description{Creates a .img and .hdr pair of files from a given array}
 \usage{f.write.analyze(mat,file,size,pixdim,vox.units,cal.units,originator)}
 \arguments{\item{mat}{An array}

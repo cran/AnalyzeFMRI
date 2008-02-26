@@ -6,9 +6,7 @@
 \usage{f.read.nifti.header(file)}
 \arguments{\item{file}{The .hdr file to be read}}
 \value{A list containing the information in the fields of the .hdr
-  file. Only the ones considered useful are included. See comments
-  included in the function definition if you want to extend the amount
-  of information extracted and stored.
+  file. 
 \item{file.name}{path name of the .img file}
 \item{swap}{TRUE or FALSE variable indicating whether files are big or little endian}
 \item{sizeof.hdr}{MUST be 348}

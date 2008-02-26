@@ -2,9 +2,9 @@ require(tcltk) || stop("tcltk support is absent")
 
 local({
  
-    wrap.file <- function() tclvalue(file.name) <- tkcmd("tk_getOpenFile")
+    wrap.file <- function() tclvalue(file.name) <- tcl("tk_getOpenFile")
     
-    wrap.mask <- function() tclvalue(mask) <- tkcmd("tk_getOpenFile") 
+    wrap.mask <- function() tclvalue(mask) <- tcl("tk_getOpenFile") 
     
     do <- function(){
         if(tclvalue(alt) == "File Summary") fs()

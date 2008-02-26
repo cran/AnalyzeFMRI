@@ -3,11 +3,14 @@ cov.est                 Estimates the covariance between neighbouring
                         voxels
 EC.3D                   Expected Euler Characteristic for a 3D Random
                         Field
-f.analyze.file.summary
-                        prints summary of .img file contents
+f.analyze.file.summary  prints summary of ANALYZE .img file contents
+f.nifti.file.summary    prints summary of NIFTI .img file contents
+
 f.analyzeFMRI.gui       starts AnalyzeFMRI GUI
-f.basic.hdr.list.create
-                        creates basic .hdr list
+f.basic.hdr.list.create creates basic ANALYZE .hdr list
+f.basic.hdr.nifti.list.create 
+			creates basic NIFTI .hdr list
+
 f.ica.fmri              Applies Spatial ICA (Independent Component
                         Analysis) to fMRI datasets
 f.ica.fmri.gui          tcltk GUI to apply ICA to fMRI datasets
@@ -16,23 +19,47 @@ f.plot.ica.fmri         Plots a specified component from the output of
 f.plot.ica.fmri.jpg     Plot the components of the ouput of f.ica.fmri
                         to a series of jpeg files
 f.read.analyze.header   read Analyze header file
-f.read.analyze.slice    read one slice from a .img file
+f.read.analyze.slice    read one slice from an ANALYZE .img file
+f.read.nifti.slice    read one slice from a NIFTI .img file
 f.read.analyze.slice.at.all.timepoints
-                        reads a slice at all time points from a .img
-                        file
-f.read.analyze.tpt      Read in a volume at one time point
-f.read.analyze.ts       read in one voxel time series
-f.read.analyze.volume   read whole .img file
+                        reads a slice at all time points from an ANALYZE .img file
+f.read.nifti.slice.at.all.timepoints
+                        reads a slice at all time points from a NIFTI .img file
+f.read.analyze.tpt      Read in a volume at one time point from an ANALYZE file
+f.read.nifti.tpt        Read in a volume at one time point from a NIFTI file
+f.read.analyze.ts       read in one voxel time series from an ANALYZE .img file
+f.read.nifti.ts         read in one voxel time series from a NIFTI .img file
+f.read.analyze.volume   read whole ANALYZE .img file
+f.read.nifti.volume     read whole NIFTI .img file
+f.read.nifti.header	read Nifti header file
+f.read.header	        read Analyze and Nifti header files
 f.spectral.summary      plots graphical summary of spectral properties
-                        of an fMRI dataset
-f.write.analyze         writes an array to a .img/.hdr pair
+                        of an ANALYZE fMRI dataset
+f.spectral.summary.nifti      
+			plots graphical summary of spectral properties
+                        of a NIFTI fMRI dataset
+f.write.analyze         writes an array to an ANALYZE .img/.hdr pair
+f.write.nifti	        writes an array to a NIFTI .img/.hdr pair
+
 f.write.array.to.img.2bytes
                         write array of 2 byte integers
 f.write.array.to.img.8bit
                         write array of 1 byte integers
 f.write.array.to.img.float
                         write array of 4 byte floats
-f.write.list.to.hdr     writes a .hdr file
+
+f.write.nii.array.to.img.2bytes
+                        write array of 2 byte integers and add at the begining of the file the NIFTI header part
+f.write.nii.array.to.img.8bit
+                        write array of 1 byte integers and add at the begining of the file the NIFTI header part
+f.write.nii.array.to.img.float
+                        write array of 4 byte floats and add at the begining of the file the NIFTI header part
+
+
+f.write.list.to.hdr     writes an ANALYZE .hdr file
+f.write.list.to.hdr.nifti     
+			writes a NIFTI .hdr file
+
 GaussSmoothArray        Spatially smooth an array with Gaussian kernel.
 GaussSmoothKernel       Calculates a discrete Gaussian smoothing
                         kernel.

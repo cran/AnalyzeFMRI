@@ -127,5 +127,33 @@ Version 1.0-8 :
 
  Version 1.1-9
 
--I added the files niftiFMRI.c and niftiFMRI.R to be able to read the new Nifti format for .hdr files
+-I added the files niftiFMRI.c and niftiFMRI.R to be able to read the new NIFTI format for .hdr files
 -I completed the documentation of the outputs of f.read.analyze.header and f.read.nifti.header
+
+
+2008-02-26
+----------
+
+ Version 1.1-10
+
+- ICA.gui.R and AnalyzeFMRI.gui.R were modified to avoid use of deprecated tkcmd. I replaced tkcmd by tcl
+- size.of.header was replaced by sizeof.hdr both in the functions f.basic.hdr.list.create and f.write.list.to.hdr
+- Error in function f.read.nifti.header: srow_x,y and z were declared as single(1) which was incorrect. They are now defined as single(4)
+- The function write_nifti_header_wrap_JM was added to the file niftiFMRI.c. It is now possible to write .hdr files in NIFTI format.
+- The function read_nifti_magic_wrap was added to the file niftiFMRI.c. It is now possible to read a .hdr file and its format (ANALYZE or NIFTI) 
+  is determined automatically.
+- I added the functions f.nifti.file.summary , f.basic.hdr.nifti.list.create , f.write.list.to.hdr.nifti , f.write.nifti 
+  f.read.nifti.slice , f.read.nifti.tpt , f.read.nifti.slice.at.all.timepoints , f.read.nifti.ts , f.spectral.summary.nifti , 
+  f.read.nifti.volume , f.read.header , f.write.nii.array.to.img.2bytes , f.write.nii.array.to.img.8bit and f.write.nii.array.to.img.float 
+  to the file nifitFMRI.R
+- I added the documentation for the functions f.nifti.file.summary , f.basic.hdr.nifti.list.create , f.write.list.to.hdr.nifti , f.write.nifti ,
+  f.read.nifti.slice , f.read.nifti.tpt , f.read.nifti.slice.at.all.timepoints , f.read.nifti.ts , f.read.nifti.volume , f.spectral.summary.nifti
+  and f.read.header
+- Documentation for f.read.analyze.header and f.read.nifti.header was modified
+- I corrected an error in the Examples section of the file f.write.list.to.hdr
+- I modified the INDEX file
+- I added a nwritten and a nread int variable for the output of th C functions fread and fwrite.
+- I added the functions write2byteappend_JM , write8bitappend_JM , writefloatappend_JM to the file nifitFMRI.c
+
+
+
