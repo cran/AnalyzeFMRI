@@ -1,30 +1,27 @@
-\name{f.read.nifti.header}
-\alias{f.read.nifti.header}
-\title{read Nifti header file}
-\description{Reads the NIFTI image format .hdr header file into a
-  list.}
-\usage{f.read.nifti.header(file)}
-\arguments{\item{file}{The .hdr file to be read}}
-\value{A list containing the information in the fields of the .hdr file. 
-\item{file.name}{path name of the .img file}
-\item{swap}{1 or 0 variable indicating whether files are big (=native) or
-  little (=swapped) endian}
-\item{sizeof.hdr}{MUST be 348}
-\item{data.type}{char[10]. UNUSED}
-\item{db.name}{char[18]. UNUSED}
-\item{extents}{UNUSED}
-\item{session.error}{UNUSED}
-\item{regular}{UNUSED, but filled with 'r' as SPM does}
+\name{f.complete.hdr.nifti.list.create}
+\alias{f.complete.hdr.nifti.list.create}
+\title{creates complete .hdr list in NIFTI format}
+\description{Creates a complete list that can be used to write a .hdr file
+or the header part of a .nii file}
+\usage{f.complete.hdr.nifti.list.create(file,dim.info=character(1),dim,intent.p1=single(1),intent.p2=single(1),intent.p3=single(1),intent.code=integer(1),datatype=integer(1),bitpix=integer(1),slice.start=integer(1),pixdim=single(8),scl.slope=single(1),scl.inter=single(1),slice.end=integer(1),slice.code=character(1),xyzt.units=character(1),cal.max=single(1),cal.min=single(1),slice.duration=single(1),toffset=single(1),descrip=paste(rep(" ", 80), sep = "", collapse = ""),aux.file=paste(rep(" ", 24), sep = "", collapse = ""),qform.code=integer(1),sform.code=integer(1),quatern.b=single(1),quatern.c=single(1),quatern.d=single(1),qoffset.x=single(1),qoffset.y=single(1),qoffset.z=single(1),srow.x=single(4),srow.y=single(4),srow.z=single(4),intent.name=paste(rep(" ", 16), sep = "", collapse = ""))
+}
+
+\arguments{
+\item{file}{The .hdr filename. If file extension is ".nii", this will
+  create a header file for a ".nii" NIFTI file, else for a .hdr/.img
+  NIFTI pair}
 \item{dim.info}{MRI slice ordering: This field encode which spatial
   dimension (1=x, 2=y, or 3=z) corresponds to which acquisition dimension
   for MRI data. In fact, it contains three informations: freq.dim,
   phase.dim and slice.dim, all squished into the single byte field dim.info (2 bits each, since the values for each field are
-  limited to the range 0..3). The R function diminfo2fps can be used to extract these values from the dim.info byte.}
+  limited to the range 0..3). The R function fps2diminfo can be used to
+  encode these values into the dim.info character byte.}
 \item{dim}{vector (of length 8) of image dimensions. dim[1] specifies the
   number of dimensions. In NIFTI-1 files, dim[2], dim[3], dim[4] are for
   space, dim[5] is for time. The 5th dimension (dim[6]) of the dataset, if
   present (i.e., dim[1]=5 and dim[6] > 1), contains multiple values (for
-  example a vector) to be stored at each spatiotemporal location. Uses of dim[7] and dim[8] are not specified in NIFTI-1 format.}
+  example a vector) to be stored at each spatio-temporal location. Uses
+  of dim[7] and dim[8] are not specified in NIFTI-1 format.}
 \item{intent.p1}{1st intent parameter: first auxiliary parameter for a
   possible statistical distribution specified in intent.code}
 \item{intent.p2}{2nd intent parameter: second auxiliary parameter for a
@@ -65,8 +62,6 @@ range 2...24, this indicates that the numbers in the dataset should be interpret
   pixdim[3] and pixdim[4] give the voxel width along dimension x, y and
   z respectively. pixdim[5] gives the time step (=Time Repetition=TR). The units of
   pixdim can be specified with the xyzt.units field.}
-\item{vox.offset}{Offset into .nii file. Should be 352 for a .nii file,
-  0 for a nifti .hdr/.img pair.}
 \item{scl.slope}{Data scaling: If the scl.slope field is nonzero, then
   each voxel value in the dataset should be scaled as y = scl.slope*x +
   scl.inter, where x = voxel value stored and y = "true" voxel value}
@@ -89,7 +84,7 @@ range 2...24, this indicates that the numbers in the dataset should be interpret
 \item{xyzt.units}{Units of pixdim[2:5]. Bits 1..3 of xyzt.units specify
   the (same) space unit of pixdim[2:4]. Bits 4..6 of xyzt.units specify the
   time unit of pixdim[5]. See xyzt-units.txt in the niftidoc directory of the
-  source package. The R function xyzt2st can be used to extract these values from the xyzt.units byte.}
+  source package. The R function st2xyzt can be used to encode these values into the xyzt.units byte.}
 \item{cal.max}{Maximum display intensity (white) corresponds to dataset
   value cal.max. Dataset values above cal.max should display as white. cal.min and cal.max only make sense when applied to scalar-valued
       datasets (i.e., dim[1] < 5 or dim[6] = 1).}
@@ -99,8 +94,6 @@ range 2...24, this indicates that the numbers in the dataset should be interpret
 \item{toffset}{Time axis shift: The toffset field can be used to indicate a nonzero start point for
    the time axis.  That is, time point m is at t=toffset+m*pixdim[5] for
    m=1, ..., dim[5]-1.}
-\item{glmax}{UNUSED}
-\item{glmin}{UNUSED}
 \item{descrip}{char[80]. This field may contain any text you like}
 \item{aux.file}{char[24]. This field is used to store an auxiliary filename.}
 \item{qform.code}{NIFTI code (in 0, ... ,4). 0: Arbitrary
@@ -137,13 +130,19 @@ parameters contain an affine (non-rigid) transformation ("Method 3" in the nifti
 \item{srow.y}{vector of length 4. 2nd row affine transform}
 \item{srow.z}{vector of length 4. 3rd row affine transform}
 \item{intent.name}{char[16]. 'name' or meaning of data. If no data name is implied or needed, intent.name[1] should be set to 0.}
-\item{magic}{MUST be "ni1" or "n+1"}}
-
-
+}
+\value{Returns a list of all the fields needed to create a .hdr file
+  (see the function code for details).}
+\seealso{ 
+  \code{\link{f.basic.hdr.nifti.list.create}},
+  \code{\link{f.write.list.to.hdr.nifti}},
+  \code{\link{f.nifti.file.summary}} 
+}
 \examples{
-f.read.nifti.header(system.file("example-nifti.hdr", package="AnalyzeFMRI"))
+dim.mat <- c(20,30,40,3)
+dim <- c(length(dim.mat), dim.mat, rep(0, 7 - length(dim.mat)))
+filename <- "temp.hdr"
+f.complete.hdr.nifti.list.create(file=filename,dim=dim)
 }
 \keyword{utilities}
-
-
 

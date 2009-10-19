@@ -119,8 +119,8 @@ Version 1.0-8 :
 -modification of R function f.read.analyze.header to output all the components of the .hdr file (in basic Analyze 7.5 format but with originator field modified)
 -modification of R function f.basic.hdr.list.create : originator field was modified (In the basic format, this is meant to be 10 bytes of text. In SPM, this space is used to contain three short (two byte) integers.) from 10 char (1 byte) to 5 short int (2 bytes)
 -modification of R function f.write.list.to.hdr : L$originator from character to integer
--modification of R function  f.write.analyze: i added the 'originator' argument to the function (with rep(0,5) default value)
--modification of C function  write_analyze_header_wrap_JM : originator from char** to int* 
+-modification of R function f.write.analyze: i added the 'originator' argument to the function (with rep(0,5) default value)
+-modification of C function write_analyze_header_wrap_JM : originator from char** to int* 
 
 2007-12-12
 ----------
@@ -157,3 +157,31 @@ Version 1.0-8 :
 
 
 
+2009-10-19
+----------
+
+ Version 1.1-11
+
+- Initialisation of some variables in nifitFMRI.c, slam.unused, sblas.unused and slapack.unused to prevent compiler warnings
+- I added function f.read.volume to read a NIFTI or ANALYZE volume file. The function autodetects the format type of the image file
+- I modified f.read.analyze.volume and f.read.nifti.volume to always return a 4D array
+- I corrected a mistake in the function f.basic.hdr.nifti.list.create where vox.offset and magic fields should reflect the fact that we are in .nii or .img/.hdr NIFTI format
+- I also modified the write_nifti_header_wrap_JM C function
+- modification of R function f.write.list.to.hdr : I added a function strcomplete to respect the length of some Analyze character fields
+- modification of R function f.write.list.to.hdr.nifti : I added a function strcomplete to respect the length of some Nifti character fields
+- modification of many fields in help file f.read.nifti.header
+- modification of example section from f.write.nifti help file
+- There was a bug when using f.write.nifti function to create a .nii file. It is now corrected.
+- Functions diminfo2fps and fps2diminfo added
+- Functions xyzt2st and st2xyzt added
+- I added a directory called niftidoc in the package that contains various documentation files about NIFTI fields
+- I added a function f.complete.hdr.nifti.list.create
+- I added a function magicfield
+- I added a function analyze2nifti
+- I added the functions threeDto4D, twoDto4D and fourDto2D
+- I added the functions R2Q, Q2R xyz2ijk and ijk2xyz
+- I modified f.read.nifti.header to take into account the cases when "" should be "\0" for example
+- I added the functions nifti.quatern.to.mat44, mat34.to.TRSZ, mat34.to.TZSR
+- I added the functions f.icast.fmri.gui, f.icast.fmri, centering, reduction, eigenvalues, ICAspat, ICAtemp
+- I added the function plot.volume
+- I modified the file man/EC.3D.Rd to suppress a WARNING on the CRAN

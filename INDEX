@@ -1,8 +1,21 @@
+analyze2nifti		Create a NIFTI file from an Analyze file
+
+centering		Center the data in the two dimensions
+
 cluster.threshold       Cluster threshold an array.
 cov.est                 Estimates the covariance between neighbouring
                         voxels
+
+diminfo2fps		dim.info field to freq.dim, phase.dim and slice.dim fields
+
 EC.3D                   Expected Euler Characteristic for a 3D Random
                         Field
+
+eigenvalues		Computes the eigenvalues of a centered and reduced data matrix
+
+fourDto2D		Transform a 4D image into a 2D image matrix
+fps2diminfo		freq.dim, phase.dim and slice.dim fields into dim.info field
+
 f.analyze.file.summary  prints summary of ANALYZE .img file contents
 f.nifti.file.summary    prints summary of NIFTI .img file contents
 
@@ -10,10 +23,15 @@ f.analyzeFMRI.gui       starts AnalyzeFMRI GUI
 f.basic.hdr.list.create creates basic ANALYZE .hdr list
 f.basic.hdr.nifti.list.create 
 			creates basic NIFTI .hdr list
+f.complete.hdr.nifti.list.create 
+			creates complete NIFTI .hdr list
 
 f.ica.fmri              Applies Spatial ICA (Independent Component
                         Analysis) to fMRI datasets
-f.ica.fmri.gui          tcltk GUI to apply ICA to fMRI datasets
+f.icast.fmri            Applies Spatial or Temporal ICA (Independent Component
+                        Analysis) to fMRI NIFTI datasets
+f.ica.fmri.gui          tcltk GUI to apply Spatial ICA to fMRI Analyze datasets
+f.icast.fmri.gui        tcltk GUI to apply Spatial or Temporal ICA to NIFTI fMRI datasets
 f.plot.ica.fmri         Plots a specified component from the output of
                         f.ica.fmri
 f.plot.ica.fmri.jpg     Plot the components of the ouput of f.ica.fmri
@@ -30,7 +48,8 @@ f.read.nifti.tpt        Read in a volume at one time point from a NIFTI file
 f.read.analyze.ts       read in one voxel time series from an ANALYZE .img file
 f.read.nifti.ts         read in one voxel time series from a NIFTI .img file
 f.read.analyze.volume   read whole ANALYZE .img file
-f.read.nifti.volume     read whole NIFTI .img file
+f.read.nifti.volume     read whole NIFTI image file
+f.read.volume		read whole ANALYZE or NIFTI image file (autodetecting the format)
 f.read.nifti.header	read Nifti header file
 f.read.header	        read Analyze and Nifti header files
 f.spectral.summary      plots graphical summary of spectral properties
@@ -63,6 +82,17 @@ f.write.list.to.hdr.nifti
 GaussSmoothArray        Spatially smooth an array with Gaussian kernel.
 GaussSmoothKernel       Calculates a discrete Gaussian smoothing
                         kernel.
+
+ICAspat			Performs a spatial ICA
+ICAtemp			Performs a temporal ICA
+
+ijk2xyz			Maps from data coordinates (e.g. column i, row j, slice k), into some real world (x,y,z) positions in space.
+
+magicfield		Get magic field from the header of an image file
+
+mat34.to.TRSZ		Affine 4x4 (or 3x4) matrix to Translation, Rotation, Shear and Scale
+mat34.to.TZSR		Affine 4x4 (or 3x4) matrix to Translation, Scale, Shear and Rotation
+
 model.2.cov.func        Calculates covariance from Hartvig Model 2
 model.2.est.gamma       Estimate gamma for Model 2 of Hartvig and
                         Jensen (2000)
@@ -80,12 +110,28 @@ N2G.Region              N2G Normal component interval
 N2G.Spatial.Mixture     fMRI Spatial Mixture Modelling
 N2G.Transform           Transform parameters of N2G model so as to lie
                         on the real line.
+nifti.quatern.to.mat44  Quaternion (etc..) to affine 4x4 matrix
 NonLinearSmoothArray    Non-linear spatial smmothing of 3D and 4D
                         arrays.
+
+Q2R			Generate a rotation matrix from a quaternion 
+R2Q			Convert from rotation matrix to quaternion form
+
+reduction		Reduces the data in the row or col dimension
+
 Sim.3D.GammaRF          Simulate Gamma distributed Random Field
 Sim.3D.GRF              Simulate a GRF
 SmoothEst               Estimate the variance-covariance matrix of a
                         Gaussian random field
+
+st2xyzt			Encode space and time dimensions fields into the xyzt.units field
+
+threeDto4D		Read tm functionnal images and concatenate them to obtain one (hdr/img pair) 4D image file (Analyze or Nifti format) which is written on disk
+
 Threshold.Bonferroni    Calculates Bonferroni Threshold
 Threshold.FDR           False Discovery Rate (FDR) Threshold
-Threshold.RF            Random Field Theory Thersholds.
+Threshold.RF            Random Field Theory Thresholds.
+
+twoDto4D		Transform a 2D matrix of size tm x vm containing images in each row into a 4D array image
+
+xyzt2st			Extract space and time dimensions fields from xyzt.units field

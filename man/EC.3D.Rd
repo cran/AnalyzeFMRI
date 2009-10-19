@@ -32,12 +32,11 @@ EC.3D(u, sigma, voxdim = c(1, 1, 1), num.vox, type = c("Normal", "t"), df = NULL
   }
 \value{The value of the expected Euler Characteristic.
 }
-\references{Adler, R. (1981) \emph{The Geometry of Random Fields.}. New York: Wiley.
+\references{
+  Adler, R. (1981) \emph{The Geometry of Random Fields.}. New York: Wiley.
   Worlsey, K. J. (1994) Local maxima and the expected euler
-  characteristic of excursion sets of \eqn{\chi^2}, \eqn{f} and \eqn{t)}
-  fields. \emph{Advances in Applied Probability}, \bold{26}, 13-42.}
-
-}
+  characteristic of excursion sets of \eqn{\chi^2}, \eqn{f} and \eqn{t}
+    fields. \emph{Advances in Applied Probability}, \bold{26}, 13-42.}
 \author{J. L. Marchini}
 
 

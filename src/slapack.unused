@@ -140,6 +140,9 @@
      $                   ICOMPQ, IERR, II, IS, IU, IUPLO, IVT, J, K, KK,
      $                   MLVL, NM1, NSIZE, PERM, POLES, QSTART, SMLSIZ,
      $                   SMLSZP, SQRE, START, WSTART, Z
+      DATA Z , POLES  / 0 , 0 / 
+      DATA IVT , IC , IS , GIVCOL , GIVNUM / 0 , 0 , 0 , 0 , 0/ 
+      DATA DIFR , DIFL / 0 , 0 /
       REAL               CS, EPS, ORGNRM, P, R, SN
 *     ..
 *     .. External Functions ..
@@ -2453,10 +2456,12 @@
 *     ..
 *     .. Local Scalars ..
       LOGICAL            LQUERY, WNTQA, WNTQAS, WNTQN, WNTQO, WNTQS
+
       INTEGER            BDSPAC, BLK, CHUNK, I, IE, IERR, IL,
      $                   IR, ISCL, ITAU, ITAUP, ITAUQ, IU, IVT, LDWKVT,
      $                   LDWRKL, LDWRKR, LDWRKU, MAXWRK, MINMN, MINWRK,
      $                   MNTHR, NWORK, WRKBL
+      DATA BDSPAC , IR , IL / 0 , 0 , 0 /
       REAL               ANRM, BIGNUM, EPS, SMLNUM
 *     ..
 *     .. Local Arrays ..
@@ -4111,6 +4116,7 @@
       REAL               A, B, BASE, C, DDF, DF, EPS, ERRETM, ETA, F,
      $                   FC, SCLFAC, SCLINV, SMALL1, SMALL2, SMINV1,
      $                   SMINV2, TEMP, TEMP1, TEMP2, TEMP3, TEMP4
+      DATA SCLINV / 0.0 /
 *     ..
 *     .. Save statement ..
       SAVE               FIRST, SMALL1, SMINV1, SMALL2, SMINV2, EPS
@@ -4493,6 +4499,8 @@
 *     .. Local Scalars ..
       INTEGER            I, J
       REAL               SCALE, SUM, VALUE
+      DATA VALUE / 0.0 /
+
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           SLASSQ
@@ -4630,6 +4638,7 @@
 *     .. Local Scalars ..
       INTEGER            I
       REAL               ANORM, SCALE, SUM
+      DATA ANORM / 0.0 /
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -6980,6 +6989,7 @@
 *     .. Local Scalars ..
       INTEGER            CT, I, IDXI, IDXJ, IDXJP, J, JP, JPREV, K2, M,
      $                   N, NLP1, NLP2
+      DATA JPREV / 0 /
       REAL               C, EPS, HLFTOL, S, TAU, TOL, Z1
 *     ..
 *     .. External Functions ..
@@ -9209,6 +9219,8 @@
 *
       INTEGER            I, IDXI, IDXJ, IDXJP, J, JP, JPREV, K2, M, N,
      $                   NLP1, NLP2
+      DATA JPREV / 0 /
+
       REAL               EPS, HLFTOL, TAU, TOL, Z1
 *     ..
 *     .. External Subroutines ..
@@ -9582,6 +9594,8 @@
 *     .. Local Scalars ..
       INTEGER            I, IWK1, IWK2, IWK2I, IWK3, IWK3I, J
       REAL               DIFLJ, DIFRJ, DJ, DSIGJ, DSIGJP, RHO, TEMP
+      DATA DIFRJ / 0.0 /
+
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           SCOPY, SLASCL, SLASD4, SLASET, XERBLA
@@ -11624,6 +11638,8 @@
 *     .. Local Scalars ..
       INTEGER            I4, NN, NP
       REAL               A2, B1, B2, G, GAM, GAP1, GAP2, S
+      DATA S / 0.0 /
+
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          MAX, MIN, SQRT
@@ -12996,8 +13012,11 @@
 *     .. Local Scalars ..
       LOGICAL            GASMAL, SWAP
       INTEGER            PMAX
+
       REAL               A, CLT, CRT, D, FA, FT, GA, GT, HA, HT, L, M,
      $                   MM, R, S, SLT, SRT, T, TEMP, TSIGN, TT
+      DATA TSIGN / 0.0 /
+
 *     ..
 *     .. Intrinsic Functions ..
       INTRINSIC          ABS, SIGN, SQRT
@@ -13389,6 +13408,7 @@
 *     .. Local Scalars ..
       LOGICAL            LQUERY, WANTQ
       INTEGER            I, IINFO, J, LWKOPT, MN, NB
+      DATA LWKOPT / 0 /
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -13742,6 +13762,8 @@
       LOGICAL            LQUERY
       INTEGER            I, IB, IINFO, IWS, J, KI, KK, L, LDWORK,
      $                   LWKOPT, NB, NBMIN, NX
+      DATA KI / 0 /
+
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           SLARFB, SLARFT, SORGL2, XERBLA
@@ -13959,6 +13981,8 @@
       LOGICAL            LQUERY
       INTEGER            I, IB, IINFO, IWS, J, KI, KK, L, LDWORK,
      $                   LWKOPT, NB, NBMIN, NX
+      DATA KI / 0 /
+
 *     ..
 *     .. External Subroutines ..
       EXTERNAL           SLARFB, SLARFT, SORG2R, XERBLA
@@ -14422,6 +14446,7 @@
       LOGICAL            APPLYQ, LEFT, LQUERY, NOTRAN
       CHARACTER          TRANST
       INTEGER            I1, I2, IINFO, LWKOPT, MI, NB, NI, NQ, NW
+      DATA LWKOPT / 0 /
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME
@@ -14886,6 +14911,7 @@
       CHARACTER          TRANST
       INTEGER            I, I1, I2, I3, IB, IC, IINFO, IWS, JC, LDWORK,
      $                   LWKOPT, MI, NB, NBMIN, NI, NQ, NW
+      DATA NB , LWKOPT / 0 , 0 /
 *     ..
 *     .. Local Arrays ..
       REAL               T( LDT, NBMAX )
@@ -15154,6 +15180,7 @@
       LOGICAL            LEFT, LQUERY, NOTRAN
       INTEGER            I, I1, I2, I3, IB, IC, IINFO, IWS, JC, LDWORK,
      $                   LWKOPT, MI, NB, NBMIN, NI, NQ, NW
+      DATA NB , LWKOPT / 0 , 0 /
 *     ..
 *     .. Local Arrays ..
       REAL               T( LDT, NBMAX )

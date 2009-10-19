@@ -555,8 +555,11 @@ f.read.analyze.volume <- function(file){
     num.dim <- hdr$dim[1]
     dim <- hdr$dim[1:num.dim + 1]
 
-    num.data.pts <- 1
-    for(i in 1:num.dim){num.data.pts <- num.data.pts * dim[i]}
+
+  if (num.dim < 4) dim <- c(dim,1)
+
+  num.data.pts <- prod(dim)  
+
 
 
     if(hdr$datatype == 2){
@@ -727,19 +730,26 @@ f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
 
 f.write.list.to.hdr <- function(L, file){
 
+# To respect the length of some Analyze character fields
+  strcomplete <- function(string,max.length) {
+    string <- substr(string,1,max.length)
+    as.character(paste(as.character(string),paste(rep(" ",max.length-nchar(string)),collapse=""),collapse="",sep="")) 
+  }
+
+  
 # Writes a list to a .hdr file
     a <- .C("write_analyze_header_wrap_JM",
             file,
             as.integer(L$sizeof.hdr),
-            as.character(L$data.type),
-            as.character(L$db.name),
+            strcomplete(L$data.type,10),
+            strcomplete(L$db.name,18),
             as.integer(L$extents),
             as.integer(L$session.error),
-            as.character(L$regular),
-            as.character(L$hkey.un0),
+            strcomplete(L$regular,1),
+            strcomplete(L$hkey.un0,1),
             as.integer(L$dim),
-            as.character(L$vox.units),
-            as.character(L$cal.units),
+            strcomplete(L$vox.units,4),
+            strcomplete(L$cal.units,8),
             as.integer(L$unused1),
             as.integer(L$datatype),
             as.integer(L$bitpix),
@@ -755,17 +765,17 @@ f.write.list.to.hdr <- function(L, file){
             as.single(L$verified),
             as.integer(L$glmax),
             as.integer(L$glmin),
-            as.character(L$descrip),
-            as.character(L$aux.file),
-            as.character(L$orient),
+            strcomplete(L$descrip,80),
+            strcomplete(L$aux.file,24),
+            strcomplete(L$orient,1),
  #           as.character(L$originator),
            as.integer(L$originator),
-            as.character(L$generated),
-            as.character(L$scannum),
-            as.character(L$patient.id),
-            as.character(L$exp.date),
-            as.character(L$exp.time),
-            as.character(L$hist.un0),
+            strcomplete(L$generated,10),
+            strcomplete(L$scannum,10),
+            strcomplete(L$patient.id,10),
+            strcomplete(L$exp.date,10),
+            strcomplete(L$exp.time,10),
+            strcomplete(L$hist.un0,3),
             as.integer(L$views),
             as.integer(L$vols.added),
             as.integer(L$start.field),

@@ -54,6 +54,7 @@
       INTEGER            BETA, IMAX, IMIN, IT
       REAL               BASE, EMAX, EMIN, EPS, PREC, RMACH, RMAX, RMIN,
      $                   RND, SFMIN, SMALL, T
+      DATA RMACH / 0.0 /
 *     ..
 *     .. External Functions ..
       LOGICAL            LSAME

@@ -295,6 +295,11 @@ void write_nifti_header_wrap_JM(char **name,
   int i, nwritten;
   short dim1[8],tmp;
 
+  char *extension;
+  char val = (char)0;
+  extension = &val;
+
+
   fp = fopen(name[0],"wb");
   if(fp == NULL) error("file writing error");
   nwritten = fwrite(sizeof_hdr, 4, 1, fp);
@@ -340,7 +345,8 @@ void write_nifti_header_wrap_JM(char **name,
   nwritten = fwrite(srow_y, 4, 4, fp);
   nwritten = fwrite(srow_z, 4, 4, fp);
   for(i = 0; i < 16; i++) nwritten = fwrite(*(intent_name) + i, 1, 1, fp);
-  for(i = 0; i < 4; i++) nwritten = fwrite(*(magic) + i, 1, 1, fp);
+  for(i = 0; i < 3; i++) nwritten = fwrite(*(magic) + i, 1, 1, fp);
+  nwritten = fwrite(extension, 1, 1, fp); 
 
   fclose(fp);
 }
@@ -365,8 +371,9 @@ void write8bitappend_JM(int *imp, char **name, int *n)
   unsigned char *temp;
   int i, nwritten;
   float *extension;
-  
-  *(extension+0) = 0;
+  float val = 0;  
+
+  extension = &val;
 
   temp = Calloc(*n, unsigned char);
 
@@ -393,8 +400,9 @@ void write2byteappend_JM(int *imp, char **name, int *n)
   short *temp;
   int i, nwritten;
   float *extension;
-  
-  *(extension+0) = 0;
+  float val = 0;  
+
+  extension = &val;
 
   temp = Calloc(*n, short);
 
@@ -417,8 +425,9 @@ void writefloatappend_JM(float *imp, char **name, int *n)
   FILE *fp;
   int nwritten;  
   float *extension;
-  
-  *(extension+0) = 0;
+  float val = 0;  
+
+  extension = &val;
 
   fp = fopen(name[0], "ab");
   
@@ -427,3 +436,4 @@ void writefloatappend_JM(float *imp, char **name, int *n)
 
   fclose(fp);
 }
+
