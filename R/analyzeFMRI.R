@@ -152,11 +152,11 @@ f.analyze.file.summary <- function(file){
 }
 
 
-f.basic.hdr.list.create <- function(mat, file.hdr){
+f.basic.hdr.list.create <- function(X, file.hdr){
 
 #creates a basic list that can be used to write a .hdr file
 
-    dim <- dim(mat)
+    dim <- dim(X)
     dim <- c(length(dim), dim, rep(0, 7 - length(dim)))
 
     l <- list(file = file.hdr,

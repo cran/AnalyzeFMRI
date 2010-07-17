@@ -96,6 +96,8 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
 ## !!! J'ai pris method=3 (lecture de la matrice affine) pour faire conincider l'anat et la fonctionnelle
   ### si sform.code=0 cela ne marchera pas ...
 
+hscaletmp<-as.numeric(tclvalue(hscaletmp))
+vscaletmp<-as.numeric(tclvalue(vscaletmp))
   
 # Permet d'afficher un volume cérébral anatomique et/ou fonctionnel
 # Paramètres d'entrée:
@@ -150,9 +152,9 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
       
     
 # Variable initialisation
-    nn.fonc.sagit <- 1
-    nn.fonc.coron <- 1
-    nn.fonc.axia <- 1
+    nn.fonc.sagit <- ceiling(dim.fonc.sagit/2)
+    nn.fonc.coron <- ceiling(dim.fonc.coron/2)
+    nn.fonc.axia <- ceiling(dim.fonc.axia/2)
     nn.fonc.time <- 1
     
     mini.fonc <- min(vol.fonc[,,,nn.fonc.time])
@@ -184,8 +186,8 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
       flip <- orientation(hdr.anat)
 
     }
-  
     if (length(dim(vol.anat)) == 4) vol.anat <- vol.anat[,,,1]
+    if (length(dim(vol.anat)) == 2) dim(vol.anat) <- c(dim(vol.anat),1)
     
 
     dimensions.anat <- dim(vol.anat)
@@ -204,6 +206,12 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
     nn.anat.sagit <- ceiling(dim.anat.sagit/2)
     nn.anat.coron <- ceiling(dim.anat.coron/2)
     nn.anat.axia <- ceiling(dim.anat.axia/2)
+
+    SliderSagit.anat <- tclVar(dim.anat.sagit)
+    SliderCoron.anat <- tclVar(dim.anat.coron)
+    SliderAxia.anat <- tclVar(dim.anat.axia)
+
+
   }
 
     
@@ -312,10 +320,13 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
     img.fonc.sagit <- tkrplot(parent=frame1.fonc, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe sagittale
-      image(1:dim.fonc.coron,1:dim.fonc.axia,vol.fonc[nn.fonc.sagit,,,nn.fonc.time],col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=2)
+
+
+
+      image(1:dim.fonc.coron,1:dim.fonc.axia,as.matrix(vol.fonc[nn.fonc.sagit,,,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=2)
       abline(h=nn.fonc.axia,v=nn.fonc.coron,col="black")
     }
-                              , hscale=0.8, vscale=0.8)
+                              , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.fonc.sagit, "<Button-1>", function(x, y) {
       asp <- 2
       wid.fonc <- as.integer(tkwinfo("width", img.fonc.sagit))
@@ -348,10 +359,10 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
     img.fonc.coron <- tkrplot(parent=frame1.fonc, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe coronale
-      image(1:dim.fonc.sagit,1:dim.fonc.axia,vol.fonc[,nn.fonc.coron,,nn.fonc.time],col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=2)
+      image(1:dim.fonc.sagit,1:dim.fonc.axia,as.matrix(vol.fonc[,nn.fonc.coron,,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=2)
       abline(h=nn.fonc.axia,v=nn.fonc.sagit,col="black")
     }
-                              , hscale=0.8, vscale=0.8)
+                              , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.fonc.coron, "<Button-1>", function(x, y) {
       asp <- 2
       wid.fonc <- as.integer(tkwinfo("width", img.fonc.coron))
@@ -390,10 +401,11 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
     img.fonc.axia <- tkrplot(parent=frame2.fonc, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe axiale     
-      image(1:dim.fonc.sagit,1:dim.fonc.coron,vol.fonc[if (flip == -1) rev(1:dim.fonc.sagit) else 1:dim.fonc.sagit,,nn.fonc.axia,nn.fonc.time],col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=1)
+#      image(1:dim.fonc.sagit,1:dim.fonc.coron,as.matrix(vol.fonc[if (flip == 1) rev(1:dim.fonc.sagit) else 1:dim.fonc.sagit,,nn.fonc.axia,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=1)
+      image(1:dim.fonc.sagit,1:dim.fonc.coron,as.matrix(vol.fonc[1:dim.fonc.sagit,,nn.fonc.axia,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=1)
       abline(h=nn.fonc.coron,v=nn.fonc.sagit,col="black")    
     }
-                             , hscale=0.8, vscale=0.8)
+                             , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.fonc.axia, "<Button-1>", function(x, y) {
       wid.fonc <- as.integer(tkwinfo("width", img.fonc.axia))
       hei.fonc <- as.integer(tkwinfo("height", img.fonc.axia))
@@ -424,15 +436,15 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
       par(mar=c(5.1,4.1,4.1,2.1), mai=c(0.5,0.82,0.2,0.42), bg = "#555555")
       maColorBar(x=seq(from=mini.fonc,to=maxi.fonc,len=length(col.fonc)+1),col=col.fonc,horizontal=TRUE)
       par(mar=c(1.1,2.1,2.1,0.1), mai=c(0.5,0.42,0.4,0.22))
-      plot(vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,],type="l",main=paste("Time course of the selected voxel.\nValue at that time: ",vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,nn.fonc.time],sep=""),xlab="",ylab="",cex.main=0.8)
+      plot(vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,],type="l",main=paste("Time course of the selected voxel.\nValue at that time: ",round(vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,nn.fonc.time],4),sep=""),xlab="",ylab="",cex.main=0.8)
       points(nn.fonc.time,vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,nn.fonc.time],col="blue",pch=1,cex=1.2)
     }
-                                , hscale=0.8, vscale=0.8)
+                                , hscale=hscaletmp, vscale=vscaletmp)
     
  
   # frame 3 to contain time slider and Quit button
     frame3.fonc <- tkframe(tt.fonc, relief = "groove", borderwidth = 2, bg = "#555555")
-    neuro.fonc <- tklabel(frame3.fonc,text="Neurological convention")
+    neuro.fonc <- tklabel(frame3.fonc,text=if (flip == 1) "Neurological convention" else if (flip == -1) "Radiological convention")
     timenb.fonc <- tklabel(frame3.fonc,text="Time", bg = "#aaaaaa")
     slider.fonc.time <- tkscale(frame3.fonc, command=f.fonc.time, from=1, to=as.numeric(tclvalue(SliderTime.fonc)), variable="nn.fonc.time",
                                 showvalue=TRUE, resolution=1,bigincrement=1,sliderlength=10,digits=0,length=400, orient="horiz")
@@ -531,18 +543,22 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
     frame1.anat <- tkframe(tt.anat, relief = "groove", borderwidth = 0, bg = "#555555")
     label.anat.sagit <- tklabel(frame1.anat,text="Sagittal ", bg = "#aaaaaa")
     label.anat.coron <- tklabel(frame1.anat,text="Coronal ", bg = "#aaaaaa")
+    slider.anat.sagit <- tkscale(frame1.anat, command=f.anat.sagit, from=as.numeric(tclvalue(SliderSagit.anat)), to=1, variable="nn.anat.sagit",
+                                 showvalue=TRUE, resolution=1, orient="verti") 
     img.anat.sagit <- tkrplot(parent=frame1.anat, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe sagittale
-      image(1:dim.anat.coron,1:dim.anat.axia,vol.anat[nn.anat.sagit,,],col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.coron/dim.anat.axia)
-      abline(h=nn.anat.axia,v=nn.anat.coron,col="red")
+      image((1:dim.anat.coron)/hdr.anat$pixdim[3],(1:dim.anat.axia)/hdr.anat$pixdim[4],as.matrix(vol.anat[nn.anat.sagit,,]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.coron/dim.anat.axia)
+      abline(h=nn.anat.axia/hdr.anat$pixdim[4],v=nn.anat.coron/hdr.anat$pixdim[3],col="red")
     }
-                              , hscale=0.8, vscale=0.8)
+                              , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.anat.sagit, "<Button-1>", function(x, y) {
       wid.anat <- as.integer(tkwinfo("width", img.anat.sagit))
       hei.anat <- as.integer(tkwinfo("height", img.anat.sagit))
       nn.anat.coron <<- ceiling(dim.anat.coron * as.numeric(x) /wid.anat)
       nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * as.numeric(y) /hei.anat )
+      tkset(slider.anat.coron,nn.anat.coron)	
+      tkset(slider.anat.axia,nn.anat.axia)
       tkrreplot(img.anat.sagit)
       tkrreplot(img.anat.coron)
       tkrreplot(img.anat.axia)
@@ -563,18 +579,22 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
 
       
     })
+    slider.anat.coron <- tkscale(frame1.anat, command=f.anat.coron, from=as.numeric(tclvalue(SliderCoron.anat)), to=1, variable="nn.anat.coron",
+                                 showvalue=TRUE, resolution=1, orient="verti")
     img.anat.coron <- tkrplot(parent=frame1.anat, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe coronale
-      image(1:dim.anat.sagit,1:dim.anat.axia,vol.anat[,nn.anat.coron,],col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.axia)
-      abline(h=nn.anat.axia,v=nn.anat.sagit,col="red")
+      image((1:dim.anat.sagit)/hdr.anat$pixdim[2],(1:dim.anat.axia)/hdr.anat$pixdim[4],as.matrix(vol.anat[,nn.anat.coron,]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.axia)
+      abline(h=nn.anat.axia/hdr.anat$pixdim[4],v=nn.anat.sagit/hdr.anat$pixdim[2],col="red")
     }
-                              , hscale=0.8, vscale=0.8)
+                              , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.anat.coron, "<Button-1>", function(x, y) {
       wid.anat <- as.integer(tkwinfo("width", img.anat.coron))
       hei.anat <- as.integer(tkwinfo("height", img.anat.coron))
       nn.anat.sagit <<- ceiling(dim.anat.sagit * as.numeric(x) /wid.anat)
       nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * as.numeric(y) /hei.anat )
+      tkset(slider.anat.sagit,nn.anat.sagit)
+      tkset(slider.anat.axia,nn.anat.axia)
       tkrreplot(img.anat.sagit)
       tkrreplot(img.anat.coron)
       tkrreplot(img.anat.axia)
@@ -602,18 +622,22 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
     frame2.anat <- tkframe(tt.anat, relief = "groove", borderwidth = 0, bg = "#555555")
     label.anat.axia <- tklabel(frame2.anat,text="Axial ", bg = "#aaaaaa")  
     label.anat.palette <- tklabel(frame2.anat,text="Palette values ", bg = "#aaaaaa")
+    slider.anat.axia <- tkscale(frame2.anat, command=f.anat.axia, from=as.numeric(tclvalue(SliderAxia.anat)), to=1, variable="nn.anat.axia",
+                                showvalue=TRUE, resolution=1, orient="verti")
     img.anat.axia <- tkrplot(parent=frame2.anat, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe axiale     
-      image(1:dim.anat.sagit,1:dim.anat.coron,vol.anat[if (flip == -1) rev(1:dim.anat.sagit) else 1:dim.anat.sagit,,nn.anat.axia],col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.coron)
-      abline(h=nn.anat.coron,v=nn.anat.sagit,col="red")    
+      image((1:dim.anat.sagit)/hdr.anat$pixdim[2],(1:dim.anat.coron)/hdr.anat$pixdim[3],as.matrix(vol.anat[if (flip == 1) rev(1:dim.anat.sagit) else 1:dim.anat.sagit,,nn.anat.axia]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.coron)
+      abline(h=nn.anat.coron/hdr.anat$pixdim[3],v=nn.anat.sagit/hdr.anat$pixdim[2],col="red")    
     }
-                             , hscale=0.8, vscale=0.8)
+                             , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.anat.axia, "<Button-1>", function(x, y) {
       wid.anat <- as.integer(tkwinfo("width", img.anat.axia))
       hei.anat <- as.integer(tkwinfo("height", img.anat.axia))
       nn.anat.sagit <<- ceiling(dim.anat.sagit * as.numeric(x) /wid.anat)
       nn.anat.coron <<- ceiling(dim.anat.coron - dim.anat.coron * as.numeric(y) /hei.anat)
+      tkset(slider.anat.sagit,nn.anat.sagit)
+      tkset(slider.anat.coron,nn.anat.coron)
       tkrreplot(img.anat.sagit)
       tkrreplot(img.anat.coron)
       tkrreplot(img.anat.axia)
@@ -639,25 +663,26 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
       par(mar=c(0.4,0.1,0.4,0.1), bg = "#555555")
       maColorBar(x=seq(from=mini.anat,to=maxi.anat,len=length(col.anat)+1),col=col.anat,horizontal=FALSE)
     }
-                                , hscale=0.8, vscale=0.8)
+                                , hscale=hscaletmp, vscale=vscaletmp)
   
  
   # frame 3 to contain Quit button
     frame3.anat <- tkframe(tt.anat, relief = "groove", borderwidth = 2, bg = "#555555") 
-    neuro.anat <- tklabel(frame3.anat,text="Neurological convention")
+    neuro.anat <- tklabel(frame3.anat,text=if (flip == 1) "Neurological convention" else if (flip == -1) "Radiological convention")
     Quit.but.anat <- tkbutton(frame3.anat,text="Quit",command=OnOK.anat, bg = "#aaaaaa")
   
   
 # We build the tk window with its widgets
-    tkgrid(label.anat.sagit,label.anat.coron ,padx = 1, pady = 1)
-    tkgrid(img.anat.sagit,img.anat.coron ,padx = 1, pady = 1)
+    tkgrid(tklabel(frame1.anat,text="             ", bg = "#555555"),label.anat.sagit,tklabel(frame1.anat,text="             ", bg = "#555555"),label.anat.coron ,padx = 1, pady = 1)
+    tkgrid(slider.anat.sagit,img.anat.sagit,slider.anat.coron,img.anat.coron ,padx = 1, pady = 1)
     tkgrid(frame1.anat)
-    tkgrid(label.anat.axia,label.anat.palette ,padx = 1, pady = 1)
-    tkgrid(img.anat.axia, img.anat.palette ,padx = 1, pady = 1)
+    tkgrid(tklabel(frame2.anat,text="             ", bg = "#555555"),label.anat.axia,tklabel(frame2.anat,text="             ", bg = "#555555"),label.anat.palette ,padx = 1, pady = 1)
+    tkgrid(slider.anat.axia,img.anat.axia,tklabel(frame2.anat,text="             ", bg = "#555555"), img.anat.palette ,padx = 1, pady = 1)
     tkgrid(frame2.anat)
     tkgrid(neuro.anat,Quit.but.anat, padx = 10, pady = 10)
     tkgrid(frame3.anat, sticky = "ew")
-    
+
+
     
   }
 
@@ -730,13 +755,21 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
 
     tkgrid(frame1)
     
+    hscaletmp <- tclVar(0.6)
+    vscaletmp <- tclVar(0.6)
   
     #frame for start and end buttons     
     frame2 <- tkframe(base.plot, borderwidth = 2, bg = "#555555")
     go.but<- tkbutton(frame2, text = "Start", bg = "#aaaaaa", command = plot.volume)
-    q.but <- tkbutton(frame2, text = "Quit",
-                      command = gui.end, bg = "#aaaaaa")
-    tkgrid(go.but, q.but, padx = 30, pady = 20)
+    q.but <- tkbutton(frame2, text = "Quit",command = gui.end, bg = "#aaaaaa")
+ 
+hscale.txt <- tklabel(frame2,text="hscale factor", bg = "#aaaaaa")
+    hscale.entry <- tkentry(frame2, textvariable = hscaletmp, width = 5, bg = "#ffffff")
+vscale.txt <- tklabel(frame2,text="vscale factor", bg = "#aaaaaa")
+    vscale.entry <- tkentry(frame2, textvariable = vscaletmp, width = 5, bg = "#ffffff")
+
+
+   tkgrid(go.but, q.but, hscale.txt,hscale.entry, vscale.txt,vscale.entry, padx = 30, pady = 20)
     tkgrid(frame2)
 
 

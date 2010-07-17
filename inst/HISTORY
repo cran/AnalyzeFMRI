@@ -185,3 +185,28 @@ Version 1.0-8 :
 - I added the functions f.icast.fmri.gui, f.icast.fmri, centering, reduction, eigenvalues, ICAspat, ICAtemp
 - I added the function plot.volume
 - I modified the file man/EC.3D.Rd to suppress a WARNING on the CRAN
+
+2009-11-03
+----------
+
+ Version 1.1-12
+
+- I modified function threeDto4D to (better) check if the headers of all files are the same (depending if we are in NIFTI/Analyze format) 
+- I modified function threeDto4D to add a check on datatype and to write the correct number of bytes with readBin/writeBin
+- I modified "datatype" entry in f.read.nifti.header.Rd help file
+- I modified f.write.nifti function to allow max and min computations when there are NaN values (usefull since SPM uses NaN values as markers for voxels for which it has not calculated any statistics)
+- I modified f.write.nii.array.to.img.2bytes, f.write.nii.array.to.img.8bit and f.write.nii.array.to.img.float functions by adding NAOK=TRUE argument to .C calls (usefull since SPM uses NaN values as markers for voxels for which it has not calculated any statistics)
+- I modified analyze2nifti function: qform.code and sform.code now take 0 as default values (instead of 2 before). I also added a check to verify if the .mat file exists.
+- I added a citation file
+- I modified the help file threeDto4D.Rd to warn the user that this function outputs files in the format sent in
+- I  modified a few help files before my talk at useR 2010
+- I modified the file plot.volume.gui.R to add hscale and vscale factors, thus enabling the possibility to resize the drawing. 
+  This is particularly usefull for small laptop screens.
+- I modified the file plot.volume.gui.R to correct an error when the visualizer GUI is used with 2D images.
+- I modified the function R2Q() to add a qfac parameter. If not provided, we choose it to work with a proper rotation 
+  matrix.
+- I modified the f.read.header(), f.read.volume() and magicfield() functions to handle the NIFTI-x case (with x in 1...9)
+- I modified the file plot.volume.gui.R to add sliders for the anatomical images, and also to take into account the pixdim values
+- I modified the f.basic.hdr.list.create() function and its associated documentation to replace mat with X
+- I modified the C function read_nifti_header_wrap_JM, the R function f.read.nifit.header() and the associated help file to enable the reading of the extension field, but there is still a problem
+- I modified the functions mat34.to.TRSZ() and mat34.to.TZSR() to handle the case of improper rotations.

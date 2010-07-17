@@ -1,9 +1,12 @@
 \name{threeDto4D}
 \alias{threeDto4D}
 \title{threeDto4D}
-\description{To read tm functionnal images in ANALYZE or NIFTI format,
+\description{To read tm functionnal images files in ANALYZE or NIFTI format,
   and concatenate them to obtain one 4D image file in Analyze (hdr/img
-  pair) or Nifti format (hdr/img pair or single nii) which is written on disk.}
+  pair) or Nifti format (hdr/img pair or single nii) which is written on
+  disk. Note that this function outputs the files in the format sent
+  in. If desired, one can use the function \code{analyze2nifti} to
+  create NIFTI files from ANALYZE files.}
 \usage{threeDto4D(outputfile,path.in=NULL,prefix=NULL,regexp=NULL,times=NULL,list.of.in.files=NULL,path.out=NULL,is.nii.pair=FALSE,hdr.number=1)}
 \arguments{\item{outputfile}{character. Name of the outputfile without extension}
   \item{path.in}{character with the path to the directory containing the image files}

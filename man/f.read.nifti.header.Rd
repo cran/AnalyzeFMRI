@@ -1,11 +1,11 @@
 \name{f.read.nifti.header}
 \alias{f.read.nifti.header}
 \title{read Nifti header file}
-\description{Reads the NIFTI image format .hdr header file into a
+\description{Reads the NIFTI image format .hdr (or .nii) header file into a
   list.}
 \usage{f.read.nifti.header(file)}
-\arguments{\item{file}{The .hdr file to be read}}
-\value{A list containing the information in the fields of the .hdr file. 
+\arguments{\item{file}{The .hdr (or .nii) file to be read}}
+\value{A list containing the information in the fields of the .hdr (.nii) file. 
 \item{file.name}{path name of the .img file}
 \item{swap}{1 or 0 variable indicating whether files are big (=native) or
   little (=swapped) endian}
@@ -41,12 +41,15 @@ range 2...24, this indicates that the numbers in the dataset should be interpret
  each voxel, and are given in header fields intent.p1, intent.p2, and
  intent.p3. If the dataset DOES have a 5th dimension (dim[1]=5), then the auxiliary parameters are different for each voxel.}
 \item{datatype}{integer indicator of data storage type for each
-  voxel. This could be 2 (unsigned char), 4 (signed short), 8 (signed
-  int), 16 (32 bit float), 32 (64 bit complex = two 32 bit floats), 64 (64
-  bit float = double), 128 (3 8 bit bytes), 256 (signed char), 512
-  (unsigned short), 768 (unsigned int), 1024 (signed long long), 1280 (unsigned long long),
-  1536 (128 bit float = long double), 1792 (128 bit complex = 2 64 bit
-  floats), 2048 (256 bit complex = 2 128 bit floats).}
+  voxel. This could be 0 (unknown), 2 (unsigned char = 1 byte), 4 (signed short = 2 bytes), 8 (signed
+  int = 4 bytes), 16 (32 bit float = 4 bytes), 32 (64 bit complex = two
+  32 bit floats = 8 bytes), 64 (64
+  bits float = double = 8 bytes), 128 (RGB triple = three 8 bits bytes =
+  3 bytes), 256 (signed char = 1 byte), 512
+  (unsigned short = 2 bytes), 768 (unsigned int = 4 bytes), 1024 (signed
+  long long = 8 bytes), 1280 (unsigned long long = 8 bytes),
+  1536 (128 bit float = long double = 16 bytes), 1792 (128 bit complex = 2 64 bit
+  floats = 16 bytes), 2048 (256 bit complex = 2 128 bit floats = 32  bytes).}
 \item{bitpix}{the number of bits per voxel. This field MUST correspond with
    the datatype field.  The total number of bytes in the image data is
      dim[2]*  ... * dim[dim[1]+1] * bitpix / 8}
@@ -83,9 +86,8 @@ range 2...24, this indicates that the numbers in the dataset should be interpret
 \item{slice.code}{Slice timing order. If this is nonzero, AND if slice.dim is nonzero, AND
                  if slice.duration is positive, indicates the timing
                  pattern of the slice acquisition. The following codes
-                 are defined: 0 (NIFTI SLICE UNKNOWN), 1 (NIFTI SLICE
-		 SEQ INC), 2 (NIFTI SLICE SEQ DEC), 3 (NIFTI SLICE ALT
-		 INC), 4 (NIFTI SLICE ALT DEC)}
+                 are defined: 0 (unknown), 1 (sequential increasing), 2 (sequential decreasing), 3 (alternating increasing),
+                 4 (alternating decreasing), 5 (alternating increasing #2), 6 (alternating decreasing #2)}
 \item{xyzt.units}{Units of pixdim[2:5]. Bits 1..3 of xyzt.units specify
   the (same) space unit of pixdim[2:4]. Bits 4..6 of xyzt.units specify the
   time unit of pixdim[5]. See xyzt-units.txt in the niftidoc directory of the
@@ -137,7 +139,22 @@ parameters contain an affine (non-rigid) transformation ("Method 3" in the nifti
 \item{srow.y}{vector of length 4. 2nd row affine transform}
 \item{srow.z}{vector of length 4. 3rd row affine transform}
 \item{intent.name}{char[16]. 'name' or meaning of data. If no data name is implied or needed, intent.name[1] should be set to 0.}
-\item{magic}{MUST be "ni1" or "n+1"}}
+\item{magic}{MUST be "nix" or "n+x", where x in 0...9}
+\item{extension}{By default,all 4 bytes of this array should be set to zero. In a .nii file, these
+   4 bytes will always be present, since the earliest start point for
+   the image data is byte #352. In a separate .hdr file, these bytes may
+   or may not be present. If not present (i.e., if the length of the .hdr
+   file is 348 bytes), then a NIfTI-1 compliant program should use the
+   default value of extension={0,0,0,0}. The first byte (extension[0])
+   is the only value of this array that is specified at present. The other
+   3 bytes are reserved for future use.
+
+   If extension[0] is nonzero, it indicates that extended header information
+   is present in the bytes following the extension array. In a .nii file,
+   this extended header data is before the image data (and vox_offset
+   must be set correctly to allow for this). In a .hdr file, this extended
+   data follows extension and proceeds (potentially) to the end of the file.}
+}
 
 
 \examples{

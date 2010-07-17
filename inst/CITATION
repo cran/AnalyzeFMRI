@@ -1,0 +1,21 @@
+citHeader("To cite the ConvergenceConcepts package in publications use:")
+
+citEntry(entry="Proceedings",
+         title = "AnalyzeFMRI: an R package to perform statistical analysis on FMRI datasets",
+         author = personList(as.person("Bordier C."),
+	 as.person("Dojat, M."),
+	 as.person("Lafaye de Micheaux, P.")
+				),
+	 journal = "UseR 2009",
+         year         = "2009",
+         note         = "Software: R Package, AnalyzeFMRI, version 1.1-12",
+         url          = "http://www.biostatisticien.eu/AnalyzeFMRI/",
+         
+         textVersion = 
+         paste("Bordier, C. and Dojat, M. and Lafaye De Micheaux, P. (2009)", 
+               "AnalyzeFMRI: an R package to perform statistical analysis on FMRI datasets",
+               "UseR 2009 Conference",
+              "(Software: R Package, AnalyzeFMRI, version 1.1-12)"
+	      )
+)
+

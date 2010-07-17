@@ -79,6 +79,7 @@ f.read.nifti.header <- function(file){
           single(4), # srow_z                                         43
           paste(rep(" ", 16), sep = "", collapse = ""), # intent_name 44
           paste(rep(" ", 4), sep = "", collapse = ""), # magic        45  
+          rep(" ", 4),                                 # extension    46  
           PACKAGE="AnalyzeFMRI")
 
 # A list (called L) is created containing all the components of the .hdr (or header part of .nii) file
@@ -129,6 +130,12 @@ f.read.nifti.header <- function(file){
     L$srow.z <- a[[43]]
     L$intent.name <- if (a[[44]] == "") rawToChar(raw(16)) else a[[44]]
     L$magic <- if (a[[45]] == "") rawToChar(raw(4)) else a[[45]]
+    L$extension <- a[[46]]
+    if (L$extension[1] == "")  tmp1 <- as.integer(0) else tmp1 <- as.integer(charToRaw(L$extension[1]))
+    if (L$extension[2] == "")  tmp2 <- as.integer(0) else tmp2 <- as.integer(charToRaw(L$extension[2]))
+    if (L$extension[3] == "")  tmp3 <- as.integer(0) else tmp3 <- as.integer(charToRaw(L$extension[3]))
+    if (L$extension[4] == "")  tmp4 <- as.integer(0) else tmp4 <- as.integer(charToRaw(L$extension[4]))
+    L$extension <- c(tmp1,tmp2,tmp3,tmp4)
 
     return(L)}
 
@@ -1029,14 +1036,14 @@ f.read.header <- function(file){
           PACKAGE="AnalyzeFMRI")$ans != 348) # $ans is sizeof_hdr
         swap <- 1
     
-    a<-.C("read_nifti_magic_wrap",
+    a<-substr(.C("read_nifti_magic_wrap",
           file.hdr,  
           as.integer(swap), 
 	  magic =  paste(rep(" ", 4), sep = "", collapse = ""),
-	PACKAGE="AnalyzeFMRI")
+	PACKAGE="AnalyzeFMRI")$magic,start=1,stop=2)
 
-if (a$magic == "ni1" | a$magic == "n+1") {res <- f.read.nifti.header(file.hdr)}
-else if (a$magic == "") {res <- f.read.analyze.header(file.hdr)}
+if (a == "ni" | a == "n+") {res <- f.read.nifti.header(file.hdr)}
+else if (a == "") {res <- f.read.analyze.header(file.hdr)}
 else {stop("Problem in your magic field!")}
 
 return(res)
@@ -1064,14 +1071,14 @@ f.read.volume <- function(file){
           PACKAGE="AnalyzeFMRI")$ans != 348) # $ans is sizeof_hdr
         swap <- 1
     
-    a<-.C("read_nifti_magic_wrap",
+    a<-substr(.C("read_nifti_magic_wrap",
           file.hdr,  
           as.integer(swap), 
 	  magic =  paste(rep(" ", 4), sep = "", collapse = ""),
-	PACKAGE="AnalyzeFMRI")
+	PACKAGE="AnalyzeFMRI")$magic,start=1,stop=2)
 
-if (a$magic == "ni1" | a$magic == "n+1") {res <- f.read.nifti.volume(file.hdr)}
-else if (a$magic == "") {res <- f.read.analyze.volume(file.hdr)}
+if (a == "ni" | a == "n+") {res <- f.read.nifti.volume(file.hdr)}
+else if (a == "") {res <- f.read.analyze.volume(file.hdr)}
 else {stop("Problem in your magic field!")}
 
 return(res)
@@ -1142,7 +1149,7 @@ f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE){
   }
   
   if(size == "int"){
-    if(max(mat)>32767 || min(mat) < ( -32768)) stop("Values are outside integer range. Files not written.")
+    if(max(mat[!is.nan(mat)])>32767 || min(mat[!is.nan(mat)]) < ( -32768)) stop("Values are outside integer range. Files not written.")
     L$datatype <- 4
     L$bitpix <- 16
     L$data.type <- "signed sho" # signed short
@@ -1156,7 +1163,7 @@ f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE){
   }
   
   if(size == "char"){
-    if(max(mat)>255 || min(mat) < 0) stop("Values are outside integer range. Files not written.")
+    if(max(mat[!is.nan(mat)])>255 || min(mat[!is.nan(mat)]) < 0) stop("Values are outside integer range. Files not written.")
     L$datatype <- 2
     L$bitpix <- 8
     L$data.type <- "unsignchar" # unsigned char
@@ -1185,7 +1192,8 @@ f.write.nii.array.to.img.2bytes <- function(mat, L, file){
   null <- .C("write2byteappend_JM",
      as.integer(mat),
      file,
-     as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+     as.integer(num.data.pts),NAOK=TRUE, PACKAGE="AnalyzeFMRI")
+  # NAOK=TRUE is necessary here to be able to pass NaN values. This is important because SPM uses NaN values as markers for voxels for which it has not calculated any statistics.
   
 }
 
@@ -1202,7 +1210,8 @@ f.write.nii.array.to.img.8bit <- function(mat, L, file){
   null <- .C("write8bitappend_JM",
      as.integer(mat),
      file,
-     as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+     as.integer(num.data.pts),NAOK=TRUE, PACKAGE="AnalyzeFMRI")
+  # NAOK=TRUE is necessary here to be able to pass NaN values. This is important because SPM uses NaN values as markers for voxels for which it has not calculated any statistics.
   
 }
 
@@ -1221,7 +1230,8 @@ f.write.nii.array.to.img.float <- function(mat, L, file){
   null <- .C("writefloatappend_JM",
      as.single(mat),
      file,
-     as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+     as.integer(num.data.pts),NAOK=TRUE,PACKAGE="AnalyzeFMRI")
+  # NAOK=TRUE is necessary here to be able to pass NaN values. This is important because SPM uses NaN values as markers for voxels for which it has not calculated any statistics.
   
 }
 
@@ -1322,16 +1332,16 @@ magicfield <- function(file) {
   dim <- hdr$dim[5]
 
   
-  if (magic == "ni1") {
-    cat(paste("Nifti ni1 - .hdr/.img pair with ",dim," image(s)\n",sep=""))
+  if (substr(magic,start=1,stop=2) == "ni") {
+    cat(paste("NIFTI ",magic," - .hdr/.img pair with ",dim," image(s)\n",sep=""))
   }
   
-  else if (magic == "n+1") {
-    cat(paste("Nifti n+1 - one .nii file with ",dim," image(s)\n",sep=""))
+  else if (substr(magic,start=1,stop=2) == "n+") {
+    cat(paste("NIFTI ",magic," - one .nii file with ",dim," image(s)\n",sep=""))
   }
   
   else if (magic == "") {
-    cat(paste("Analyze .hdr/.img pair with ",dim," image(s)\n",sep=""))
+    cat(paste("ANALYZE .hdr/.img pair with ",dim," image(s)\n",sep=""))
   }
   else {
     stop("Problem in your magic field!")
@@ -1427,7 +1437,13 @@ Lnifti$toffset <- header.4D$verified
 Lnifti$descrip <- if (is.null(descrip)) header.4D$descrip else descrip
 Lnifti$aux.file <- aux.file
 
-# Il reste à changer les derniers champs grâce à la lecture du .mat
+# Il reste à changer les derniers champs grâce à la lecture du .mat (s'il existe!!!)
+
+if (!is.na(file.info(paste(path.in,file.in,".mat",sep=""))[1])) { # le .mat existe vraiment
+
+  if (qform.code == 0) qform.code <- 2 # pas sur ici!! 
+  if (sform.code == 0) sform.code <- 2 # pas sur ici!!
+
 ##require("R.matlab")
 M <- readMat(paste(path.in,file.in,".mat",sep=""))$M
 M[1,] <- - M[1,] # Je ne sais pas s'il faut lire le $M ou le $mat . Dès fois le $mat n'est pas présent. La première ligne du $mat est (-1)*$M[1,]
@@ -1519,9 +1535,9 @@ R <- res.svd$u %*% t(res.svd$v)
 
 Lnifti$pixdim[2:4] <- vx
 
-
-Lnifti$qform.code <- as.integer(qform.code)
-Lnifti$sform.code <- as.integer(sform.code)
+# see below for these two fields
+#Lnifti$qform.code <- as.integer(qform.code)
+#Lnifti$sform.code <- as.integer(sform.code)
 
 
 
@@ -1554,6 +1570,9 @@ Lnifti$qoffset.z <- as.single(Tmat[3])
 Lnifti$srow.x <- as.single(M[1,])
 Lnifti$srow.y <- as.single(M[2,])
 Lnifti$srow.z <- as.single(M[3,])
+
+}
+
 Lnifti$intent.name <- intent.name # name or meaning of data
 
 magic <- raw(4)
@@ -1561,6 +1580,8 @@ if (is.nii) {magic[1:3] <- as.raw(charToRaw("n+1")) # cas du NIFTI.nii (one file
            } else {magic[1:3] <- as.raw(charToRaw("ni1"))} # cas du NIFTI en paire}
 Lnifti$magic <- rawToChar(magic)
 
+Lnifti$qform.code <- as.integer(qform.code)
+Lnifti$sform.code <- as.integer(sform.code)
 
 
 # Ecriture du nifti .hdr/.img ou .nii
@@ -1629,14 +1650,15 @@ else {
 
 L$dim[1] <- 4 # because we create 4D files
 
-# We check if all the headers are the same (but a few unimportant fields)
+# We check if the headers of all files are the same (but a few unimportant fields: file.name, db.name, descrip)
+if (is.null(L$magic)) rem <- c(1,5,28) else rem <- c(1,5,31)
 if (length(times) > 1) {
   for (filename in list.of.in.files) {  
     file <- paste(path.in,filename,sep="")
     Ltemp <- f.read.header(file)
     Ltemp$dim[1] <- 4 # because we create 4D files
     somme <- 0
-    for (i in (2:45)[-4]) somme <- somme + sum(L[[i]] != Ltemp[[i]])
+    for (i in (1:45)[-rem]) somme <- somme + sum(L[[i]] != Ltemp[[i]]) 
     if (somme != 1) stop("hdr part should be the same for all files")
   }
 }
@@ -1711,6 +1733,25 @@ if (is.nii.pair | is.null(L$magic)) {
   con1 <- file(description = paste(path.out,outputfile,".nii",sep=""), open = "ab")
 }
 
+datatype <- L$datatype
+if (datatype == 0) stop("datatype unknown!")
+else if (datatype == 2) datatype <- 1
+else if (datatype == 4) datatype <- 2
+else if (datatype == 8) datatype <- 4
+else if (datatype == 16) datatype <- 4
+else if (datatype == 32) datatype <- 8
+else if (datatype == 64) datatype <- 8
+else if (datatype == 128) datatype <- 3
+else if (datatype == 256) datatype <- 1
+else if (datatype == 512) datatype <- 2
+else if (datatype == 768) datatype <- 4
+else if (datatype == 1024) datatype <- 8
+else if (datatype == 1280) datatype <- 8
+else if (datatype == 1536) datatype <- 16
+else if (datatype == 1792) datatype <- 16
+else if (datatype == 2048) datatype <- 32
+else stop("datatype not in the list of codes given by NIFTI team!")
+
 
 fourD <- c()
 for (filename in list.of.in.files) {
@@ -1718,10 +1759,10 @@ for (filename in list.of.in.files) {
   file <- paste(path.in,filename,sep="")
   
   if (is.null(L$magic) | (L[[45]] == "ni1")) {
-    fourD <- readBin(con=file,what="raw",n=prod(L$dim[2:4])*2,size=1)
+    fourD <- readBin(con=file,what="raw",n=prod(L$dim[2:4])*datatype,size=1)
   }
   else if (L$magic == "n+1") { # we remove the header present at the begining of each nii file being read
-    fourD <- readBin(con=file,what="raw",n=prod(L$dim[2:4])*2+352,size=1)[-(1:352)]
+    fourD <- readBin(con=file,what="raw",n=prod(L$dim[2:4])*datatype+352,size=1)[-(1:352)]
   }
   
   writeBin(fourD,con=con1)
@@ -2000,10 +2041,14 @@ xyz2ijk <- function(xyz=c(1,1,1),method=2,L) {
 
 
 
-R2Q <- function(R) {
+R2Q <- function(R,qfac=NULL) {
 
 # Convert from rotation matrix to quaternion form
 
+  if (is.null(qfac) && det(R)<0) {
+    qfac <- -1
+    R[, 3] <- qfac * R[, 3]
+  }
   R <- R[1:3,1:3]
   d <- diag(R)
   traceval <- sum(d) + 1
@@ -2142,12 +2187,17 @@ nifti.quatern.to.mat44 <- function(L) {
 mat34.to.TRSZ <- function(M) {
 # Voir la fonction decompose_aff dans le fichier miscmaths.cc de FSL
 
+if (nrow(M) == 3) M <- rbind(M,c(0,0,0,1))
+
+
 # decomposes using the convention: mat = transl * rotmat * skew * scale
 # order of parameters is 3 rotation + 3 translation + 3 scales + 3 skews
 # angles are in radians
 
 centre <- as.matrix(rep(0,3))
 transl <- M[1:3,1:3]%*%centre+M[1:3,4]-centre
+translation <- diag(rep(1,4))
+translation[1:3,4] <- transl
 
   
 x <- M[1:3,1]
@@ -2173,9 +2223,65 @@ skew <- matrix(c(1,a,b,0, 0,1,c,0, 0,0,1,0, 0,0,0,1),byrow=TRUE,nrow=4)
 
 aff3 <- M[1:3,1:3]
 
-rotmat <- aff3 %*% solve(diag(scales)) %*% solve(skew[1:3,1:3])
+rotmat <- diag(rep(1,4))
 
-return(list(T=transl,Z=scales,S=skews,R=rotmat))
+rotmat[1:3,1:3] <- aff3 %*% solve(diag(scales)) %*% solve(skew[1:3,1:3])
+
+M <- rotmat
+
+if (det(M) < 0) {
+
+  warning("Rotation Rot is improper")
+  Ref <- diag(c(-1,1,1,1))
+  M <- Ref%*%M
+
+} else {
+
+  Ref <- diag(rep(1,4))
+
+}
+
+# Get Y Rotation and check that we aren't up a creek without a paddle
+sy <- -M[3,1]
+if (abs(sy) == 1) stop("cos Y = 0. Not solved yet")
+# C'est compliqué. Ca fait appel a des equations du 3eme, 4eme et 5eme degré!
+
+if (sy == 0) {
+
+ cy <- -1
+
+} else {
+
+ cy <- -abs(cos(asin(sy)))
+
+}
+
+cx <- M[3,3]/cy
+sx <- M[3,2]/cy
+cz <- M[1,1]/cy
+sz <- M[2,1]/cy
+
+
+RotX <- diag(rep(1,4))
+RotX[2,2] <- cx
+RotX[3,2] <- sx
+RotX[2,3] <- -sx
+RotX[3,3] <- cx
+
+RotY <- diag(rep(1,4))
+RotY[1,1] <- cy
+RotY[1,3] <- sy 
+RotY[3,1] <- -sy 
+RotY[3,3] <- cy
+
+RotZ <- diag(rep(1,4))
+RotZ[1,1] <- cz
+RotZ[1,2] <- -sz
+RotZ[2,1] <- sz
+RotZ[2,2] <- cz
+
+
+return(list(T=translation,Z=diag(c(scales,1)),S=skew,Rot=rotmat,RotX=RotX,RotY=RotY,RotZ=RotZ,Ref=Ref))
 
 }
 
@@ -2183,7 +2289,8 @@ return(list(T=transl,Z=scales,S=skews,R=rotmat))
 mat34.to.TZSR <- function(M) {
 # Voir le fichier xfmdecomp.pl
 
-# decomposes using the convention: mat = transl * scale * skew * rotation (rotation=Rz*Ry*Rx)
+# decomposes using the convention: mat = transl * scale * skew * rotation (rotation=Rz*Ry*Rx*Ref where Ref 
+# is Reflexion if rotation is improper or Identity if rotation is proper)
 # order of parameters is 3 rotation + 3 translation + 3 scales + 3 skews
 # angles are in radians
 
@@ -2259,68 +2366,74 @@ skew <- matrix(c(1,a,b,0, 0,1,c,0, 0,0,1,0, 0,0,0,1),byrow=FALSE,nrow=4)
 # We assume cy is positive to ensure we get one of the 2 possible solutions
 # where rotations are between -pi and pi.
 #
-# Here we deduce Rx, Ry and Rz by virtue or the fact that the rotation
+# Here we deduce Rx, Ry and Rz by virtue of the fact that the rotation
 # matrix is as follows. 
 #
-# R = [ cos(Ry)*cos(Rz)  <stuff>          <stuff>          0 ]
-#     [ cos(Ry)*sin(Rz)  <stuff>          <stuff>          0 ]
-#     [ sin(Ry)          sin(Rx)*cos(Ry)  cos(Rx)*cos(Ry)  0 ]
-#     [ 0                0                0                0 ]
+# R = [ cos(Ry)*cos(Rz)  sin(Rx)*sin(Ry)*cos(Rz)-cos(Rx)*sin(Rz)  cos(Rx)*sin(Ry)*cos(Rz)+sin(Rx)*sin(Rz)  0 ]
+#     [ cos(Ry)*sin(Rz)  sin(Rx)*sin(Ry)*sin(Rz)+cos(Rx)*cos(Rz)  cos(Rx)*sin(Ry)*sin(Rz)-sin(Rx)*cos(Rz)  0 ]
+#     [ -sin(Ry)                    sin(Rx)*cos(Ry)                           cos(Rx)*cos(Ry)              0 ]
+#     [ 0                                  0                                         0                     1 ]
 #
 # Then the quadrant of the angle must be deduced by the sign of
 # cos and sin for the particular rotation.
 
 M <- solve(skew) %*% M
 
+Rot <- M
+
+if (det(M) < 0) {
+
+  warning("Rotation Rot is improper")
+  Ref <- diag(c(-1,1,1,1))
+  M <- Ref%*%M
+
+} else {
+
+  Ref <- diag(rep(1,4))
+
+}
+
 # Get Y Rotation and check that we aren't up a creek without a paddle
-sy <- M[3,1]
-if (abs(sy) == 1) stop("cos X = 0. Not solved yet")
-Ry <- asin(sy)
+sy <- -M[3,1]
+if (abs(sy) == 1) stop("cos Y = 0. Not solved yet") 
+# C'est compliqué. Ca fait appel a des equations du 3eme, 4eme et 5eme degré!
 
-# Get X Rotation
-cy <- cos(Ry);
-sx <- M[3, 2] / cy
-cx <- M[3, 3] / cy
-Rx <- asin(sx)
-if (cx < 0){
-  if (sx > 0){ Rx =  pi - Rx; }   # quadrant 2
-  else        { Rx = -pi - Rx; }   # quadrant 3
+if (sy == 0) {
+
+ cy <- -1
+
+} else {
+
+ cy <- -abs(cos(asin(sy)))
+
 }
 
-
-# Get Z Rotation
-cz <- M[1, 1] / cy
-sz <- M[2, 1] / cy
-Rz <- asin(sz)
-if (cz < 0){ 
-  if (sz > 0){ Rz =  pi - Rz; }   # quadrant 2
-  else        { Rz = -pi - Rz; }   # quadrant 3
-}
+cx <- M[3,3]/cy
+sx <- M[3,2]/cy
+cz <- M[1,1]/cy
+sz <- M[2,1]/cy
 
 
-RotX <- diag(rep(1,3))
-RotX[2,2] <- cos(Rx)
-RotX[3,2] <- sin(Rx)
-RotX[2,3] <- -sin(Rx)
-RotX[3,3] <- cos(Rx)
+RotX <- diag(rep(1,4))
+RotX[2,2] <- cx
+RotX[3,2] <- sx
+RotX[2,3] <- -sx
+RotX[3,3] <- cx
 
-RotY <- diag(rep(1,3))
-RotY[1,1] <- cos(Ry)
-RotY[1,3] <- -sin(Ry)
-RotY[3,1] <- sin(Ry)
-RotY[3,3] <- cos(Ry)
+RotY <- diag(rep(1,4))
+RotY[1,1] <- cy
+RotY[1,3] <- sy 
+RotY[3,1] <- -sy 
+RotY[3,3] <- cy
 
-RotZ <- diag(rep(1,3))
-RotZ[1,1] <- cos(Rz)
-RotZ[1,2] <- -sin(Rz)
-RotZ[2,1] <- sin(Rz)
-RotZ[2,2] <- cos(Rz)
-
-Rot <- RotZ %*% RotY %*% RotX
+RotZ <- diag(rep(1,4))
+RotZ[1,1] <- cz
+RotZ[1,2] <- -sz
+RotZ[2,1] <- sz
+RotZ[2,2] <- cz
 
 
-
-return(list(T=transl,Z=scales,S=skews,R=Rot))
+return(list(T=translation,Z=diag(c(scales,1)),S=skew,Rot=Rot,RotX=RotX,RotY=RotY,RotZ=RotZ,Ref=Ref))
 
 }
 

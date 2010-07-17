@@ -1,0 +1,124 @@
+Hi Jonathan
+
+I hope that you are doing well.
+
+FYI, I just wanted to let you know about something I came across while using AnalyzeFMRI. When I read in a dataset and then
+ immediately wrote it back out one of the indices was reversed. That is, you get a reflection in the image in the 2nd dimension when you perform the following:
+
+datasethdr <- f.read.analyze.header("dataset.hdr")
+dataset <- f.read.analyze.volume("dataset.img")
+f.write.analyze(dataset,"dataset",size="float",pixdim=datasethdr$pixdim[2:5])
+
+I should add that this was for a trivially 4D dataset. i.e. a 64x60x16x1 array.
+
+I hope this is useful.
+
+Cheers
+
+John Kornak,PhD
+Director of the Department of Radiology Biostatistics Consulting Service
+Assistant Professor in Residence
+Departments of Radiology, and Epidemiology & Biostatistics
+University of California, San Francisco
+Box 0946
+San Francisco, CA 94143
+Tel: (415) 353-4740
+fax: (415) 353-9423
+Email: john.kornak@ucsf.edu 
+
+
+
+
+Rajouter le prog pour faire l'ICA spat./tempo.
+avec fastICA, JADE, etc ... et en utilisant tcltk
+
+
+Faire un visualiseur (voir les .mat, les quaternions)
+
+
+
+Rajouter au prog f.read.nifti.header la lecture/ecriture du champs extension (juste après le magic field) 
+qui contient 4 octets (voir HEADER EXTENSIONS dans le fichier nifti1.h)
+
+
+
+Softs intéressants:
+http://www.idoimaging.com/
+
+dicom2
+MRIConvert et mcverter
+dcm2nii (MRIcron)
+dinifti
+convert2nii (dans Mango ... à voir pour le faire fonctionner ... probleme)
+
+
+./dicom2 -t1 /home/lafaye/IM-0006-2520.dcm |less
+# permet de visualiser les champs DICOM
+
+./mcverter --output="." -f nifti -n -d run2/*
+# permet de convertir des DICOM en NIFTI
+
+/usr/local/neuro/mricron/dcm2nii IM-0006-2520.dcm
+# permet de convertir des DICOM en NIFTI
+
+./dinifti.linux -f 'n1' -d -v run2/ test 
+# permet de convertir des DICOM en NIFTI
+
+
+Il est parfois difficile dans certaines fenêtres (par exemple celle générée par icast.fmri.gui() ) de savoir à quoi servent les différents champs 
+et qu'est-ce qu'il faut y remplir. Ce serait donc bien de rajouter à côté de chaque champ un petit bouton contenant le caractère "?".
+En cliquant sur ce bouton, une fenêtre pop-up d'aide donnerait des explications au User.
+Code R pouvant servir pour faire cela:
+require(tcltk)
+tt <- tktoplevel()
+help.but <- tkbutton(tt, text = "?", command = function() tkdestroy(tt)) # Create a button widget
+tkgrid(help.but)             # And place it on 'tt'
+
+# Create the popup menu, and its associated R function
+copyText <- function()
+    .Tcl(paste("event", "generate", .Tcl.args(.Tk.ID(help.but), "<<Copy>>")))
+editPopupMenu <- tkmenu(help.but, tearoff = FALSE)
+tkadd(editPopupMenu, "command", label = "Petit message d\'aide", command = copyText)
+
+# The function that displays the popup menu at the right place
+LeftClick <- function(x, y) { # x and y are the mouse coordinates
+    rootx <- as.integer(tkwinfo("rootx", help.but))  # tkwinfo() return several infos
+    rooty <- as.integer(tkwinfo("rooty", help.but))
+    xTxt <- as.integer(x) + rootx
+    yTxt <- as.integer(y) + rooty
+    # Create a Tcl command in a character string and run it
+    .Tcl(paste("tk_popup", .Tcl.args(editPopupMenu, xTxt, yTxt)))
+}
+tkbind(help.but, "<Button-1>", LeftClick) 
+tkfocus(tt)
+
+
+
+Faire en sorte que le package ne dépende plus de fastICA. Pour cela, rajouter mes propres routines ICA directement dans le package
+
+
+
+dieter.menne@menne-biomed.de :
+Thanks, Pierre, works for me. Not checked in details, though.
+
+Maybe you could correct for the warning in the default sample, which should
+be not much work:
+
+Warning message:
+In rawToChar(magic) : truncating string with embedded nul: 'n+1\0'
+
+
+Dieter
+
+
+
+
+dr de Micheaux,
+I have a suggestion for a feature that you may possibly want to introuce in a future release of AnalyzeFMRI.
+It is about f.read.analyze.slice.at.all.timepoints. It could be interesting for users to be able to extract the slices also in coronal and in sagittal orientation. The utility of the function resides in the nice management of memory, and it is a bit sad that it is only available along the axial plane.
+Thanks for your attention,
+luca nanetti
+
+
+Lire les fichiers .nii.gz
+

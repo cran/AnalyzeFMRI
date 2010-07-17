@@ -1,98 +1,93 @@
-analyze2nifti		Create a NIFTI file from an Analyze file
-
-centering		Center the data in the two dimensions
-
+analyze2nifti           Create a NIFTI file from an Analyze file
+centering               centering
 cluster.threshold       Cluster threshold an array.
 cov.est                 Estimates the covariance between neighbouring
                         voxels
-
-diminfo2fps		dim.info field to freq.dim, phase.dim and slice.dim fields
-
+diminfo2fps             diminfo2fps
 EC.3D                   Expected Euler Characteristic for a 3D Random
                         Field
-
-eigenvalues		Computes the eigenvalues of a centered and reduced data matrix
-
-fourDto2D		Transform a 4D image into a 2D image matrix
-fps2diminfo		freq.dim, phase.dim and slice.dim fields into dim.info field
-
-f.analyze.file.summary  prints summary of ANALYZE .img file contents
-f.nifti.file.summary    prints summary of NIFTI .img file contents
-
+eigenvalues             eigenvalues
+f.analyze.file.summary
+                        prints summary of .img file contents
 f.analyzeFMRI.gui       starts AnalyzeFMRI GUI
-f.basic.hdr.list.create creates basic ANALYZE .hdr list
-f.basic.hdr.nifti.list.create 
-			creates basic NIFTI .hdr list
-f.complete.hdr.nifti.list.create 
-			creates complete NIFTI .hdr list
-
+f.basic.hdr.list.create
+                        creates basic .hdr list in ANALYZE format
+f.basic.hdr.nifti.list.create
+                        creates basic .hdr list in NIFTI format
+f.complete.hdr.nifti.list.create
+                        creates complete .hdr list in NIFTI format
 f.ica.fmri              Applies Spatial ICA (Independent Component
                         Analysis) to fMRI datasets
-f.icast.fmri            Applies Spatial or Temporal ICA (Independent Component
-                        Analysis) to fMRI NIFTI datasets
-f.ica.fmri.gui          tcltk GUI to apply Spatial ICA to fMRI Analyze datasets
-f.icast.fmri.gui        tcltk GUI to apply Spatial or Temporal ICA to NIFTI fMRI datasets
+f.ica.fmri.gui          tcltk GUI to apply ICA to fMRI datasets
+f.icast.fmri            Applies Spatial or Temporal ICA (Independent
+                        Component Analysis) to fMRI NIFTI datasets
+f.icast.fmri.gui        tcltk GUI to apply Spatial or Temporal ICA to
+                        fMRI NIFTI datasets
+f.nifti.file.summary    prints summary of .img file contents
 f.plot.ica.fmri         Plots a specified component from the output of
                         f.ica.fmri
 f.plot.ica.fmri.jpg     Plot the components of the ouput of f.ica.fmri
                         to a series of jpeg files
+f.plot.volume.gui       tcltk GUI to display FMRI or MRI images
 f.read.analyze.header   read Analyze header file
-f.read.analyze.slice    read one slice from an ANALYZE .img file
-f.read.nifti.slice    read one slice from a NIFTI .img file
+f.read.analyze.slice    read one slice from a .img file
 f.read.analyze.slice.at.all.timepoints
-                        reads a slice at all time points from an ANALYZE .img file
+                        reads a slice at all time points from a .img
+                        file
+f.read.analyze.tpt      Read in a volume at one time point
+f.read.analyze.ts       read in one voxel time series
+f.read.analyze.volume   read whole .img file
+f.read.header           read ANALYZE or NIFTI header file
+f.read.nifti.header     read Nifti header file
+f.read.nifti.slice      read one slice from a .img or .nii file in
+                        NIFTI format
 f.read.nifti.slice.at.all.timepoints
-                        reads a slice at all time points from a NIFTI .img file
-f.read.analyze.tpt      Read in a volume at one time point from an ANALYZE file
-f.read.nifti.tpt        Read in a volume at one time point from a NIFTI file
-f.read.analyze.ts       read in one voxel time series from an ANALYZE .img file
-f.read.nifti.ts         read in one voxel time series from a NIFTI .img file
-f.read.analyze.volume   read whole ANALYZE .img file
-f.read.nifti.volume     read whole NIFTI image file
-f.read.volume		read whole ANALYZE or NIFTI image file (autodetecting the format)
-f.read.nifti.header	read Nifti header file
-f.read.header	        read Analyze and Nifti header files
+                        reads a slice at all time points from a NIFTI
+                        .img or .nii file
+f.read.nifti.tpt        Read in a volume at one time point
+f.read.nifti.ts         read in one voxel time series
+f.read.nifti.volume     read whole image file
+f.read.volume           read whole image file
 f.spectral.summary      plots graphical summary of spectral properties
-                        of an ANALYZE fMRI dataset
-f.spectral.summary.nifti      
-			plots graphical summary of spectral properties
-                        of a NIFTI fMRI dataset
-f.write.analyze         writes an array to an ANALYZE .img/.hdr pair
-f.write.nifti	        writes an array to a NIFTI .img/.hdr pair
-
+                        of an fMRI dataset
+f.spectral.summary.nifti
+                        plots graphical summary of spectral properties
+                        of an fMRI dataset
+f.write.analyze         writes an array to a .img/.hdr pair in ANALYZE
+                        format
 f.write.array.to.img.2bytes
                         write array of 2 byte integers
 f.write.array.to.img.8bit
                         write array of 1 byte integers
 f.write.array.to.img.float
                         write array of 4 byte floats
-
+f.write.list.to.hdr     writes a .hdr file in ANALYZE format
+f.write.list.to.hdr.nifti
+                        writes a .hdr file in NITI format
+f.write.nifti           writes an array to a .img/.hdr pair in NIFTI
+                        format or to a .nii file
 f.write.nii.array.to.img.2bytes
-                        write array of 2 byte integers and add at the begining of the file the NIFTI header part
+                        write array of 2 byte integers and add at the
+                        begining of the file the NIFTI header part
 f.write.nii.array.to.img.8bit
-                        write array of 1 byte integers and add at the begining of the file the NIFTI header part
+                        write array of 1 byte integers and add at the
+                        begining of the file the NIFTI header part
 f.write.nii.array.to.img.float
-                        write array of 4 byte floats and add at the begining of the file the NIFTI header part
-
-
-f.write.list.to.hdr     writes an ANALYZE .hdr file
-f.write.list.to.hdr.nifti     
-			writes a NIFTI .hdr file
-
+                        write array of 4 byte floats and add at the
+                        begining of the file the NIFTI header part
+fourDto2D               fourDto2D
+fps2diminfo             fps2diminfo
 GaussSmoothArray        Spatially smooth an array with Gaussian kernel.
 GaussSmoothKernel       Calculates a discrete Gaussian smoothing
                         kernel.
-
-ICAspat			Performs a spatial ICA
-ICAtemp			Performs a temporal ICA
-
-ijk2xyz			Maps from data coordinates (e.g. column i, row j, slice k), into some real world (x,y,z) positions in space.
-
-magicfield		Get magic field from the header of an image file
-
-mat34.to.TRSZ		Affine 4x4 (or 3x4) matrix to Translation, Rotation, Shear and Scale
-mat34.to.TZSR		Affine 4x4 (or 3x4) matrix to Translation, Scale, Shear and Rotation
-
+ICAspat                 ICAspat
+ICAtemp                 ICAtemp
+ijk2xyz                 ijk2xyz
+magicfield              Get magicfield from the header of an image file
+mat34.to.TRSZ           Affine 4x4 (or 3x4) matrix to Translation,
+                        Rotation, Shear and Scale
+mat34.to.TZSR           Affine 4x4 (or 3x4) matrix to Translation,
+                        Scale, Shear and Rotation
 model.2.cov.func        Calculates covariance from Hartvig Model 2
 model.2.est.gamma       Estimate gamma for Model 2 of Hartvig and
                         Jensen (2000)
@@ -110,28 +105,22 @@ N2G.Region              N2G Normal component interval
 N2G.Spatial.Mixture     fMRI Spatial Mixture Modelling
 N2G.Transform           Transform parameters of N2G model so as to lie
                         on the real line.
-nifti.quatern.to.mat44  Quaternion (etc..) to affine 4x4 matrix
+nifti.quatern.to.mat44
+                        Quaternion (etc..) to affine 4x4 matrix
 NonLinearSmoothArray    Non-linear spatial smmothing of 3D and 4D
                         arrays.
-
-Q2R			Generate a rotation matrix from a quaternion 
-R2Q			Convert from rotation matrix to quaternion form
-
-reduction		Reduces the data in the row or col dimension
-
+Q2R                     Quaternion to rotation
+R2Q                     Rotation to quaternion
+reduction               reduction
 Sim.3D.GammaRF          Simulate Gamma distributed Random Field
 Sim.3D.GRF              Simulate a GRF
 SmoothEst               Estimate the variance-covariance matrix of a
                         Gaussian random field
-
-st2xyzt			Encode space and time dimensions fields into the xyzt.units field
-
-threeDto4D		Read tm functionnal images and concatenate them to obtain one (hdr/img pair) 4D image file (Analyze or Nifti format) which is written on disk
-
+st2xyzt                 st2xyzt
+threeDto4D              threeDto4D
 Threshold.Bonferroni    Calculates Bonferroni Threshold
 Threshold.FDR           False Discovery Rate (FDR) Threshold
-Threshold.RF            Random Field Theory Thresholds.
-
-twoDto4D		Transform a 2D matrix of size tm x vm containing images in each row into a 4D array image
-
-xyzt2st			Extract space and time dimensions fields from xyzt.units field
+Threshold.RF            Random Field Theory Thersholds.
+twoDto4D                twoDto4D
+xyz2ijk                 xyz2ijk
+xyzt2st                 xyzt2st

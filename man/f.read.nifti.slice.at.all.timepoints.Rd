@@ -1,8 +1,8 @@
 \name{f.read.nifti.slice.at.all.timepoints}
 \alias{f.read.nifti.slice.at.all.timepoints}
 
-\title{reads a slice at all time points from a NIFTI .img file}
-\description{Reads in a slice of a .img file at all time points into an array}
+\title{reads a slice at all time points from a NIFTI .img or .nii file}
+\description{Reads in a slice of a .img or .nii file at all time points into an array}
 \usage{f.read.nifti.slice.at.all.timepoints(file, slice)
 }
 \arguments{

@@ -3,12 +3,12 @@
 \title{creates basic .hdr list in ANALYZE format}
 \description{Creates a basic list that can be used to write a .hdr file
 }
-\usage{f.basic.hdr.list.create(mat, file.hdr)
+\usage{f.basic.hdr.list.create(X, file.hdr)
 }
 
 \arguments{
-  \item{mat}{\code{mat} Array that is to be converted to a .img file}
-  \item{file.hdr}{\code{file.hdr} Name of the .hdr file that will be created }
+  \item{X}{Array that is to be converted to a .img file}
+  \item{file.hdr}{Name of the .hdr file that will be created }
 }
 \value{Returns a list of all the fields needed to create a .hdr file
   (see the functions code for details).}

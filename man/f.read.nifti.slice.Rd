@@ -1,7 +1,7 @@
 \name{f.read.nifti.slice}
 \alias{f.read.nifti.slice}
-\title{read one slice from a .img file in NIFTI format}
-\description{Reads in a specific slice from a NIFTI .img image format
+\title{read one slice from a .img or .nii file in NIFTI format}
+\description{Reads in a specific slice from a NIFTI .img or .nii image format
   file into an array.}
 \usage{f.read.nifti.slice(file, slice, tpt)}
 \arguments{
