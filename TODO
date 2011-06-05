@@ -33,7 +33,6 @@ Rajouter le prog pour faire l'ICA spat./tempo.
 avec fastICA, JADE, etc ... et en utilisant tcltk
 
 
-Faire un visualiseur (voir les .mat, les quaternions)
 
 
 
@@ -107,9 +106,17 @@ be not much work:
 Warning message:
 In rawToChar(magic) : truncating string with embedded nul: 'n+1\0'
 
-
 Dieter
 
+
+J'ai eu ce message dans R version 2.8.1 (2008-12-22)
+en lancant la fonction
+> require(AnalyzeFMRI)
+> f.plot.volume.gui()
+Je charge le fichier:
+/home/backup/OrganisationDesFichiers/Universite/Recherche/Congres/UseR2010/Presentation/Data/map293/map293_mond_ICAs.nii
+Je tapes:
+> warnings()
 
 
 
@@ -121,4 +128,15 @@ luca nanetti
 
 
 Lire les fichiers .nii.gz
+
+
+Interet du package adimpro?
+
+Utiliser le package multicore?
+
+Voir la fonction grid.raster(). Elle pourrait etre meilleure (plus rapide?) que image().
+
+
+When using automatic choice of the number of ICA components it would be preferable to keep
+the generated diagnostic plots open.
 

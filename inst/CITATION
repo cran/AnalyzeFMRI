@@ -1,21 +1,27 @@
 citHeader("To cite the ConvergenceConcepts package in publications use:")
 
-citEntry(entry="Proceedings",
-         title = "AnalyzeFMRI: an R package to perform statistical analysis on FMRI datasets",
-         author = personList(as.person("Bordier C."),
-	 as.person("Dojat, M."),
-	 as.person("Lafaye de Micheaux, P.")
+citEntry(entry="Article",
+         title = "Image analysis and statistical inference in neuroimaging with R",
+         author = personList(as.person("K. Tabelow"),
+	 as.person("J.D. Clayden"),
+	 as.person("Lafaye de Micheaux, P."),
+	 as.person("J. Polzehl"),
+	 as.person("V.J. Schmid"),
+	 as.person("B. Whitcher")
 				),
-	 journal = "UseR 2009",
-         year         = "2009",
-         note         = "Software: R Package, AnalyzeFMRI, version 1.1-12",
+	 journal = "NeuroImage",
+         year         = "2011",
+	 volume = "55",
+	 number = "4",
+	 pages = "1686-1693",
+         note         = "Software: R Package, AnalyzeFMRI, version 1.1-13",
          url          = "http://www.biostatisticien.eu/AnalyzeFMRI/",
          
          textVersion = 
-         paste("Bordier, C. and Dojat, M. and Lafaye De Micheaux, P. (2009)", 
-               "AnalyzeFMRI: an R package to perform statistical analysis on FMRI datasets",
-               "UseR 2009 Conference",
-              "(Software: R Package, AnalyzeFMRI, version 1.1-12)"
+         paste("K. Tabelow, J.D. Clayden, P. Lafaye De Micheaux, J. Polzehl, V.J. Schmid and B. Whitcher (2011)", 
+               "Image analysis and statistical inference in neuroimaging with R",
+               "NeuroImage 55(4) p. 1686-1693",
+              "(Software: R Package, AnalyzeFMRI, version 1.1-13)"
 	      )
 )
 

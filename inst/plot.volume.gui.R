@@ -15,7 +15,7 @@ local({
     
     if (is.null(sform.code)) { # Analyze format
       
-      order <- -1  # Radiological 
+      order <- -1*sign(L$pixdim[2])  # Radiological 
       
     } else { # NIFTI format
       
@@ -347,9 +347,9 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
           nn.anat.sagit <<- tmp[1]
           nn.anat.coron <<- tmp[2]
           nn.anat.axia <<- tmp[3]
-          if (exists("img.anat.sagit")) tkrreplot(img.anat.sagit)
-          if (exists("img.anat.coron")) tkrreplot(img.anat.coron)
-          if (exists("img.anat.axia")) tkrreplot(img.anat.axia)
+          if (exists("img.anat.sagit")) {tkrreplot(img.anat.sagit);tkset(slider.anat.sagit,nn.anat.sagit)}
+          if (exists("img.anat.coron")) {tkrreplot(img.anat.coron);tkset(slider.anat.coron,nn.anat.coron)}
+          if (exists("img.anat.axia")) {tkrreplot(img.anat.axia);tkset(slider.anat.axia,nn.anat.axia)}
         }
 
       }
@@ -383,9 +383,9 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
           nn.anat.sagit <<- tmp[1]
           nn.anat.coron <<- tmp[2]
           nn.anat.axia <<- tmp[3]
-          if (exists("img.anat.sagit")) tkrreplot(img.anat.sagit)
-          if (exists("img.anat.coron")) tkrreplot(img.anat.coron)
-          if (exists("img.anat.axia")) tkrreplot(img.anat.axia)
+          if (exists("img.anat.sagit")) {tkrreplot(img.anat.sagit);tkset(slider.anat.sagit,nn.anat.sagit)}
+          if (exists("img.anat.coron")) {tkrreplot(img.anat.coron);tkset(slider.anat.coron,nn.anat.coron)}
+          if (exists("img.anat.axia")) {tkrreplot(img.anat.axia);tkset(slider.anat.axia,nn.anat.axia)}
         }
 
       }
@@ -424,9 +424,9 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
         nn.anat.sagit <<- tmp[1]
         nn.anat.coron <<- tmp[2]
         nn.anat.axia <<- tmp[3]
-        if (exists("img.anat.sagit")) tkrreplot(img.anat.sagit)
-        if (exists("img.anat.coron")) tkrreplot(img.anat.coron)
-        if (exists("img.anat.axia")) tkrreplot(img.anat.axia)
+        if (exists("img.anat.sagit")) {tkrreplot(img.anat.sagit);tkset(slider.anat.sagit,nn.anat.sagit)}
+        if (exists("img.anat.coron")) {tkrreplot(img.anat.coron);tkset(slider.anat.coron,nn.anat.coron)}
+        if (exists("img.anat.axia")) {tkrreplot(img.anat.axia);tkset(slider.anat.axia,nn.anat.axia)}
       }
 
     })
@@ -574,6 +574,9 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
           tkrreplot(img.fonc.coron)
           tkrreplot(img.fonc.axia)
           tkrreplot(img.fonc.palette)
+          tkset(slider.fonc.sagit,nn.fonc.sagit)
+          tkset(slider.fonc.coron,nn.fonc.coron)
+          tkset(slider.fonc.axia,nn.fonc.axia)
         }
       }
 
@@ -584,8 +587,8 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
     img.anat.coron <- tkrplot(parent=frame1.anat, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe coronale
-      image((1:dim.anat.sagit)/hdr.anat$pixdim[2],(1:dim.anat.axia)/hdr.anat$pixdim[4],as.matrix(vol.anat[,nn.anat.coron,]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.axia)
-      abline(h=nn.anat.axia/hdr.anat$pixdim[4],v=nn.anat.sagit/hdr.anat$pixdim[2],col="red")
+      image((1:dim.anat.sagit)/abs(hdr.anat$pixdim[2]),(1:dim.anat.axia)/hdr.anat$pixdim[4],as.matrix(vol.anat[,nn.anat.coron,]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.axia)
+      abline(h=nn.anat.axia/hdr.anat$pixdim[4],v=nn.anat.sagit/abs(hdr.anat$pixdim[2]),col="red")
     }
                               , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.anat.coron, "<Button-1>", function(x, y) {
@@ -610,6 +613,9 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
           tkrreplot(img.fonc.coron)
           tkrreplot(img.fonc.axia)
           tkrreplot(img.fonc.palette)
+          tkset(slider.fonc.sagit,nn.fonc.sagit)
+          tkset(slider.fonc.coron,nn.fonc.coron)
+          tkset(slider.fonc.axia,nn.fonc.axia)
         }
       }
 
@@ -627,8 +633,8 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
     img.anat.axia <- tkrplot(parent=frame2.anat, fun=function() {
       par(mar=c(0,0,0,0), bg = "#555555")
     # coupe axiale     
-      image((1:dim.anat.sagit)/hdr.anat$pixdim[2],(1:dim.anat.coron)/hdr.anat$pixdim[3],as.matrix(vol.anat[if (flip == 1) rev(1:dim.anat.sagit) else 1:dim.anat.sagit,,nn.anat.axia]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.coron)
-      abline(h=nn.anat.coron/hdr.anat$pixdim[3],v=nn.anat.sagit/hdr.anat$pixdim[2],col="red")    
+      image((1:dim.anat.sagit)/abs(hdr.anat$pixdim[2]),(1:dim.anat.coron)/hdr.anat$pixdim[3],as.matrix(vol.anat[if (flip == 1) rev(1:dim.anat.sagit) else 1:dim.anat.sagit,,nn.anat.axia]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.coron)
+      abline(h=nn.anat.coron/hdr.anat$pixdim[3],v=nn.anat.sagit/abs(hdr.anat$pixdim[2]),col="red")    
     }
                              , hscale=hscaletmp, vscale=vscaletmp)
     tkbind(img.anat.axia, "<Button-1>", function(x, y) {
@@ -653,6 +659,9 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
           tkrreplot(img.fonc.coron)
           tkrreplot(img.fonc.axia)
           tkrreplot(img.fonc.palette)
+          tkset(slider.fonc.sagit,nn.fonc.sagit)
+          tkset(slider.fonc.coron,nn.fonc.coron)
+          tkset(slider.fonc.axia,nn.fonc.axia)
         }
       }
 

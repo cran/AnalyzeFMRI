@@ -210,3 +210,11 @@ Version 1.0-8 :
 - I modified the f.basic.hdr.list.create() function and its associated documentation to replace mat with X
 - I modified the C function read_nifti_header_wrap_JM, the R function f.read.nifit.header() and the associated help file to enable the reading of the extension field, but there is still a problem
 - I modified the functions mat34.to.TRSZ() and mat34.to.TZSR() to handle the case of improper rotations.
+
+2011-06-05
+----------
+
+ Version 1.1-13
+
+- I modified the file plot.volume.gui.R to correct a bug: the sliders did not move on the anatomical when you clicked on the functional (and vice versa)
+- In this same file, I also changed order <- -1 into order <- -1*sign(L$pixdim[2]) (in the function orientation()) and hdr.anat$pixdim[2] into abs(hdr.anat$pixdim[2])
