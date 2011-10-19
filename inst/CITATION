@@ -1,27 +1,21 @@
-citHeader("To cite the ConvergenceConcepts package in publications use:")
+citHeader("To cite AnalyzeFMRI in publications use:")
 
-citEntry(entry="Article",
-         title = "Image analysis and statistical inference in neuroimaging with R",
-         author = personList(as.person("K. Tabelow"),
-	 as.person("J.D. Clayden"),
-	 as.person("Lafaye de Micheaux, P."),
-	 as.person("J. Polzehl"),
-	 as.person("V.J. Schmid"),
-	 as.person("B. Whitcher")
-				),
-	 journal = "NeuroImage",
-         year         = "2011",
-	 volume = "55",
-	 number = "4",
-	 pages = "1686-1693",
-         note         = "Software: R Package, AnalyzeFMRI, version 1.1-13",
-         url          = "http://www.biostatisticien.eu/AnalyzeFMRI/",
-         
-         textVersion = 
-         paste("K. Tabelow, J.D. Clayden, P. Lafaye De Micheaux, J. Polzehl, V.J. Schmid and B. Whitcher (2011)", 
-               "Image analysis and statistical inference in neuroimaging with R",
-               "NeuroImage 55(4) p. 1686-1693",
-              "(Software: R Package, AnalyzeFMRI, version 1.1-13)"
-	      )
+citEntry(entry = "Article",
+  title        = "Temporal and Spatial Independent Component Analysis for fMRI Data Sets Embedded in the {AnalyzeFMRI} {R} Package",
+  author       = personList(as.person("C\\'ecile Bordier"),
+                   as.person("Michel Dojat"),
+                   as.person("Pierre Lafaye de Micheaux")),
+  journal      = "Journal of Statistical Software",
+  year         = "2011",
+  volume       = "44",
+  number       = "9",
+  pages        = "1--24",
+  url          = "http://www.jstatsoft.org/v44/i09/",
+
+  textVersion  =
+  paste("Cecile Bordier, Michel Dojat, Pierre Lafaye de Micheaux (2011).",
+        "Temporal and Spatial Independent Component Analysis for fMRI Data Sets Embedded in the AnalyzeFMRI R Package.",
+        "Journal of Statistical Software, 44(9), 1-24.",
+        "URL http://www.jstatsoft.org/v44/i09/.")
 )
 

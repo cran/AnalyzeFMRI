@@ -187,7 +187,7 @@ N2G.Spatial.Mixture <- function(data, par.start = c(4, 2, 4, 2, 0.9, 0.05), ksiz
   ## possible values of s = number of active voxels in neighbourhood, including central voxel ##
   x <- 0:(k + 1)
   ## number of voxels with s active voxels in the neighbourhood ##
-  y <- vector(len = k + 2)
+  y <- vector(length = k + 2)
 
   ## calculate y ##
   for(i in 2:(d[1] - 1))

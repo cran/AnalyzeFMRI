@@ -15482,11 +15482,11 @@
 *
       RETURN
       END
-*     commented out by pierre
-*      INTEGER          FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3,
-*     $                 N4 )
-      INTEGER          FUNCTION ILAENV( ISPEC, NAME, N1, N2, 
+      INTEGER          FUNCTION ILAENV( ISPEC, NAME, OPTS, N1, N2, N3,
      $                 N4 )
+*     above: Marchini's version, below: pierre's one
+*      INTEGER          FUNCTION ILAENV( ISPEC, NAME, N1, N2, 
+*     $                 N4 )
 *
 *  -- LAPACK auxiliary routine (version 3.0) --
 *     Univ. of Tennessee, Univ. of California Berkeley, NAG Ltd.,
@@ -15495,11 +15495,11 @@
 *
 *     .. Scalar Arguments ..
 
-*     commented out by pierre
-*      CHARACTER*( * )    NAME, OPTS
-*      INTEGER            ISPEC, N1, N2, N3, N4
-      CHARACTER*( * )    NAME
-      INTEGER            ISPEC, N1, N2, N4
+      CHARACTER*( * )    NAME, OPTS
+      INTEGER            ISPEC, N1, N2, N3, N4
+*     above: Marchini's version, below: pierre's one
+*      CHARACTER*( * )    NAME
+*      INTEGER            ISPEC, N1, N2, N4
 *     ..
 *
 *  Purpose

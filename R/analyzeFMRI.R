@@ -947,7 +947,7 @@ f.plot.ica.fmri.jpg <- function(ica.obj, file = "./ica", cols = heat.colors(100)
 
     for(i in 1:dim(ica.obj$S)[4]){
 
-        jpeg(file = paste(file, ".comp.", i, ".jpeg", sep = ""), width = width, height = height)
+        jpeg(filename = paste(file, ".comp.", i, ".jpeg", sep = ""), width = width, height = height)
         f.plot.ica.fmri(ica.obj,  i,  cols = cols)
         dev.off()
     }
