@@ -227,5 +227,21 @@ Version 1.0-8 :
 - I changed the CITATION file
 - I modified line 190 of file spatial.mixture.R to: y <- vector(length = k + 2)
   This was to suppress a warning at the compilation of the package.
-- I modified line 950of file analyzeFMRI.R to: jpeg(filename = paste(file, ".comp.", i, ".jpeg", sep = ""), width = width, height = height)
+- I modified line 950 of file analyzeFMRI.R to: jpeg(filename = paste(file, ".comp.", i, ".jpeg", sep = ""), width = width, height = height)
 - removing of compilation warnings in slapack.f
+
+2012-04-05
+----------
+
+ Version 1.1-15
+
+- I changed the documentation of file 
+- I changed authors order to alphabetical
+- I removed file zzz.R
+- I added a default NAMESPACE file with useDynLib
+- I commented out a WRITE call in file slamc.f
+- I removed empty sections in Rd files
+- I commented out many lines with:  tkrreplot(img.fonc.palette)
+  in file plot.volume.gui.R
+- I added a warning when flip is not defined when one uses the GUI (in file f.plot.volume.gui.R)
+

@@ -9,8 +9,6 @@
 \value{A list containing
 \item{eigenvalues}{vector of the eigenvalues}
 }
-\seealso{
-}
 \examples{
 # TODO!!
 # valpcr <- eigenvalues(Xcr,draw=T)$eigenvalues

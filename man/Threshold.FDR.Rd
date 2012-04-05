@@ -2,13 +2,13 @@
 \alias{Threshold.FDR}
 \title{False Discovery Rate (FDR) Threshold}
 \description{Calculates the False Discovery Rate (FDR) threshold for a
-  given vector of statistic values..
+  given vector of statistic values.
 }
 \usage{
 Threshold.FDR(x, q, cV.type = 2, type = c("Normal", "t", "F"), df1 = NULL, df2 = NULL)
 }
 \arguments{
-  \item{x}{A vector of p-values.}
+  \item{x}{A vector of test statistic values.}
   \item{q}{The desired False Discovery Rate threshold.}
   \item{cV.type}{A flag that specifies the assumptions about the joint
     distribution of p-values. Choose cV.type = 2 for fMRI data (see

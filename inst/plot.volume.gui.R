@@ -79,14 +79,14 @@ maColorBar <- function (x, horizontal = TRUE, col = heat.colors(50), scale = 1:l
 
 
 
-    gui.file.fonc<-function(){
+    gui.file.fonc <- function(){
         tclvalue(file.name.fonc) <- tcl("tk_getOpenFile")   }
     
     
-    gui.file.anat<-function(){
+    gui.file.anat <- function(){
         tclvalue(file.name.anat) <- tcl("tk_getOpenFile")  }    
     
-    gui.file.time.series<-function(){
+    gui.file.time.series <- function(){
         tclvalue(file.name.time.series) <- tcl("tk_getOpenFile")  }    
 
 
@@ -96,8 +96,8 @@ plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
 ## !!! J'ai pris method=3 (lecture de la matrice affine) pour faire conincider l'anat et la fonctionnelle
   ### si sform.code=0 cela ne marchera pas ...
 
-hscaletmp<-as.numeric(tclvalue(hscaletmp))
-vscaletmp<-as.numeric(tclvalue(vscaletmp))
+hscaletmp <- as.numeric(tclvalue(hscaletmp))
+vscaletmp <- as.numeric(tclvalue(vscaletmp))
   
 # Permet d'afficher un volume cérébral anatomique et/ou fonctionnel
 # Paramètres d'entrée:
@@ -138,6 +138,7 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
       flip <- orientation(hdr.fonc)
             
     } else {
+      if (!exists("flip")) print("You must create variable flip (-1 for Radiological and 1 for Neurological)")
       if (length(dim(vol.fonc)) == 3) {
         vol.fonc <- array(vol.fonc,dim=c(dim(vol.fonc),1))
       } else {vol.fonc <- vol.fonc}
@@ -186,6 +187,8 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
       flip <- orientation(hdr.anat)
 
     }
+      if (!exists("flip")) print("You must create variable flip (-1 for Radiological and 1 for Neurological)")
+
     if (length(dim(vol.anat)) == 4) vol.anat <- vol.anat[,,,1]
     if (length(dim(vol.anat)) == 2) dim(vol.anat) <- c(dim(vol.anat),1)
     
@@ -217,7 +220,7 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
     
   if (is.vol.fonc) {
     
-# Usefull functions
+# Useful functions
     f.fonc.sagit <- function(...) {
       n.fonc.sagit <- as.numeric(tclvalue("nn.fonc.sagit"))
       n.fonc.time <- as.numeric(tclvalue("nn.fonc.time"))
@@ -226,14 +229,14 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
         tkrreplot(img.fonc.sagit)
         tkrreplot(img.fonc.coron)
         tkrreplot(img.fonc.axia)
-#        tkrreplot(img.fonc.palette)
+        tkrreplot(img.fonc.palette)
       }
       if (n.fonc.time != nn.fonc.time) {
         nn.fonc.time <<- n.fonc.time
         tkrreplot(img.fonc.sagit)
         tkrreplot(img.fonc.coron)
         tkrreplot(img.fonc.axia)
-#        tkrreplot(img.fonc.palette)
+        tkrreplot(img.fonc.palette)
       }
     }
     
@@ -245,14 +248,14 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
         tkrreplot(img.fonc.sagit)
         tkrreplot(img.fonc.coron)
         tkrreplot(img.fonc.axia)
-#        tkrreplot(img.fonc.palette)
+        tkrreplot(img.fonc.palette)
       }
       if (n.fonc.time != nn.fonc.time) {
         nn.fonc.time <<- n.fonc.time
         tkrreplot(img.fonc.sagit)
         tkrreplot(img.fonc.coron)
         tkrreplot(img.fonc.axia)
-#        tkrreplot(img.fonc.palette)
+        tkrreplot(img.fonc.palette)
       }
     }
     
@@ -265,14 +268,14 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
         tkrreplot(img.fonc.sagit)
         tkrreplot(img.fonc.coron)
         tkrreplot(img.fonc.axia)
-#        tkrreplot(img.fonc.palette)
+        tkrreplot(img.fonc.palette)
       }
       if (n.fonc.time != nn.fonc.time) {
         nn.fonc.time <<- n.fonc.time
         tkrreplot(img.fonc.sagit)
         tkrreplot(img.fonc.coron)
         tkrreplot(img.fonc.axia)
-#        tkrreplot(img.fonc.palette)
+        tkrreplot(img.fonc.palette)
       }
     }
     
@@ -496,7 +499,7 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
 
   if (is.vol.anat) {
 
-# Usefull functions
+# Useful functions
     f.anat.sagit <- function(...) {
       n.anat.sagit <- as.numeric(tclvalue("nn.anat.sagit"))
       if (n.anat.sagit != nn.anat.sagit) {
@@ -769,7 +772,7 @@ vscaletmp<-as.numeric(tclvalue(vscaletmp))
   
     #frame for start and end buttons     
     frame2 <- tkframe(base.plot, borderwidth = 2, bg = "#555555")
-    go.but<- tkbutton(frame2, text = "Start", bg = "#aaaaaa", command = plot.volume)
+    go.but <- tkbutton(frame2, text = "Start", bg = "#aaaaaa", command = plot.volume)
     q.but <- tkbutton(frame2, text = "Quit",command = gui.end, bg = "#aaaaaa")
  
 hscale.txt <- tklabel(frame2,text="hscale factor", bg = "#aaaaaa")
