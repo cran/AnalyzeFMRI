@@ -1,10 +1,10 @@
-86cea5a8f3a9a476fc573bc29f4a688f *DESCRIPTION
+b9101c7e01cc8ce6aa887cf5a9a71522 *DESCRIPTION
 0964adf69eed739ab1383cf3e87e0df6 *INDEX
 9bd8aab8932ec925e78418ccb4cc884c *NAMESPACE
-3c6c21903934cc04942618a46cbc1a75 *R/analyzeFMRI.R
+5894b7301f449f27c008aea89c7a1af6 *R/analyzeFMRI.R
 bd263dc22269eebe136ac3c04378aa5f *R/f.gaussian.spatial.smoothing.functions.R
 93eb8b1ee841cf89b9716b73761fb6b5 *R/f.non.lin.gaussian.spatial.smoothing.functions.R
-349ed920474624bfeae0d37bb78ae419 *R/niftiFMRI.R
+1dd0849ccb1c86b6d621e23a24fddd86 *R/niftiFMRI.R
 c2e13968744a4d4fa3aa179815b4888e *R/spatial.mixture.R
 a63eb19b35462d927f18c74398512b2d *R/threshold.R
 2bf103e29f4b63314261f538ea90d0db *TODO
@@ -15,7 +15,7 @@ cbbba9fda4d2cf9f3ce52819d42115a0 *configure.win
 a01edcbaad29fca647968d20f5c36e43 *inst/AnalyzeFMRI.gui.R
 1e37cb5eee645da4d01460e6d0f7ad58 *inst/CITATION
 fa5207e05bf059e7c9d795e7e7e7b7cd *inst/GRF.examples.R
-1f4f2026b4a5b56ce2a08d526135403b *inst/HISTORY
+9a1f5a966c84058d6bd62e47c73bed2e *inst/HISTORY
 b80cffc117a7f52ac8e87658dcb0a067 *inst/ICA.gui.R
 026efa24dbec347f0c7a88f5f36032a9 *inst/ICAst.gui.R
 e96396d25ba0e9d608520d8660040d9d *inst/README

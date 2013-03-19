@@ -880,7 +880,7 @@ f.analyzeFMRI.gui <- function(){
 
   #starts GUI that allows user to explore an fMRI dataset stored in an ANALYZEfile
 
-    path <- .path.package(package = "AnalyzeFMRI")
+    path <- path.package(package = "AnalyzeFMRI")
     path.gui <- paste(path, "AnalyzeFMRI.gui.R", sep = .Platform$file.sep)
     source(path.gui)}
 
@@ -997,7 +997,7 @@ f.ica.fmri.gui <- function(){
 
   #starts GUI that allows user apply Spatial ICA to an fMRI dataset
 
-    path <- .path.package(package = "AnalyzeFMRI")
+    path <- path.package(package = "AnalyzeFMRI")
     path.gui <- paste(path, "ICA.gui.R", sep = .Platform$file.sep)
     source(path.gui)}
 

@@ -245,3 +245,10 @@ Version 1.0-8 :
   in file plot.volume.gui.R
 - I added a warning when flip is not defined when one uses the GUI (in file f.plot.volume.gui.R)
 
+2013-03-19
+----------
+
+ Version 1.1-16
+
+- I modified files analyzeFMRI.R and niftiFMRI.R to replace the now deprecated function .path.pacage() with the new one path.package()
+- For this reason, I also had to modify the "Depends" entry in DESCRIPTION file from R (>= 2.3.0) to R (>= 2.13.0)

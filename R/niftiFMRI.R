@@ -2442,7 +2442,7 @@ f.icast.fmri.gui <- function(){
 
   #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
 
-  path <- .path.package(package = "AnalyzeFMRI")
+  path <- path.package(package = "AnalyzeFMRI")
   path.gui <- paste(path, "ICAst.gui.R", sep = .Platform$file.sep)
   source(path.gui)
 }
@@ -2872,7 +2872,7 @@ f.plot.volume.gui <- function(){
 
   #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
 
-  path <- .path.package(package = "AnalyzeFMRI")
+  path <- path.package(package = "AnalyzeFMRI")
   path.gui <- paste(path, "plot.volume.gui.R", sep = .Platform$file.sep)
   source(path.gui)
 }
