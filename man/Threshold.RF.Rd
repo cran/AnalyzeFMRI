@@ -6,7 +6,8 @@
   results in a specified p-value.
 }
 \usage{
-Threshold.RF(p.val, sigma, voxdim = c(1, 1, 1), num.vox, type = c("Normal", "t"), df = NULL)
+Threshold.RF(p.val, sigma, voxdim = c(1, 1, 1), num.vox,
+             type = c("Normal", "t"), df = NULL)
 }
 \arguments{
   \item{p.val}{The required p-value.}

@@ -1,5 +1,8 @@
 \name{GaussSmoothKernel}
 \alias{GaussSmoothKernel}
+\alias{gaussfilter1}
+\alias{gaussfilter2}
+
 \title{Calculates a discrete Gaussian smoothing kernel.}
 \description{Calculates a simple, discrete Gaussian smoothing kernel of
   a specfic size given the covariance matrix of the Gaussian.

@@ -6,11 +6,11 @@
 \arguments{\item{space}{space field of a NIFTI file}
   \item{time}{time field of a NIFTI file}
 }
-\value{A list containing xyzt.units field.
+\value{A list containing \code{xyzt.units} field.
 
-   Bits 0..2 of xyzt.units specify the units of pixdim[2..4]
+   Bits 0..2 of \code{xyzt.units} specify the units of \code{pixdim[2..4]}
     (e.g., spatial units are values 0,1,2,...,7).
-   Bits 3..5 of xyzt.units specify the units of pixdim[5]
+   Bits 3..5 of \code{xyzt.units} specify the units of \code{pixdim[5]}
     (e.g., temporal units are multiples of 8: 0,8,16,24,32,40,48,56).
 
    This compression of 2 distinct concepts into 1 byte is due to the

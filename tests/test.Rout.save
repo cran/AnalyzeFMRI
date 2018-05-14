@@ -1,17 +1,20 @@
 
-R : Copyright 2004, The R Foundation for Statistical Computing
-Version 2.0.0 Under development (unstable) (2004-06-07), ISBN 3-900051-00-3
+R Under development (unstable) (2018-05-05 r74699) -- "Unsuffered Consequences"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
 
+  Natural language support but running in an English locale
+
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
-'citation()' on how to cite R in publications.
+'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for a HTML browser interface to help.
+'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
 > ###################################
@@ -19,6 +22,18 @@ Type 'q()' to quit R.
 > ###################################
 > 
 > library(AnalyzeFMRI)
+Loading required package: R.matlab
+R.matlab v3.6.1 (2016-10-19) successfully loaded. See ?R.matlab for help.
+
+Attaching package: ‘R.matlab’
+
+The following objects are masked from ‘package:base’:
+
+    getOption, isOpen
+
+Loading required package: fastICA
+Loading required package: tcltk
+Loading required package: tkrplot
 > 
 > ## Test that reading of examples works
 > 
@@ -50,3 +65,6 @@ Type 'q()' to quit R.
 [1] 0
 > 
 > 
+> proc.time()
+   user  system elapsed 
+  0.852   0.184   0.744 

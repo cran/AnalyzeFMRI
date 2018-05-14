@@ -1,4 +1,4 @@
-useDynLib(AnalyzeFMRI)
+useDynLib(AnalyzeFMRI, .registration = TRUE)
 
 # Export all names
 exportPattern(".")
@@ -6,6 +6,15 @@ exportPattern(".")
 # Import all packages listed as Imports or Depends
 import(
   tcltk,
+  tkrplot,
   R.matlab,
   fastICA
 )
+
+importFrom("grDevices", "dev.off", "heat.colors", "jpeg")
+importFrom("graphics", "abline", "axis", "box", "image", "par", "plot",
+           "points", "text")
+importFrom("stats", "dgamma", "dnorm", "fft", "median", "optim",
+           "optimize", "pf", "pnorm", "pt", "qf", "qgamma", "qnorm",
+           "qt", "quantile", "rnorm", "sd")
+importFrom("utils", "glob2rx", "write.table")

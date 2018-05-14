@@ -252,3 +252,28 @@ Version 1.0-8 :
 
 - I modified files analyzeFMRI.R and niftiFMRI.R to replace the now deprecated function .path.pacage() with the new one path.package()
 - For this reason, I also had to modify the "Depends" entry in DESCRIPTION file from R (>= 2.3.0) to R (>= 2.13.0)
+
+2018-05-09
+----------
+
+ Version 1.1-17
+
+- I removed contents of Details Section in the xyz2ijk.Rd file
+- I modified the Details Section in file ijk2xyz.Rd
+- I modified file analyze2nifti.Rd
+- I modified file f.complete.hdr.nifti.list.create.Rd
+- I modified files fps2diminfo.Rd and diminfo2fps.Rd
+- I modified files st2xyzt.Rd and xyzt2st.Rd
+- I moved the function orientation() from the file plot.volume.gui.R to the file niftiFMRI.R
+- I added the function orientation() in the INDEX file
+- I added a help file for function orientation()
+- I modified the file plot.volume.gui.R: 1) so that all images are now displayed in a Neurological convention; 2) I added (on top of Visualizer) the full path name to the anatomical file being displayed; 3) I modified the flip variables to correct a bug in the orientation when both anatomical/functionnal were openned simultaneously; 4) I permuted the Coronal and Sagittal view to obtain the same ouput as mricron; 5) I corrected a bug in the display so now this seems similar to what mricron gives; 6) I added the scanner coordinates on bottom of visualizer; 7) I added the letter X, y or Z on the approproate sliders; 8) I moved the require of tcltk and tkrplot to the function f.plot.volume.gui; 9) I removed the local environment; 10) I increased the size of the Scanner coordinates pannel (coord.fonc) so that all the window does not change its size when one clicks on the brain; 11) I now deal with the array.fonc variable coming from the function f.plot.volume.gui(); 12) I added the argument na.rm=TRUE to all occurences of min() and max(); 13) I added a check of old ANALYZE format using the read_nifti_magic_wrap C function.
+- I modified the function f.plot.volume.gui() so that we can pass as an argument an array containing the MRI values.
+- I modified the functions ijk2xyz() and xyz2ijk() to add a orientation(L) to take into account the Radiological/Neurological storage of data.
+- DESCRIPTION file: I removed the period (.) at the end of the title; I changed my email address; I added tcltk and tkrplot in the Depends field; I removed an extraneous Depends field
+- Files inst/AnalyzeFMRI.gui.R, ICA.gui.R, ICAst.gui.R, plot.volume.gui.R: I commented the first line and I used tcltk:: everywhere
+- File plot.volume.gui.R: I used the tkrplot:: when necessary
+- niftiFMRI.R:  I removed the lines require(tcltk) || stop("tcltk support is absent") and  require("tkrplot") || stop("tkrplot support is absent")
+- NAMESPACE file: I added several importFrom entries and also the tkrplot import
+- Threshold.Bonferroni.R: I replaced everywhere 'type ==' with 'type[1] =='
+- File spatial.c: I added Free(vox_mat_vals);

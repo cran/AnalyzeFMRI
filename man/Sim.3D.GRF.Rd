@@ -1,5 +1,8 @@
 \name{Sim.3D.GRF}
 \alias{Sim.3D.GRF}
+\alias{sim_grf}
+
+
 
 \title{Simulate a GRF}
 \description{Simulates a Gaussian Random Field with specified dimensions and

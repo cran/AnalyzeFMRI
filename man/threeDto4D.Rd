@@ -7,7 +7,8 @@
   disk. Note that this function outputs the files in the format sent
   in. If desired, one can use the function \code{analyze2nifti} to
   create NIFTI files from ANALYZE files.}
-\usage{threeDto4D(outputfile,path.in=NULL,prefix=NULL,regexp=NULL,times=NULL,list.of.in.files=NULL,path.out=NULL,is.nii.pair=FALSE,hdr.number=1)}
+\usage{threeDto4D(outputfile,path.in=NULL,prefix=NULL,regexp=NULL,times=NULL,
+       list.of.in.files=NULL,path.out=NULL,is.nii.pair=FALSE,hdr.number=1)}
 \arguments{\item{outputfile}{character. Name of the outputfile without extension}
   \item{path.in}{character with the path to the directory containing the image files}
   \item{prefix}{character. common prefix to each file}
@@ -26,7 +27,8 @@
 }
 \examples{
 
-# path.fonc <- "/network/home/lafayep/Stage/Data/map284/functional/MondrianApril2007/preprocessing/1801/smoothed/"
+# path.fonc <- "/network/home/lafayep/Stage/Data/map284/functional/
+# MondrianApril2007/preprocessing/1801/smoothed/"
 # threeDto4D("essai",path.in=path.fonc,prefix="su1801_",regexp="????.img",times=1:120)
 
 }

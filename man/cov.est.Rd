@@ -1,5 +1,7 @@
 \name{cov.est}
 \alias{cov.est}
+\alias{covariance_est}
+
 \title{Estimates the covariance between neighbouring voxels}
 \description{Estimates the covariance between neighbouring voxels using
    a specified neighbourhood system.
@@ -29,7 +31,8 @@ filtermat <- GaussSmoothKernel(voxdim, ksize, sigma)
 mask <- array(1, dim = d)
 num.vox <- sum(mask)
 
-mat <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma, ksize = ksize, mask = mask, type = "field")$mat
+mat <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma,
+                  ksize = ksize, mask = mask, type = "field")$mat
 
 nmat <- expand.grid(-1:1, -1:1, -1:1)
 nmat4 <- nmat[c(11, 13, 15, 17), ]

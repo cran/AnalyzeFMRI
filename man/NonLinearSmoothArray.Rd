@@ -1,5 +1,9 @@
 \name{NonLinearSmoothArray}
 \alias{NonLinearSmoothArray}
+\alias{non_lin_gauss_smooth}
+\alias{temporal_non_lin_gauss_smooth}
+
+
 \title{Non-linear spatial smmothing of 3D and 4D arrays.}
 \description{Smooths the values in an array spatially using a weighting
   kernel that doesn't smooth across boundaries.}

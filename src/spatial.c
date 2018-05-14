@@ -155,6 +155,7 @@ float *thresh_value, Sint *ans, float *ans1){
     } else { *ans =0;}
 
 	Free(vox_mat);
+	Free(vox_mat_vals);
 } 
 
 

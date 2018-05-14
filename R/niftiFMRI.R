@@ -1353,7 +1353,7 @@ magicfield <- function(file) {
 
 analyze2nifti <- function(file.in,path.in=".",path.out=".",file.out=NULL,is.nii=TRUE,qform.code=2,sform.code=2,data.type=rawToChar(raw(10)),db.name=rawToChar(raw(18)),dim.info=rawToChar(raw(1)),dim=NULL,TR=0,slice.code=rawToChar(raw(1)),xyzt.units=rawToChar(raw(1)),descrip=NULL,aux.file=rawToChar(raw(24)),intent.name=rawToChar(raw(16))) {
 # Passage du format Analyze 4D (resp. 3D) vers le format Nifti 4D (resp. 3D)
-# C'est un équivalent de la fonction SPM5: spm_write_vol
+# C'est un equivalent de la fonction SPM5: spm_write_vol
 
 # [q/s]form.code values :
 # [q/s]form.code=0 : Arbitrary coordinates (Method 1).
@@ -1374,7 +1374,7 @@ if (is.null(file.out)) file.out <- removeext(file.in)
 data <- f.read.volume(paste(path.in,file.in,".img",sep=""))
 header.4D <- f.read.header(paste(path.in,file.in,".img",sep=""))
 
-# ... puis traduction du header de l'Analyze vers le header du Nifti (en y intégrant les infos du .mat)
+# ... puis traduction du header de l'Analyze vers le header du Nifti (en y integrant les infos du .mat)
 dim.mat <- header.4D$dim[2:5]
 if (is.nii) {file <- paste(file.out,".nii",sep="")} else {file <- paste(file.out,".hdr",sep="")}
 Lnifti <- f.basic.hdr.nifti.list.create(dim.mat,file)
@@ -1384,12 +1384,12 @@ Lnifti$db.name <- db.name # UNUSED
 # Lnifti$extents <- header.4D$extents # UNUSED
 # Lnifti$session.error <- header.4D$session.error # UNUSED
 Lnifti$regular <- header.4D$regular # UNUSED in NIFTI-1 but i put this to "r" to be conformant with SPM
-Lnifti$dim.info <- dim.info # en fait, ici il devrait s'agir de l'information suivante codée sur 1 byte : (freq_dim,phase_dim,slice_dim)
-                                        # chacune des 3 composantes étant codée sur 2 bits et pouvant prendre les valeurs 1, 2 ou 3 (pour x,y ou z respectivement)
+Lnifti$dim.info <- dim.info # en fait, ici il devrait s'agir de l'information suivante codee sur 1 byte : (freq_dim,phase_dim,slice_dim)
+                                        # chacune des 3 composantes etant codee sur 2 bits et pouvant prendre les valeurs 1, 2 ou 3 (pour x,y ou z respectivement)
                                         # These fields encode which spatial dimension (1,2, or 3) corresponds to which acquisition dimension for MRI data.
 
 if (!is.null(dim)) Lnifti$dim <- dim
-# Lnifti$dim a été créé par la fonction f.basic.hdr.nifti.list.create mais il devrait pouvoir être modifié en cas de besoin
+# Lnifti$dim a ete cree par la fonction f.basic.hdr.nifti.list.create mais il devrait pouvoir etre modifie en cas de besoin
 # Uses of dimensions 6 (dim[7]) and 7 (dim[8]) are also specified in NIFTI-1 format.
 # Pour l'instant    dim <- c(length(dim.mat), dim.mat, rep(0, 7 - length(dim.mat)))
 # Mais on peut encore changer la 5eme dimension (dim[6]) : dimension 5 is for storing multiple values at each spatiotemporal voxel.
@@ -1437,7 +1437,7 @@ Lnifti$toffset <- header.4D$verified
 Lnifti$descrip <- if (is.null(descrip)) header.4D$descrip else descrip
 Lnifti$aux.file <- aux.file
 
-# Il reste à changer les derniers champs grâce à la lecture du .mat (s'il existe!!!)
+# Il reste a changer les derniers champs grace a la lecture du .mat (s'il existe!!!)
 
 if (!is.na(file.info(paste(path.in,file.in,".mat",sep=""))[1])) { # le .mat existe vraiment
 
@@ -1446,10 +1446,10 @@ if (!is.na(file.info(paste(path.in,file.in,".mat",sep=""))[1])) { # le .mat exis
 
 ##require("R.matlab")
 M <- readMat(paste(path.in,file.in,".mat",sep=""))$M
-M[1,] <- - M[1,] # Je ne sais pas s'il faut lire le $M ou le $mat . Dès fois le $mat n'est pas présent. La première ligne du $mat est (-1)*$M[1,]
-############################ ATTENTION!!! Gros problème ici car les fichiers 1801_* ont tous des .mat différents!! Il
-# faut s'assurer d'avoir le bon .mat pour le fichier d'entrée (surtout s'il a été obtenu en regroupant plusieurs fichiers 3D avec des .mat differents. Il faudra alors
-# utiliser un reslice des fichiers Analyze d'origine pour qu'ils aient tous le même .mat avant de les merger avec threeDto4D.R
+M[1,] <- - M[1,] # Je ne sais pas s'il faut lire le $M ou le $mat . Des fois le $mat n'est pas present. La premiere ligne du $mat est (-1)*$M[1,]
+############################ ATTENTION!!! Gros probleme ici car les fichiers 1801_* ont tous des .mat differents!! Il
+# faut s'assurer d'avoir le bon .mat pour le fichier d'entree (surtout s'il a ete obtenu en regroupant plusieurs fichiers 3D avec des .mat differents. Il faudra alors
+# utiliser un reslice des fichiers Analyze d'origine pour qu'ils aient tous le meme .mat avant de les merger avec threeDto4D.R
 # prevoir de faire verifier tout cela par la fonction analyze2nifti
 
 
@@ -1509,14 +1509,14 @@ M[1,] <- - M[1,] # Je ne sais pas s'il faut lire le $M ou le $mat . Dès fois le
 #                      | 0 0 1 T_z |
 #                      | 0 0 0  1  |
 
-# Shear matrix = | 1   0   0   0 |  Pas sur de celle-là ????
+# Shear matrix = | 1   0   0   0 |  Pas sur de celle-la ????
 #                | 0   1   0   0 |
 #                | 0   0   1   0 |
 #                | S_x S_y S_z 1 | 
 
 
 translate111 <- diag(4) ; translate111[,4] <- 1 # translation de +1 cran en x, +1 cran en y et +1 cran en z
-M <- M %*% translate111 # Convert from first voxel at (1,1,1) to first voxel at (0,0,0)  (SPM compte les voxels à partir de (1,1,1) mais NIFTI à partir de (0,0,0))
+M <- M %*% translate111 # Convert from first voxel at (1,1,1) to first voxel at (0,0,0)  (SPM compte les voxels a partir de (1,1,1) mais NIFTI a partir de (0,0,0))
 
 # Translations
 Tmat <- M[1:3,4]
@@ -1542,7 +1542,7 @@ Lnifti$pixdim[2:4] <- vx
 
 
 
-if (det(R) > 0) qfac <- 1 else qfac <- -1 # A voir comment on fixe la valeur de qfac ... je pense que c'est avec le déterminant de R qui devrait être égal à 1, sinon ...???
+if (det(R) > 0) qfac <- 1 else qfac <- -1 # A voir comment on fixe la valeur de qfac ... je pense que c'est avec le determinant de R qui devrait etre egal a 1, sinon ...???
 
 R <- R %*% diag(c(1,1,qfac))
   
@@ -1904,7 +1904,7 @@ ijk2xyz <- function(ijk=c(1,1,1),method=2,L) {
       
       if (L$sform.code == 0) stop("Method 3 should be used for sform.code > 0")
       
-      M <- matrix(c(L$srow.x,L$srow.y,L$srow.z),byrow=TRUE,nrow=3,ncol=4)
+      M <- matrix(c(orientation(L)*L$srow.x,L$srow.y,L$srow.z),byrow=TRUE,nrow=3,ncol=4)
       xyz <- M %*% rbind(ijk,rep(1,nbpts))
       
     }
@@ -1990,7 +1990,7 @@ xyz2ijk <- function(xyz=c(1,1,1),method=2,L) {
       
       if (L$sform.code == 0) stop("Method 3 should be used for sform.code > 0")
       
-      M <- matrix(c(L$srow.x,L$srow.y,L$srow.z,0,0,0,1),byrow=TRUE,nrow=4,ncol=4)
+      M <- matrix(c(orientation(L)*L$srow.x,L$srow.y,L$srow.z,0,0,0,1),byrow=TRUE,nrow=4,ncol=4)
       Minv <- matrix(NA,nrow=4,ncol=4)
         
       r11 <- M[1,1]
@@ -2083,7 +2083,7 @@ R2Q <- function(R,qfac=NULL) {
 #   DICOM is mostly concerned with 2D images.  The third column of R will be
 #   either the cross-product of the first 2 columns or its negative.
 #   a=(a1,a2,a3) ; b=(b1,b2,b3) ; a x b = (a2b3-a3b2,a3b1-a1b3,a1b2-a2b1)
-#   Here is the third column of R: ±(-xb*yc+xc*yb,-xc*ya+xa*yc,xa*yb-xb*ya)
+#   Here is the third column of R: +-(-xb*yc+xc*yb,-xc*ya+xa*yc,xa*yb-xb*ya)
 #   It is possible to infer the sign of the 3rd column by examining the coordinates
 #   in DICOM attribute (0020,0032) "Image Position (Patient)" for successive
 #   slices.  However, this method occasionally fails for reasons that I
@@ -2244,7 +2244,7 @@ if (det(M) < 0) {
 # Get Y Rotation and check that we aren't up a creek without a paddle
 sy <- -M[3,1]
 if (abs(sy) == 1) stop("cos Y = 0. Not solved yet")
-# C'est compliqué. Ca fait appel a des equations du 3eme, 4eme et 5eme degré!
+# C'est complique. Ca fait appel a des equations du 3eme, 4eme et 5eme degre!
 
 if (sy == 0) {
 
@@ -2396,7 +2396,7 @@ if (det(M) < 0) {
 # Get Y Rotation and check that we aren't up a creek without a paddle
 sy <- -M[3,1]
 if (abs(sy) == 1) stop("cos Y = 0. Not solved yet") 
-# C'est compliqué. Ca fait appel a des equations du 3eme, 4eme et 5eme degré!
+# C'est complique. Ca fait appel a des equations du 3eme, 4eme et 5eme degre!
 
 if (sy == 0) {
 
@@ -2456,9 +2456,10 @@ f.icast.fmri <- function(foncfile,maskfile,is.spatial,n.comp.compute=TRUE,n.comp
 if ((!n.comp.compute) & (n.comp<1)) stop("You should provide n.comp")
   
 #################################
-# Lecture des données
+# Lecture des donnees
 #################################
 
+# ON DEVRAIT PEUT-ETRE VERIFIER QUE LE MASK A LA MEME DIMENSION QUE LA FONC???
 
 volume.fonc <- f.read.volume(foncfile)
 
@@ -2467,7 +2468,7 @@ fonc.hdr <- f.read.header(foncfile)
 
 nb.scans <- fonc.hdr$dim[5]
 gc(FALSE)
-volume.fonc <- fourDto2D(volume.fonc,nb.scans) # On passe en 2D (matrix of size tm x vm) car l'ACP et l'ACI fonctionnent avec des matrices 2D (le dépliage est arbitraire!)
+volume.fonc <- fourDto2D(volume.fonc,nb.scans) # On passe en 2D (matrix of size tm x vm) car l'ACP et l'ACI fonctionnent avec des matrices 2D (le depliage est arbitraire!)
 gc(FALSE)
 
 
@@ -2481,7 +2482,7 @@ gc(FALSE)
 
 
 #############################
-# Pré-traitements
+# Pre-traitements
 #############################
 
 # masquage
@@ -2510,7 +2511,7 @@ gc(FALSE)
 }
 
 
-# Phase des ondelettes (pour enlever la tendance ... à voir ...)
+# Phase des ondelettes (pour enlever la tendance ... a voir ...)
 # require(waveslim)
 #Xcentred <- apply(Xcentred[1:(nrow(Xcentred)-nrow(Xcentred)%%2),],MARGIN=1,myfunc<-function(x){dwt(x)[[3]]})
 #gc(FALSE)
@@ -2518,7 +2519,7 @@ gc(FALSE)
 
 if (n.comp.compute) {
 
-# réduction
+# reduction
 # ---------
 
 if (is.spatial) {
@@ -2566,7 +2567,7 @@ spatial.components <- resICA$spatial.components # n.comp x vm (spatial case) or 
 
 
 
-# Recréation des volumes 3D
+# Recreation des volumes 3D
 littlefunc <- function(x,dim.resmask,dimensions,mask.img) {
   volume <- matrix(NA,nrow=dim.resmask,ncol=1)
   volume[mask.img!=0,] <- x
@@ -2586,10 +2587,10 @@ for (i in 1:n.comp) {
 cat("ICA has been performed\n")
 
 #############################
-# Ecriture de données
+# Ecriture de donnees
 #################################
 
-# on écrit les décours temporels
+# on ecrit les decours temporels
 
 if (is.spatial) { # spatial ICA
   write.table(time.series,file=paste(substr(foncfile,1,nchar(foncfile)-4),"-ICAs-time-series.dat",sep=""))
@@ -2598,7 +2599,7 @@ if (is.spatial) { # spatial ICA
 }
 
 
-# on écrit toutes les images
+# on ecrit toutes les images
 
 Lbis <- fonc.hdr
 Lbis$dim[5] <- n.comp
@@ -2736,7 +2737,7 @@ eigenvalues <- function(X,draw=FALSE) {
   tm <- nrow(X)
   vm <- ncol(X)
 
-# On calcule les valeurs propres de la matrice des corrélations de X (donc X doit être centrée ET réduite!!)
+# On calcule les valeurs propres de la matrice des correlations de X (donc X doit etre centree ET reduite!!)
   valp <- eigen(X%*%t(X)/vm,only.values=TRUE,symmetric=TRUE)$values
 
   if (draw) {
@@ -2758,11 +2759,11 @@ eigenvalues <- function(X,draw=FALSE) {
 
 ICAspat <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
-# On effectue l'ICA spatiale (avec blanchiment préalable)
+# On effectue l'ICA spatiale (avec blanchiment prealable)
 
 # X: tm x vm
   
-  if (centering)  X <- centering(X,col.first=TRUE)$Xcentred # Xcentred de taille tm x vm centrée d'abord en colonnes puis en lignes
+  if (centering)  X <- centering(X,col.first=TRUE)$Xcentred # Xcentred de taille tm x vm centree d'abord en colonnes puis en lignes
 
   svd.Xc.spatial <- svd(X,nu=0,nv=n.comp) 
   gc(FALSE)
@@ -2777,7 +2778,7 @@ ICAspat <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
 # high-pass filter
 # ----------------
-# A FAIRE!!! Réflechir comment!!!
+# A FAIRE!!! Reflechir comment!!!
   
   w.init <- matrix(rnorm(n.comp^2), n.comp, n.comp)
   maxit <- 200
@@ -2786,7 +2787,7 @@ ICAspat <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
   alpha <- 1
   fun <- c("logcosh")
   filter <- TRUE
-# le prog estime la matrice de séparation monWZ donc monWz%*%monZ == monSest
+# le prog estime la matrice de separation monWZ donc monWz%*%monZ == monSest
   Wzr <- ica.R.def(Zr, n.comp, tol = tol, fun = fun,alpha = alpha, maxit = maxit, verbose = verbose,w.init = w.init) # n.comp x n.comp
   Sest <- Wzr%*%Zr # n.comp x vm
   gc(FALSE)
@@ -2802,7 +2803,7 @@ ICAspat <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
 ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
-# On effectue l'ICA temporelle (avec blanchiment préalable)
+# On effectue l'ICA temporelle (avec blanchiment prealable)
 
 # X: vm x tm
 
@@ -2811,7 +2812,7 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
   
   X <- t(X) # now X: tm x vm
 
-  if (centering)  X <- centering(X,col.first=FALSE)$Xcentred # Xcentred de taille tm x vm mais centrée d'abord en lignes puis en colonnes
+  if (centering)  X <- centering(X,col.first=FALSE)$Xcentred # Xcentred de taille tm x vm mais centree d'abord en lignes puis en colonnes
 
 
   svd.Xc.spatial <- svd(X,nu=n.comp,nv=0) 
@@ -2821,7 +2822,7 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
   Drinv <- diag(1/svd.Xc.spatial$d[1:n.comp]) # n.comp x n.comp
   
 # V <- svd(Xtcentree,nu=n.comp,nv=0)$u
-# identique à
+# identique a
   Vr <- t(X)%*%Ur%*%Drinv # vm x n.comp
   
   tm <- nrow(X)
@@ -2845,7 +2846,7 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
   fun <- c("logcosh")
   filter <- TRUE
 
-# le prog estime la matrice de séparation monWZ donc monWz%*%monZ == monSest
+# le prog estime la matrice de separation monWZ donc monWz%*%monZ == monSest
   Wz <- ica.R.def(Zstar, n.comp, tol = tol, fun = fun,alpha = alpha, maxit = maxit, verbose = verbose,w.init = w.init) # n.comp x n.comp
   Sestpseudo <- Wz%*%Z # n.comp x tm
 
@@ -2853,7 +2854,7 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
 
   Wxt <- sqrt(tm)*Wz%*%Drinv%*%t(Vr) # n.comp x vm
-# Contient, dans les colonnes, les cartes spatiales associées
+# Contient, dans les colonnes, les cartes spatiales associees
   Axt <- t(Wxt) %*% solve(Wxt%*%t(Wxt)) # vm x n.comp
 
   gc(FALSE)
@@ -2866,13 +2867,60 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
 
 
-
-
-f.plot.volume.gui <- function(){
-
+f.plot.volume.gui <- function(array.fonc=NULL,hdr.fonc=NULL) {
   #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
+  if (class(array.fonc) == "array" & is.null(hdr.fonc)) stop("You must also provide a list 'hdr.fonc' with a 'pixdim' field containing a vector of length 4")
+                                        
+#  require(tcltk) || stop("tcltk support is absent")
+#  require("tkrplot") || stop("tkrplot support is absent")
 
   path <- path.package(package = "AnalyzeFMRI")
   path.gui <- paste(path, "plot.volume.gui.R", sep = .Platform$file.sep)
-  source(path.gui)
+  env1245678512457 <- new.env()
+  if (!is.null(array.fonc)) {
+    name.array.fonc <- as.character(as.list(match.call())$array.fonc)
+    assign(name.array.fonc,array.fonc,envir=env1245678512457)
+    assign("array.fonc",name.array.fonc,envir=env1245678512457)
+    assign("hdr.fonc",hdr.fonc,envir=env1245678512457)
+  }
+  sys.source(path.gui,envir=env1245678512457)
+  rm("env1245678512457")
+}
+
+orientation <- function(L) {
+    # To determine if data is stored in Radiological or Neurological order
+    # Inspired from FSL
+    # See : http://fsl.fmrib.ox.ac.uk/fsl/fslwiki
+    
+  sform.code <- L$sform.code
+  qform.code <- L$qform.code
+  
+  if (is.null(sform.code)) { # Analyze format
+    
+    order <- -1*sign(L$pixdim[2])  # Radiological 
+    
+  } else { # NIFTI format
+    
+    sform.mat <- rbind(L$srow.x,L$srow.y,L$srow.z,c(0,0,0,1))
+    qform.mat <- Q2R(c(L$quatern.b,L$quatern.c,L$quatern.d),if (L$pixdim[1]==0) 1 else L$pixdim[1])
+    
+    determinant <- -1
+    
+    if (sform.code != 0) {
+      
+      determinant <- det(sform.mat)
+      
+    } else if (qform.code != 0) {
+      
+      determinant <- det(qform.mat)
+    }
+    
+    if (determinant<0) order <- c("Radiological storage"=-1) # Radiological 
+    else order <- c("Neurological storage"=1) # Neurological
+    
+    
+  }
+  
+  return(order)
+  
 }

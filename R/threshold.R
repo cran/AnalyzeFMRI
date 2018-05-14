@@ -16,7 +16,7 @@ Sim.3D.GRF <- function(d, voxdim, sigma, ksize, mask = NULL, type = c("field", "
     if((2 * floor(ksize / 2)) == ksize) stop(paste("ksize must be odd"))
     
     if(is.null(mask)) mask <- array(1, dim = d[1:3])
-    space <- 1 + (type == "field") * prod(d)
+    space <- 1 + (type[1] == "field") * prod(d)
     
     filtermat <- GaussSmoothKernel(voxdim, ksize, sigma)
     
@@ -25,12 +25,12 @@ Sim.3D.GRF <- function(d, voxdim, sigma, ksize, mask = NULL, type = c("field", "
             as.double(aperm(filtermat, c(3, 2, 1))),
             as.integer(ksize),
             as.integer(aperm(mask, c(3, 2, 1))),
-            as.integer((type == "field")),
+            as.integer((type[1] == "field")),
             mat = double(space),
             max = double(1),
             PACKAGE = "AnalyzeFMRI")
     
-    if(type == "field") {
+    if(type[1] == "field") {
         mat <- array(a$mat, dim = d[4:1])
         mat <- aperm(mat, 4:1)
         if(tmp == 1) mat <- mat[, , , 1]
@@ -123,9 +123,9 @@ Threshold.Bonferroni <- function(p.val, n, type = c("Normal", "t", "F"), df1 = N
     ## calculate the Bonferroni threshold for n iid tests to give a p-value of p.val
     ## type specifies the univariate distribution of the test statistics under consideration
     
-    if(type == "Normal") return(qnorm(1 - p.val / n))
-    if(type == "t") return(qt(1 - p.val / n, df = df1))
-    if(type == "F") return(qf(1 - p.val / n, df1 = df1, df2 = df2))
+    if(type[1] == "Normal") return(qnorm(1 - p.val / n))
+    if(type[1] == "t") return(qt(1 - p.val / n, df = df1))
+    if(type[1] == "F") return(qf(1 - p.val / n, df1 = df1, df2 = df2))
 
 }
 
@@ -163,9 +163,9 @@ Threshold.FDR <- function(x, q, cV.type = 2, type = c("Normal", "t", "F"), df1 =
     ## q specifies the desired FDR
     ## cV specfies the type of FDR threshold used (See Genovese et al. (2002))
     
-    if(type == "Normal") p <- sort(1 - pnorm(x))
-    if(type == "t") p <- sort(1 - pt(x, df = df1))
-    if(type == "F") p <- sort(1 - pf(x, df1 = df1, df2 = df2))
+    if(type[1] == "Normal") p <- sort(1 - pnorm(x))
+    if(type[1] == "t") p <- sort(1 - pt(x, df = df1))
+    if(type[1] == "F") p <- sort(1 - pf(x, df1 = df1, df2 = df2))
 
     V <- length(p)
     cV <- switch(cV.type, 1, log(V) + 0.5772)
@@ -174,9 +174,9 @@ Threshold.FDR <- function(x, q, cV.type = 2, type = c("Normal", "t", "F"), df1 =
     while (p[i] <= (i * q) / (V * cV)) i <- i + 1
     i <- max(i - 1, 1)
 
-    if(type == "Normal") thr <- qnorm(1 - p[i])
-    if(type == "t") thr <- qt(1 - p[i], df = df1)
-    if(type == "F") thr <- qf(1 - p[i], df1 = df1, df2 = df2)
+    if(type[1] == "Normal") thr <- qnorm(1 - p[i])
+    if(type[1] == "t") thr <- qt(1 - p[i], df = df1)
+    if(type[1] == "F") thr <- qf(1 - p[i], df1 = df1, df2 = df2)
 
     return(thr)
 

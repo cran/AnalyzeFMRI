@@ -1,5 +1,12 @@
 \name{f.write.analyze}
 \alias{f.write.analyze}
+\alias{write2byteappend_JM}
+\alias{write8bit_JM}
+\alias{write8bitappend_JM}
+\alias{write_analyze_header_wrap_JM}
+\alias{write_nifti_header_wrap_JM}
+\alias{writefloat_JM}
+\alias{writefloatappend_JM}
 \title{writes an array to a .img/.hdr pair in ANALYZE format}
 \description{Creates a .img and .hdr pair of files from a given array}
 \usage{f.write.analyze(mat,file,size,pixdim,vox.units,cal.units,originator)}

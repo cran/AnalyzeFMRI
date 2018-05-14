@@ -6,7 +6,8 @@
   Applies a stationary Gaussian spatial smoothing kernel to a 3D or 4D array.
 }
 \usage{
-GaussSmoothArray(x, voxdim=c(1, 1, 1), ksize=5, sigma=diag(3, 3), mask=NULL, var.norm=FALSE)
+GaussSmoothArray(x, voxdim=c(1, 1, 1), ksize=5, sigma=diag(3, 3),
+                 mask=NULL, var.norm=FALSE)
 }
 \arguments{
   \item{x}{The array to be smoothed.}

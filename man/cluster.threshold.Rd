@@ -1,5 +1,7 @@
 \name{cluster.threshold}
 \alias{cluster.threshold}
+\alias{cluster_mass}
+
 \title{Cluster threshold an array.}
 \description{Calculate contiguous clusters of locations in a 3D array that are
   above some threshold and with some minimum size.

@@ -56,7 +56,8 @@ sigma <- diag(FWHM^2, 3) / (8 * log(2))
 mask <- array(1, dim = d)
 num.vox <- sum(mask)
 
-grf <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma, ksize = ksize, mask = mask, type = "field")$mat
+grf <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma,
+                  ksize = ksize, mask = mask, type = "field")$mat
                
 sigma
 SmoothEst(grf, mask, voxdim, method = "Friston")
@@ -76,7 +77,8 @@ sigma <- diag(FWHM^2, 3) / (8 * log(2))
 mask <- array(1, dim = d)
 num.vox <- sum(mask)
 
-grf <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma, ksize = ksize, mask = mask, type = "field")$mat
+grf <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma,
+                  ksize = ksize, mask = mask, type = "field")$mat
 
 SmoothEst(grf, mask, voxdim, method = "Friston")
 SmoothEst(grf, mask, voxdim, method = "Forman")                

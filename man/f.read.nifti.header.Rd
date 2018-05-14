@@ -1,5 +1,10 @@
 \name{f.read.nifti.header}
 \alias{f.read.nifti.header}
+\alias{read_nifti_header_wrap_JM}
+\alias{read_nifti_magic_wrap}
+
+
+
 \title{read Nifti header file}
 \description{Reads the NIFTI image format .hdr (or .nii) header file into a
   list.}

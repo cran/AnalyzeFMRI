@@ -1,10 +1,14 @@
 \name{N2G.Spatial.Mixture}
 \alias{N2G.Spatial.Mixture}
+\alias{spatial_mixture}
+
+
 \title{fMRI Spatial Mixture Modelling}
 \description{Fits the spatial mixture model of Hartvig and Jensen (2000)
 }
 \usage{
-N2G.Spatial.Mixture(data, par.start = c(4, 2, 4, 2, 0.9, 0.05), ksize, ktype = c("2D", "3D"), mask = NULL)
+N2G.Spatial.Mixture(data, par.start = c(4, 2, 4, 2, 0.9, 0.05),
+                    ksize, ktype = c("2D", "3D"), mask = NULL)
 }
 \arguments{
   \item{data}{The dataset (usually a vector)}
@@ -47,7 +51,8 @@ y[z.init == 3] <- rgamma(sum(z.init == 3), 4, 1)
 mask <- 1 * (y < 1000)
 
 ## fit spatial mixture model
-ans <- N2G.Spatial.Mixture(y, par.start = c(4, 2, 4, 2, 0.9, 0.05), ksize = 3, ktype = "2D", mask = m) 
+ans <- N2G.Spatial.Mixture(y, par.start = c(4, 2, 4, 2, 0.9, 0.05),
+                           ksize = 3, ktype = "2D", mask = m) 
 
 ## plot original image, standard mixture model estimate and spatial mixture
 ## model estimate

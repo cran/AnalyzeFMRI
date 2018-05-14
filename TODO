@@ -132,3 +132,40 @@ Voir la fonction grid.raster(). Elle pourrait etre meilleure (plus rapide?) que 
 When using automatic choice of the number of ICA components it would be preferable to keep
 the generated diagnostic plots open.
 
+Aussi, il faudrait afficher les vues de l'image sans déformation en x
+   y z dans plot.volume.gui().
+
+Il y a un bug lorsqu'on essaye de lire des fichiers avec un ~ dedans (comme "~/dir/myfile.nii", ou encore "./dir/myfile.nii")
+
+##########################################################
+
+Dear Lafaye,
+
+I'm writing to let you know, if you weren't already aware, that AnalyzefMRI fails for images that are larger that 2GB.  I am working with the Human Connectome Data that has 4D files with 1200 time points.  We had the strange behavior that f.read.nifti.nifti.tpt worked fine for early images but then would fail for later images.  Through a systematic search we found that the last readable image was just under the 2*1024^3 location in the file.   (I"m sorry I don't have the exact error message... it was on my student's computer... I'll try to find it).
+
+Of course unsigned int's have a max value of 2147483647 and some sort of fseek64 or large file support is needed for such files.
+
+Sorry if this has been reported before... but I find the f.read.nifti.nifti.tpt function immensely useful and haven't found a similar functionality in ORO or anything else.
+
+-Tom
+__________________________________________________________
+Thomas Nichols, PhD
+Professor, Head of Neuroimaging Statistics
+Department of Statistics & Warwick Manufacturing Group
+University of Warwick, Coventry  CV4 7AL, United Kingdom
+
+Web: http://warwick.ac.uk/tenichols
+Email: t.e.nichols@warwick.ac.uk
+
+
+- --------------------------------------------
+
+Dear Mr Lafaye de Micheaux,
+
+I often use your package AnalyzeFMRI, which I find very helpful. However, I do not understand why the function f.read.nifti.volume often returns wrapped images. I have a few examples I could provide you with, but before I send them to you I was thinking that maybe you know the answer. These are 4D .nii fMRI scans, where everything is fine when checking the scan in FSLview or MRIcron. The wrapping after using f.read.nifti.volume splits the scan e.g. in two halves (wraps half of the scan).
+
+I am sorry to bother you! I hope you will find a moment to write an answer.
+
+Best regards,
+
+Wiktor Olszowy <wo222@cam.ac.uk>
