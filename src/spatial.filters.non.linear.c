@@ -79,7 +79,7 @@ void temporal_non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, f
   /*smooths time-series spatially based on sums of squared differences in pairs of time-series*/
   int i,j,k,l,m,n,i1,j1,k1,nk,*u;
   Sint x,y,z,t;
-  float f=0.0,total=0.0,a,b,c,dist,temp;
+  float f=0.0,a,b,c,dist,temp;
 
  x= *(array_dim);
  y= *(array_dim+1);
@@ -116,7 +116,6 @@ void temporal_non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, f
        
 
        f=0.0;
-       total=0.0;
        
        for(l=0;l<nk;l++){
 	 i1=i+*(u+l*3);

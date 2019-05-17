@@ -5,4 +5,4 @@ SLAMC_FFLAGS=$(R_XTRA_FFLAGS) $(PKG_FFLAGS) $(FPICFLAGS) $(SHLIB_FFLAGS) $(SAFE_
 all: AnalyzeFMRI.so
 
 slamc.o: slamc.f
-	$(F77) $(SLAMC_FFLAGS) -c $< -o $@
+	$(FC) $(SLAMC_FFLAGS) -c $< -o $@

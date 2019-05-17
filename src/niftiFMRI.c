@@ -299,7 +299,7 @@ void write_nifti_header_wrap_JM(char **name,
 
   /*Writes all the fields of a .hdr header file*/ 
   FILE *fp;
-  int i, nwritten;
+  int i;
   short dim1[8],tmp;
 
   char *extension;
@@ -309,51 +309,51 @@ void write_nifti_header_wrap_JM(char **name,
 
   fp = fopen(name[0],"wb");
   if(fp == NULL) error("file writing error");
-  nwritten = fwrite(sizeof_hdr, 4, 1, fp);
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(data_type) + i, 1, 1, fp);
-  for(i = 0; i < 18; i++) nwritten = fwrite(*(db_name) + i, 1, 1, fp);
-  nwritten = fwrite(extents, 4, 1, fp);
-  tmp = (short) *session_error; nwritten = fwrite(&tmp, 2, 1, fp);
-  nwritten = fwrite(*(regular), 1, 1, fp);
-  nwritten = fwrite(*(dim_info), 1, 1, fp);
+  fwrite(sizeof_hdr, 4, 1, fp);
+  for(i = 0; i < 10; i++) fwrite(*(data_type) + i, 1, 1, fp);
+  for(i = 0; i < 18; i++) fwrite(*(db_name) + i, 1, 1, fp);
+  fwrite(extents, 4, 1, fp);
+  tmp = (short) *session_error; fwrite(&tmp, 2, 1, fp);
+  fwrite(*(regular), 1, 1, fp);
+  fwrite(*(dim_info), 1, 1, fp);
   for(i = 0; i < 8; i++) dim1[i] = (short) *(dim + i);
-  nwritten = fwrite(&dim1, 2, 8, fp);
-  nwritten = fwrite(intent_p1, 4, 1, fp);
-  nwritten = fwrite(intent_p2, 4, 1, fp);
-  nwritten = fwrite(intent_p3, 4, 1, fp);
-  tmp = (short) *intent_code; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *datatype; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *bitpix; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *slice_start; nwritten = fwrite(&tmp, 2, 1, fp);
-  nwritten = fwrite(pixdim, 4, 8, fp);
-  nwritten = fwrite(vox_offset, 4, 1, fp);
-  nwritten = fwrite(scl_slope, 4, 1, fp);
-  nwritten = fwrite(scl_inter, 4, 1, fp);
-  tmp = (short) *slice_end; nwritten = fwrite(&tmp, 2, 1, fp);
-  nwritten = fwrite(*(slice_code), 1, 1, fp);
-  nwritten = fwrite(*(xyzt_units), 1, 1, fp);
-  nwritten = fwrite(cal_max, 4, 1, fp);
-  nwritten = fwrite(cal_min, 4, 1, fp);
-  nwritten = fwrite(slice_duration, 4, 1, fp);
-  nwritten = fwrite(toffset, 4, 1, fp);
-  nwritten = fwrite(glmax, 4, 1, fp);
-  nwritten = fwrite(glmin, 4, 1, fp);
-  for(i = 0; i < 80; i++) nwritten = fwrite(*(descrip) + i, 1, 1, fp);
-  for(i = 0; i < 24; i++) nwritten = fwrite(*(aux_file) + i, 1, 1, fp);
-  tmp = (short) *qform_code; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *sform_code; nwritten = fwrite(&tmp, 2, 1, fp);
-  nwritten = fwrite(quatern_b, 4, 1, fp);
-  nwritten = fwrite(quatern_c, 4, 1, fp);
-  nwritten = fwrite(quatern_d, 4, 1, fp);
-  nwritten = fwrite(qoffset_x, 4, 1, fp);
-  nwritten = fwrite(qoffset_y, 4, 1, fp);
-  nwritten = fwrite(qoffset_z, 4, 1, fp);
-  nwritten = fwrite(srow_x, 4, 4, fp);
-  nwritten = fwrite(srow_y, 4, 4, fp);
-  nwritten = fwrite(srow_z, 4, 4, fp);
-  for(i = 0; i < 16; i++) nwritten = fwrite(*(intent_name) + i, 1, 1, fp);
-  for(i = 0; i < 3; i++) nwritten = fwrite(*(magic) + i, 1, 1, fp);
-  nwritten = fwrite(extension, 1, 1, fp); 
+  fwrite(&dim1, 2, 8, fp);
+  fwrite(intent_p1, 4, 1, fp);
+  fwrite(intent_p2, 4, 1, fp);
+  fwrite(intent_p3, 4, 1, fp);
+  tmp = (short) *intent_code; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *datatype; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *bitpix; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *slice_start; fwrite(&tmp, 2, 1, fp);
+  fwrite(pixdim, 4, 8, fp);
+  fwrite(vox_offset, 4, 1, fp);
+  fwrite(scl_slope, 4, 1, fp);
+  fwrite(scl_inter, 4, 1, fp);
+  tmp = (short) *slice_end; fwrite(&tmp, 2, 1, fp);
+  fwrite(*(slice_code), 1, 1, fp);
+  fwrite(*(xyzt_units), 1, 1, fp);
+  fwrite(cal_max, 4, 1, fp);
+  fwrite(cal_min, 4, 1, fp);
+  fwrite(slice_duration, 4, 1, fp);
+  fwrite(toffset, 4, 1, fp);
+  fwrite(glmax, 4, 1, fp);
+  fwrite(glmin, 4, 1, fp);
+  for(i = 0; i < 80; i++) fwrite(*(descrip) + i, 1, 1, fp);
+  for(i = 0; i < 24; i++) fwrite(*(aux_file) + i, 1, 1, fp);
+  tmp = (short) *qform_code; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *sform_code; fwrite(&tmp, 2, 1, fp);
+  fwrite(quatern_b, 4, 1, fp);
+  fwrite(quatern_c, 4, 1, fp);
+  fwrite(quatern_d, 4, 1, fp);
+  fwrite(qoffset_x, 4, 1, fp);
+  fwrite(qoffset_y, 4, 1, fp);
+  fwrite(qoffset_z, 4, 1, fp);
+  fwrite(srow_x, 4, 4, fp);
+  fwrite(srow_y, 4, 4, fp);
+  fwrite(srow_z, 4, 4, fp);
+  for(i = 0; i < 16; i++) fwrite(*(intent_name) + i, 1, 1, fp);
+  for(i = 0; i < 3; i++) fwrite(*(magic) + i, 1, 1, fp);
+  fwrite(extension, 1, 1, fp); 
 
   fclose(fp);
 }
@@ -376,7 +376,7 @@ void write8bitappend_JM(int *imp, char **name, int *n)
   /* Writes in a sequence of 8 bit unsigned char integers */
   FILE *fp;
   unsigned char *temp;
-  int i, nwritten;
+  int i;
   float *extension;
   float val = 0;  
 
@@ -393,8 +393,8 @@ void write8bitappend_JM(int *imp, char **name, int *n)
   fp = fopen(name[0], "ab");
   
   
-  nwritten = fwrite(extension, 4, 1, fp);
-  nwritten = fwrite(temp, 1, *n, fp);
+  fwrite(extension, 4, 1, fp);
+  fwrite(temp, 1, *n, fp);
 
   Free(temp);
   fclose(fp);
@@ -405,7 +405,7 @@ void write2byteappend_JM(int *imp, char **name, int *n)
   /* Writes in a sequence of 2 byte short integers */
   FILE *fp;
   short *temp;
-  int i, nwritten;
+  int i;
   float *extension;
   float val = 0;  
 
@@ -419,8 +419,8 @@ void write2byteappend_JM(int *imp, char **name, int *n)
 
   fp = fopen(name[0], "ab");
   
-  nwritten = fwrite(extension, 4, 1, fp);
-  nwritten = fwrite(temp, 2, *n, fp);
+  fwrite(extension, 4, 1, fp);
+  fwrite(temp, 2, *n, fp);
 
   Free(temp);
   fclose(fp);
@@ -429,8 +429,7 @@ void write2byteappend_JM(int *imp, char **name, int *n)
 void writefloatappend_JM(float *imp, char **name, int *n)
 {
   /* Writes a sequence of 4 byte floats  */
-  FILE *fp;
-  int nwritten;  
+  FILE *fp;  
   float *extension;
   float val = 0;  
 
@@ -438,8 +437,8 @@ void writefloatappend_JM(float *imp, char **name, int *n)
 
   fp = fopen(name[0], "ab");
   
-  nwritten = fwrite(extension, 4, 1, fp);
-  nwritten = fwrite(imp, 4, *n, fp);
+  fwrite(extension, 4, 1, fp);
+  fwrite(imp, 4, *n, fp);
 
   fclose(fp);
 }

@@ -1,4 +1,4 @@
-484de947c82b817f085509fe212cf0b7 *DESCRIPTION
+849a7345bde7d3f95f70c5caaaeaf823 *DESCRIPTION
 31c6dd2ebec24732cf9052676152566a *INDEX
 1fb3fbdc3897502d9df1f172a44a30e6 *NAMESPACE
 5894b7301f449f27c008aea89c7a1af6 *R/analyzeFMRI.R
@@ -15,7 +15,7 @@ cbbba9fda4d2cf9f3ce52819d42115a0 *configure.win
 7ed6cc2d1f01b5674d392293ceab4fd4 *inst/AnalyzeFMRI.gui.R
 1e37cb5eee645da4d01460e6d0f7ad58 *inst/CITATION
 fa5207e05bf059e7c9d795e7e7e7b7cd *inst/GRF.examples.R
-84fa2cbaf095305cfda4b56a7efbc0c2 *inst/HISTORY
+17a89e12ac6d0d3a216c23e7068a8baa *inst/HISTORY
 ff8e33600d9e6d02a03cda1603341388 *inst/ICA.gui.R
 3019776850ac74a33ba4f099b9037727 *inst/ICAst.gui.R
 e96396d25ba0e9d608520d8660040d9d *inst/README
@@ -115,11 +115,11 @@ cfca2e02049ef35cfdfff60e4e3c9e38 *man/orientation.Rd
 614316fcc766ffea07c8406bfce7f766 *man/xyz2ijk.Rd
 c32d702fae30b435cf571084492c654f *man/xyzt2st.Rd
 ea038e8981ed43ec3b08997fdd2ef962 *src/AnalyzeFMRI_init.c
-878af484b7081f7b8746c0533bf230e6 *src/Makevars.in
-649d85d39950d88a28db494c2f7f7506 *src/analyzeFMRI.c
+c2827c6aa925c63432a9c2cdf70b6d2c *src/Makevars.in
+a668951b959faf5fdbfa8c85b87c0c9e *src/analyzeFMRI.c
 105937a424a653330948b5ebecb464c7 *src/lsame.f
 105937a424a653330948b5ebecb464c7 *src/lsame.unused
-ab6a63aa5dbf4ac996ab4fed32df5f97 *src/niftiFMRI.c
+ed91eb87b1dd7f8d5c044537305b8e8b *src/niftiFMRI.c
 1dbc06e1ae3bd2f9003b6925be2b3ebc *src/sblas.unused
 abb546ab83bf74354d1f5b794cd673d6 *src/sim.3d.GRF.c
 244c173f037f81425adac3349d370370 *src/slamc.f
@@ -128,7 +128,7 @@ abb546ab83bf74354d1f5b794cd673d6 *src/sim.3d.GRF.c
 0d3859124300a6008c1e57acf393862e *src/spatial.c
 b5aa3aed3d47ad1248e23a4841807465 *src/spatial.est.c
 113513e4adaaeadfed61e835d901abf4 *src/spatial.filters.linear.f
-f30a42aa4559e0146ced04a15bca88cd *src/spatial.filters.non.linear.c
+be456b393a4ecdb5218d5f5ebe3604ea *src/spatial.filters.non.linear.c
 f1a9ba61d455e5dcb839fc1f8533f773 *src/spatial.mixture.c
 d93d7ac16fb3c811944902f8ba3c47c6 *src/verR.h
 4d32d518ffaffcfa72245d53957e5582 *tests/test.R

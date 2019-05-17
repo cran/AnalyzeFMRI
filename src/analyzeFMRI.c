@@ -166,11 +166,10 @@ void swaptest_JM(int *ans, char *name)
 {
   /*This function tests for the endian-ness of the files by checking the first field of the .hdr file which is always 348 (i.e. the header file length in bytes)*/ 
   FILE *fd;
-  int nread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
   
-  nread = fread(ans, 4, 1, fd);
+  fread(ans, 4, 1, fd);
   fclose(fd);
 }
 
@@ -178,13 +177,12 @@ void readchar_JM(char *ans, char *name, int *swapbytes, int n, long offset, int 
 {
   /* Reads in a sequence of 1 byte characters */
   FILE *fd;
-  int nread;
   
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file \n");
 
   fseek(fd, offset, whence);
 
-  nread = fread(ans, 1, n, fd);
+  fread(ans, 1, n, fd);
 
   fclose(fd);
 }
@@ -195,7 +193,6 @@ void read2byte_JM(short *ans, char *name, int *swapbytes, int n, long offset, in
   FILE *fd;
   int i;
   short buf;
-  int nread;
   
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
@@ -203,7 +200,7 @@ void read2byte_JM(short *ans, char *name, int *swapbytes, int n, long offset, in
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 2, 1, fd);
+	  fread(&buf, 2, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 2);
 	  *(ans + i) = buf;
   }
@@ -218,7 +215,6 @@ void read4byte_JM(int *ans, char *name, int *swapbytes, int n, long offset, int 
   FILE *fd;
   int i;
   int buf;
-  int nread;
   
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
@@ -226,7 +222,7 @@ void read4byte_JM(int *ans, char *name, int *swapbytes, int n, long offset, int 
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 4, 1, fd);
+	  fread(&buf, 4, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 4);
 	  *(ans + i) = buf;
   }
@@ -239,7 +235,6 @@ void readfloat_JM(float *ans, char *name, int *swapbytes, int n, long offset, in
   FILE *fd;
   int i;
   float buf;
-  int nread;
   
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
@@ -247,7 +242,7 @@ void readfloat_JM(float *ans, char *name, int *swapbytes, int n, long offset, in
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 4, 1, fd);
+	  fread(&buf, 4, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 4);
 	  *(ans + i) = buf;
   }
@@ -261,7 +256,6 @@ void readdouble_JM(double *ans, char *name, int *swapbytes, int n, long offset, 
   FILE *fd;
   int i;
   double buf;
-  int nread;
   
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file \n");
 
@@ -269,7 +263,7 @@ void readdouble_JM(double *ans, char *name, int *swapbytes, int n, long offset, 
   
  
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 8, 1, fd);
+	  fread(&buf, 8, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 8);
 	  *(ans + i) = buf;
   }
@@ -283,7 +277,7 @@ void readchar_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, 
   /* Reads in a sequence of 1 byte characters */
   FILE *fd;
   unsigned char *tmp;
-  int i, nread;
+  int i;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file \n");
 
@@ -291,7 +285,7 @@ void readchar_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, 
 
   fseek(fd, (long) *offset, *whence);
 
-  nread = fread(tmp, 1, *n, fd);
+  fread(tmp, 1, *n, fd);
   for(i = 0; i < *n; i++){
 	  *(ans + i) = (int) *(tmp + i);}
   
@@ -306,7 +300,6 @@ void read2byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset,
   FILE *fd;
   int i;
   short buf;
-  int nread;
   
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
@@ -314,7 +307,7 @@ void read2byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset,
   fseek(fd, (long) *offset, *whence);
   
   for(i = 0; i < *n; i++){
-	  nread = fread(&buf, 2, 1, fd);
+	  fread(&buf, 2, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 2);
 	  *(ans + i)= (int) buf;
   }
@@ -327,7 +320,6 @@ void read4byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset,
   FILE *fd;
   int i;
   int buf;
-  int nread;
   
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
@@ -335,7 +327,7 @@ void read4byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset,
   fseek(fd, (long) *offset, *whence);
   
   for(i = 0; i < *n; i++){
-	  nread = fread(&buf, 4, 1, fd);
+	  fread(&buf, 4, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 4);
 	  *(ans + i) = buf;
   }
@@ -350,7 +342,6 @@ void readfloat_v1_JM(float *ans, char **name, int *swapbytes, int *n, int *offse
   FILE *fd;
   int i;
   float buf;
-  int nread;
   
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
@@ -358,7 +349,7 @@ void readfloat_v1_JM(float *ans, char **name, int *swapbytes, int *n, int *offse
   fseek(fd, (long) *offset, *whence);
   
   for(i = 0; i < *n; i++){
-	  nread = fread(&buf, 4, 1, fd);
+	  fread(&buf, 4, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 4);
 	  *(ans + i)= buf;
   }
@@ -372,7 +363,6 @@ void readdouble_v1_JM(double *ans, char **name, int *swapbytes, int *n, int *off
   FILE *fd;
   int i;
   double buf;
-  int nread;
   
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
 
@@ -380,7 +370,7 @@ void readdouble_v1_JM(double *ans, char **name, int *swapbytes, int *n, int *off
   
  
   for(i = 0; i < *n; i++){
-	  nread = fread(&buf, 8, 1, fd);
+	  fread(&buf, 8, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 8);
 	  *(ans + i)= buf;
   }
@@ -394,7 +384,6 @@ void read2byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   FILE *fd;
   int i;
   short buf;
-  long nread;
   
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
@@ -402,7 +391,7 @@ void read2byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 2, 1, fd);
+	  fread(&buf, 2, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 2);
 	  *(ans + i)= (float) buf;
   }
@@ -416,7 +405,6 @@ void read4byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   FILE *fd;
   int i;
   long buf;
-  long nread;
   
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
@@ -425,7 +413,7 @@ void read4byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 4, 1, fd);
+	  fread(&buf, 4, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 4);
 	  *(ans + i)= (float) buf;
   }
@@ -439,7 +427,6 @@ void readfloat_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   FILE *fd;
   int i;
   float buf;
-  long nread;
   
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
@@ -447,7 +434,7 @@ void readfloat_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 4, 1, fd);
+	  fread(&buf, 4, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 4);
 	  *(ans + i)= buf;
   }
@@ -461,7 +448,6 @@ void readdouble_F_JM(float *ans, char *name, int *swapbytes, int n, long offset,
   FILE *fd;
   int i;
   double buf;
-  long nread;
   
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
 
@@ -469,7 +455,7 @@ void readdouble_F_JM(float *ans, char *name, int *swapbytes, int n, long offset,
   
  
   for(i = 0; i < n; i++){
-	  nread = fread(&buf, 8, 1, fd);
+	  fread(&buf, 8, 1, fd);
 	  if (*swapbytes == 1) swap_JM(&buf, 8);
 	  *(ans + i) =  (float) buf;
   }
@@ -482,7 +468,7 @@ void write8bit_JM(int *imp, char **name, int *n)
   /* Writes in a sequence of 8 bit unsigned char integers */
   FILE *fp;
   unsigned char *temp;
-  int i, nwritten;
+  int i;
 
   temp = Calloc(*n, unsigned char);
 
@@ -494,7 +480,7 @@ void write8bit_JM(int *imp, char **name, int *n)
 
   fp = fopen(name[0], "wb");
   
-  nwritten = fwrite(temp, 1, *n, fp);
+  fwrite(temp, 1, *n, fp);
 
   Free(temp);
   fclose(fp);
@@ -505,7 +491,7 @@ void write2byte_JM(int *imp, char **name, int *n)
   /* Writes in a sequence of 2 byte short integers */
   FILE *fp;
   short *temp;
-  int i, nwritten;
+  int i;
 
   temp = Calloc(*n, short);
 
@@ -515,7 +501,7 @@ void write2byte_JM(int *imp, char **name, int *n)
 
   fp = fopen(name[0], "wb");
   
-  nwritten = fwrite(temp, 2, *n, fp);
+  fwrite(temp, 2, *n, fp);
 
   Free(temp);
   fclose(fp);
@@ -525,11 +511,10 @@ void writefloat_JM(float *imp, char **name, int *n)
 {
   /* Writes a sequence of 4 byte floats  */
   FILE *fp;
-  int nwritten;  
 
   fp = fopen(name[0], "wb");
   
-  nwritten = fwrite(imp, 4, *n, fp);
+  fwrite(imp, 4, *n, fp);
 
   fclose(fp);
 }
@@ -784,59 +769,59 @@ void write_analyze_header_wrap_JM(char **name,
 
   /*Writes all the fields of a .hdr header file*/ 
   FILE *fp;
-  int i, nwritten;
+  int i;
   short dim1[8],tmp, tmp2[5];
 
   fp = fopen(name[0],"wb");
   if (fp == NULL) error("file writing error");
   
-  nwritten = fwrite(sizeof_hdr, 4, 1, fp);
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(data_type) + i, 1, 1, fp);
-  for(i = 0; i < 18; i++) nwritten = fwrite(*(db_name) + i, 1, 1, fp);
-  nwritten = fwrite(extents, 4, 1, fp);
-  nwritten = fwrite(session_error, 2, 1, fp);
-  nwritten = fwrite(*(regular), 1, 1, fp);
-  nwritten = fwrite(*(hkey_un0), 1, 1, fp);
+  fwrite(sizeof_hdr, 4, 1, fp);
+  for(i = 0; i < 10; i++) fwrite(*(data_type) + i, 1, 1, fp);
+  for(i = 0; i < 18; i++) fwrite(*(db_name) + i, 1, 1, fp);
+  fwrite(extents, 4, 1, fp);
+  fwrite(session_error, 2, 1, fp);
+  fwrite(*(regular), 1, 1, fp);
+  fwrite(*(hkey_un0), 1, 1, fp);
   for(i = 0; i < 8; i++) dim1[i] = (short) *(dim + i);
-  nwritten = fwrite(&dim1, 2, 8, fp);
-  for(i = 0; i < 4; i++) nwritten = fwrite(*(vox_units) + i, 1, 1, fp);
-  for(i = 0; i < 8; i++) nwritten = fwrite(*(cal_units) + i, 1, 1, fp);
-  tmp = (short) *unused1; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *datatype; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *bitpix; nwritten = fwrite(&tmp, 2, 1, fp);
-  tmp = (short) *dim_un0; nwritten = fwrite(&tmp, 2, 1, fp);
-  nwritten = fwrite(pixdim, 4, 8, fp);
-  nwritten = fwrite(vox_offset, 4, 1, fp);
-  nwritten = fwrite(funused1, 4, 1, fp);
-  nwritten = fwrite(funused2, 4, 1, fp);
-  nwritten = fwrite(funused3, 4, 1, fp);
-  nwritten = fwrite(cal_max, 4, 1, fp);
-  nwritten = fwrite(cal_min, 4, 1, fp);
-  nwritten = fwrite(compressed, 4, 1, fp);
-  nwritten = fwrite(verified, 4, 1, fp);
-  nwritten = fwrite(glmax, 4, 1, fp);
-  nwritten = fwrite(glmin, 4, 1, fp);
-  for(i = 0; i < 80; i++) nwritten = fwrite(*(descrip) + i, 1, 1, fp);
-  for(i = 0; i < 24; i++) nwritten = fwrite(*(aux_file) + i, 1, 1, fp);
-  nwritten = fwrite(*orient, 1, 1, fp);
-  //  for(i = 0; i < 10; i++) nwritten = fwrite(*(originator) + i, 1, 1, fp);
+  fwrite(&dim1, 2, 8, fp);
+  for(i = 0; i < 4; i++) fwrite(*(vox_units) + i, 1, 1, fp);
+  for(i = 0; i < 8; i++) fwrite(*(cal_units) + i, 1, 1, fp);
+  tmp = (short) *unused1; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *datatype; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *bitpix; fwrite(&tmp, 2, 1, fp);
+  tmp = (short) *dim_un0; fwrite(&tmp, 2, 1, fp);
+  fwrite(pixdim, 4, 8, fp);
+  fwrite(vox_offset, 4, 1, fp);
+  fwrite(funused1, 4, 1, fp);
+  fwrite(funused2, 4, 1, fp);
+  fwrite(funused3, 4, 1, fp);
+  fwrite(cal_max, 4, 1, fp);
+  fwrite(cal_min, 4, 1, fp);
+  fwrite(compressed, 4, 1, fp);
+  fwrite(verified, 4, 1, fp);
+  fwrite(glmax, 4, 1, fp);
+  fwrite(glmin, 4, 1, fp);
+  for(i = 0; i < 80; i++) fwrite(*(descrip) + i, 1, 1, fp);
+  for(i = 0; i < 24; i++) fwrite(*(aux_file) + i, 1, 1, fp);
+  fwrite(*orient, 1, 1, fp);
+  //  for(i = 0; i < 10; i++) fwrite(*(originator) + i, 1, 1, fp);
   for(i = 0; i < 5; i++) tmp2[i] = (short) *(originator + i);
-  nwritten = fwrite(&tmp2, 2, 5, fp);
+  fwrite(&tmp2, 2, 5, fp);
 
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(generated) + i, 1, 1, fp);
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(scannum) + i, 1, 1, fp);
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(patient_id) + i, 1, 1, fp); 
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(exp_date) + i, 1, 1, fp);
-  for(i = 0; i < 10; i++) nwritten = fwrite(*(exp_time) + i, 1, 1, fp);
-  for(i = 0; i < 3; i++) nwritten = fwrite(*(hist_un0) + i, 1, 1, fp);
-  nwritten = fwrite(views, 4, 1, fp);
-  nwritten = fwrite(vols_added, 4, 1, fp);
-  nwritten = fwrite(start_field, 4, 1, fp);
-  nwritten = fwrite(field_skip, 4, 1, fp);
-  nwritten = fwrite(omax, 4, 1, fp);
-  nwritten = fwrite(omin, 4, 1, fp);
-  nwritten = fwrite(smax, 4, 1, fp);
-  nwritten = fwrite(smin, 4, 1, fp);
+  for(i = 0; i < 10; i++) fwrite(*(generated) + i, 1, 1, fp);
+  for(i = 0; i < 10; i++) fwrite(*(scannum) + i, 1, 1, fp);
+  for(i = 0; i < 10; i++) fwrite(*(patient_id) + i, 1, 1, fp); 
+  for(i = 0; i < 10; i++) fwrite(*(exp_date) + i, 1, 1, fp);
+  for(i = 0; i < 10; i++) fwrite(*(exp_time) + i, 1, 1, fp);
+  for(i = 0; i < 3; i++) fwrite(*(hist_un0) + i, 1, 1, fp);
+  fwrite(views, 4, 1, fp);
+  fwrite(vols_added, 4, 1, fp);
+  fwrite(start_field, 4, 1, fp);
+  fwrite(field_skip, 4, 1, fp);
+  fwrite(omax, 4, 1, fp);
+  fwrite(omin, 4, 1, fp);
+  fwrite(smax, 4, 1, fp);
+  fwrite(smin, 4, 1, fp);
 
   fclose(fp);
 }
@@ -921,7 +906,7 @@ void ica_fmri_JM(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *
   int swapbytes = 1,mask_swapbytes = 1;
   struct header *head,*mask_head;
   struct data_array *array,*mask;
-  char *in_file,*mask_file,img_file[200] = "\0",hdr_file[200] = "\0",mask_img[200] = "\0",mask_hdr[200] = "\0",mask_flag = 'F';
+  char *in_file,*mask_file,mask_flag = 'F';
   
   rowflag = *rowflag1;
   colflag = *colflag1;
@@ -932,6 +917,13 @@ void ica_fmri_JM(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *
   lim = *lim1;
   in_file = file[0];
   mask_file = msk_file[0];
+
+  char *img_file = NULL, *hdr_file = NULL, *mask_img = NULL, *mask_hdr = NULL;
+img_file = (char*)calloc(strlen(in_file) + 1, sizeof(char));
+hdr_file = (char*)calloc(strlen(in_file) + 1, sizeof(char));
+mask_img = (char*)calloc(strlen(mask_file) + 1, sizeof(char));
+mask_hdr = (char*)calloc(strlen(mask_file) + 1, sizeof(char));
+  
   if(*maskflag == 1) mask_flag = 'T';
   nc = *n_comp;
 
@@ -945,10 +937,22 @@ void ica_fmri_JM(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *
   /*  Read in dataset */
   Rprintf("Reading in dataset\n");
   file_name_length = strlen(in_file);
-  strncat(img_file,in_file,file_name_length - 4);
-  strcat(img_file,".img");
-  strncat(hdr_file,in_file,file_name_length - 4);
-  strcat(hdr_file,".hdr");
+  strcpy(img_file, in_file);
+  img_file[file_name_length - 3] = '.';
+  img_file[file_name_length - 2] = 'i';
+  img_file[file_name_length - 1] = 'm';
+  img_file[file_name_length - 0] = 'g';
+  strcpy(hdr_file, in_file);
+  hdr_file[file_name_length - 3] = '.';
+  hdr_file[file_name_length - 2] = 'h';
+  hdr_file[file_name_length - 1] = 'd';
+  hdr_file[file_name_length - 0] = 'r';
+
+  
+  /*  strncat(img_file, in_file, file_name_length - 4);
+  strcat(img_file, ".img");
+  strncat(hdr_file, in_file, file_name_length - 4);
+  strcat(hdr_file, ".hdr"); */
   
 
   swaptest_JM(&ans, hdr_file);
@@ -972,10 +976,24 @@ void ica_fmri_JM(char **file, float *w_matrix, int *n_comp, int *rowflag1, int *
   if(mask_flag == 'T'){
     Rprintf("Reading in mask\n");
     file_name_length = strlen(mask_file);
+    strcpy(mask_img, mask_file);
+    mask_img[file_name_length - 3] = '.';
+    mask_img[file_name_length - 2] = 'i';
+    mask_img[file_name_length - 1] = 'm';
+    mask_img[file_name_length - 0] = 'g';
+    strcpy(mask_hdr, mask_file);
+    mask_hdr[file_name_length - 3] = '.';
+    mask_hdr[file_name_length - 2] = 'h';
+    mask_hdr[file_name_length - 1] = 'd';
+    mask_hdr[file_name_length - 0] = 'r';
+  
+    /*    
+    file_name_length = strlen(mask_file);
     strncat(mask_img,mask_file,file_name_length - 4);
     strcat(mask_img,".img");
     strncat(mask_hdr,mask_file,file_name_length - 4);
     strcat(mask_hdr,".hdr");
+    */
     
     swaptest_JM(&ans, mask_hdr);
     if(ans == 348) mask_swapbytes = 0;
@@ -1102,13 +1120,13 @@ void mask_mask_JM(struct data_array *array, struct data_array *mask, int *slices
 
 void create_mask_JM(struct data_array *array, struct data_array *mask, int *mask_size){
   
-  int i,j,k,l,x,y,z,t,n;
+  int i,j,k,l,x,y,z,t;
   float max;
   x = (*array).x;
   y = (*array).y;
   z = (*array).z;
   t = (*array).t;
-  n = (*array).n;
+  //  n = (*array).n;
   
   
   for(i = 0;i<x;i++){
@@ -1149,12 +1167,12 @@ void max_vec_JM(float *vec, int n, float *ans){
 
 void create_data_matrix_JM(struct data_array *array, struct data_array *mask, int *mask_size, float *data_matrix){
   
-  int i,j,k,l,x,y,z,t,count,n;
+  int i,j,k,l,x,y,z,t,count;
   x = (*array).x;
   y = (*array).y;
   z = (*array).z;
   t = (*array).t;
-  n = (*array).n;
+  //  n = (*array).n;
   count = 0;
   
 

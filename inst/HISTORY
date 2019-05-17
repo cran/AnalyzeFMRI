@@ -277,3 +277,14 @@ Version 1.0-8 :
 - NAMESPACE file: I added several importFrom entries and also the tkrplot import
 - Threshold.Bonferroni.R: I replaced everywhere 'type ==' with 'type[1] =='
 - File spatial.c: I added Free(vox_mat_vals);
+
+
+2019-05-15
+----------
+
+ Version 1.1-18
+
+- Change $(F77)) to $(FC) in src/Makevars.in
+- Change Depends: R (>= 3.6.0) in DESCRIPTION file
+- In analyzeFMRI.c: solved an error about function strncat (that was used to change file extension, e.g., to .img or .hdr)
+- Resolved warning issues [-Wunused-but-set-variable] in files niftiFMRI.c, spatial.filters.non.linear.c, analyzeFMRI.c
