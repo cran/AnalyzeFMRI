@@ -149,10 +149,12 @@ parameters contain an affine (non-rigid) transformation (\emph{Method 3} in the 
   \code{\link{f.nifti.file.summary}} 
 }
 \examples{
+\dontrun{
 dim.mat <- c(20,30,40,3)
 dim <- c(length(dim.mat), dim.mat, rep(0, 7 - length(dim.mat)))
 filename <- "temp.hdr"
 f.complete.hdr.nifti.list.create(file=filename,dim=dim)
+}
 }
 \keyword{utilities}
 

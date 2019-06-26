@@ -15495,7 +15495,7 @@
 *
 *     .. Scalar Arguments ..
 
-      CHARACTER*( * )    NAME, OPTS
+      CHARACTER (LEN=*) NAME, OPTS
       INTEGER            ISPEC, N1, N2, N3, N4
 *     above: Marchini's version, below: pierre's one
 *      CHARACTER*( * )    NAME
@@ -15594,10 +15594,10 @@
 *
 *     .. Local Scalars ..
       LOGICAL            CNAME, SNAME
-      CHARACTER*1        C1
-      CHARACTER*2        C2, C4
-      CHARACTER*3        C3
-      CHARACTER*6        SUBNAM
+      CHARACTER (LEN=1) :: C1
+      CHARACTER (LEN=2) :: C2, C4
+      CHARACTER (LEN=3) :: C3
+      CHARACTER (LEN=6) :: SUBNAM
       INTEGER            I, IC, IZ, NB, NBMIN, NX
 *     ..
 *     .. Intrinsic Functions ..

@@ -30,9 +30,11 @@
   \code{\link{f.write.array.to.img.2bytes}},
   \code{\link{f.write.array.to.img.float}} }    
 \examples{
+\dontrun{
 a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
 file<-"temp"
 f.write.analyze(a,file,size="float")
 f.analyze.file.summary("temp.img")
+}
 }
 \keyword{utilities}

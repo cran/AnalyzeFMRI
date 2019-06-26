@@ -9,8 +9,10 @@
 \seealso{
    \code{\link{f.basic.hdr.list.create}}    } 
  \examples{
+\dontrun{
 a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
 file<-"temp.hdr"
 b<-f.basic.hdr.list.create(a, file)
 f.write.list.to.hdr(b,file)}
+}
 \keyword{utilities}

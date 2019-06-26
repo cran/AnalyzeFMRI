@@ -17,9 +17,11 @@
   \code{\link{f.analyze.file.summary}} 
 }
 \examples{
-a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
-file<-"temp.hdr"
+\dontrun{
+a <- array(rnorm(20 * 30 * 40 * 3), dim = c(20, 30, 40, 3))
+file <- "temp.hdr"
 f.basic.hdr.list.create(a, file)
+}
 }
 \keyword{utilities}
 

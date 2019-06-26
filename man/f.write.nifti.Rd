@@ -24,8 +24,10 @@
   \code{\link{f.write.nii.array.to.img.2bytes}},
   \code{\link{f.write.nii.array.to.img.float}}}
 \examples{
+\dontrun{
 a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
 file<-"temp"
 f.write.nifti(a,file,size="float",nii=TRUE)
+}
 }
 \keyword{utilities}

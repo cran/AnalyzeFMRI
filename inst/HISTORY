@@ -288,3 +288,15 @@ Version 1.0-8 :
 - Change Depends: R (>= 3.6.0) in DESCRIPTION file
 - In analyzeFMRI.c: solved an error about function strncat (that was used to change file extension, e.g., to .img or .hdr)
 - Resolved warning issues [-Wunused-but-set-variable] in files niftiFMRI.c, spatial.filters.non.linear.c, analyzeFMRI.c
+
+2019-06-06
+----------
+
+ Version 1.1-19
+
+- Corrected "Nonconforming tab character" warnings in file spatial.filters.linear.f
+- Commented lines 1195--1203 in file analyzeFMRI.c since xerbla is now part of R
+- To solve "Warning: Obsolescent feature: Old-style character length at", I replaced CHARACTER *x NAME1,NAME2,.. with CHARACTER (LEN=x) :: NAME1,NAME2,.. in files lsame.f, sblas.f and slapack.f
+- To solve a NOTE of "checking for non-standard things in the check directory", I added \dontrun{} in files: analyze2nifti.Rd, f.basic.hdr.list.create.Rd, f.basic.hdr.nifti.list.create.Rd,
+f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.to.hdr.Rd, f.write.analyze.Rd, f.write.nifti.Rd
+

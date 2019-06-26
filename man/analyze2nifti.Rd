@@ -51,8 +51,10 @@ intent.name=rawToChar(raw(16)))}
 }
 
 \examples{
+\dontrun{
 analyze2nifti(path.in=system.file(package="AnalyzeFMRI"),file.in="example",
               file.out="nifti-tmp",is.nii=TRUE)
+}
 }
 \keyword{utilities}
 

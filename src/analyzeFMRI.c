@@ -1191,16 +1191,17 @@ void create_data_matrix_JM(struct data_array *array, struct data_array *mask, in
 
 /*  ICA computations functions */
 
-
+/*
 void xerbla_ (char *msg, int *info)
 {
-	/* replacement for xerbla function in BLAS library to avoid Fortran I/O */
+	// replacement for xerbla function in BLAS library to avoid Fortran I/O 
    char buf[7];
 
     strncpy(buf, msg, 6);
     buf[6] = '\0';
     PROBLEM "xerbla %s (%d)", buf, *info ERROR;
 }
+*/
 
 void
 rowcentre_JM (float *ans, int n, int p)
