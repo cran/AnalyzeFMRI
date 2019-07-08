@@ -252,7 +252,7 @@
          QTR = ONE / 4
          SAVEC = C
          C = SLAMC3( C, -A )
-         LBETA = C + QTR
+         LBETA = INT(C + QTR)
 *
 *        Now determine whether rounding or chopping occurs,  by adding a
 *        bit  less  than  beta/2  and a  bit  more  than  beta/2  to  a.
@@ -562,12 +562,12 @@
 *
       RETURN
 *
- 9999 FORMAT( / / ' WARNING. The value EMIN may be incorrect:-',
-     $      '  EMIN = ', I8, /
-     $      ' If, after inspection, the value EMIN looks',
-     $      ' acceptable please comment out ',
-     $      / ' the IF block as marked within the code of routine',
-     $      ' SLAMC2,', / ' otherwise supply EMIN explicitly.', / )
+** Commented out by Pierre     9999 FORMAT( / / ' WARNING. The value EMIN may be incorrect:-',
+** Commented out by Pierre         $      '  EMIN = ', I8, /
+** Commented out by Pierre         $      ' If, after inspection, the value EMIN looks',
+** Commented out by Pierre         $      ' acceptable please comment out ',
+** Commented out by Pierre         $      / ' the IF block as marked within the code of routine',
+** Commented out by Pierre         $      ' SLAMC2,', / ' otherwise supply EMIN explicitly.', / )
 *
 *     End of SLAMC2
 *
@@ -835,6 +835,7 @@
       RECBAS = ONE / BETA
       Z = BETA - ONE
       Y = ZERO
+      OLDY = ZERO
       DO 20 I = 1, P
          Z = Z*RECBAS
          IF( Y.LT.ONE )

@@ -1,4 +1,4 @@
-3071602e38cf40c0cfa709499f932424 *DESCRIPTION
+5ad624e09b2f3db34308f91bc51f6579 *DESCRIPTION
 31c6dd2ebec24732cf9052676152566a *INDEX
 1fb3fbdc3897502d9df1f172a44a30e6 *NAMESPACE
 5894b7301f449f27c008aea89c7a1af6 *R/analyzeFMRI.R
@@ -15,7 +15,7 @@ cbbba9fda4d2cf9f3ce52819d42115a0 *configure.win
 7ed6cc2d1f01b5674d392293ceab4fd4 *inst/AnalyzeFMRI.gui.R
 1e37cb5eee645da4d01460e6d0f7ad58 *inst/CITATION
 fa5207e05bf059e7c9d795e7e7e7b7cd *inst/GRF.examples.R
-e6d174314cf2d97050bac1ecb615a882 *inst/HISTORY
+6d43f71cf140cbedb58e2ba286089a65 *inst/HISTORY
 ff8e33600d9e6d02a03cda1603341388 *inst/ICA.gui.R
 3019776850ac74a33ba4f099b9037727 *inst/ICAst.gui.R
 e96396d25ba0e9d608520d8660040d9d *inst/README
@@ -116,14 +116,14 @@ cfca2e02049ef35cfdfff60e4e3c9e38 *man/orientation.Rd
 c32d702fae30b435cf571084492c654f *man/xyzt2st.Rd
 ea038e8981ed43ec3b08997fdd2ef962 *src/AnalyzeFMRI_init.c
 c2827c6aa925c63432a9c2cdf70b6d2c *src/Makevars.in
-b4dbc2dc2da778f25adf5d6318e06e91 *src/analyzeFMRI.c
+39233390635b953ef30e89cad72247e9 *src/analyzeFMRI.c
 f033bcd57e423afeb0cca6b60ea0b62a *src/lsame.f
 f033bcd57e423afeb0cca6b60ea0b62a *src/lsame.unused
 ed91eb87b1dd7f8d5c044537305b8e8b *src/niftiFMRI.c
 15763e7f8f423d0cdcdd21d701cb957b *src/sblas.unused
 abb546ab83bf74354d1f5b794cd673d6 *src/sim.3d.GRF.c
-244c173f037f81425adac3349d370370 *src/slamc.f
-244c173f037f81425adac3349d370370 *src/slamc.unused
+363d9a32be0badcf7f6c1fa82cf9da2c *src/slamc.f
+363d9a32be0badcf7f6c1fa82cf9da2c *src/slamc.unused
 4ca6f10c867800bcc78ee6954063798c *src/slapack.unused
 0d3859124300a6008c1e57acf393862e *src/spatial.c
 b5aa3aed3d47ad1248e23a4841807465 *src/spatial.est.c
@@ -131,6 +131,7 @@ b5aa3aed3d47ad1248e23a4841807465 *src/spatial.est.c
 be456b393a4ecdb5218d5f5ebe3604ea *src/spatial.filters.non.linear.c
 f1a9ba61d455e5dcb839fc1f8533f773 *src/spatial.mixture.c
 d93d7ac16fb3c811944902f8ba3c47c6 *src/verR.h
+9b2349a52822d1544895eb0b27d26155 *src/wrapper.f
 4d32d518ffaffcfa72245d53957e5582 *tests/test.R
 e350b33511a64d55d1ed9e1f8d7d1530 *tests/test.Rout.save
 f100027692ce7c0a43264e9a15222746 *tests/test.array.hdr

@@ -300,3 +300,15 @@ Version 1.0-8 :
 - To solve a NOTE of "checking for non-standard things in the check directory", I added \dontrun{} in files: analyze2nifti.Rd, f.basic.hdr.list.create.Rd, f.basic.hdr.nifti.list.create.Rd,
 f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.to.hdr.Rd, f.write.analyze.Rd, f.write.nifti.Rd
 
+2019-07-03
+----------
+
+ Version 1.1-20
+
+- Commented lines 565--570 in file slamc.unused
+- Changed LBETA = C + QTR into LBETA = INT(C + QTR) at line 255 of file slamc.unused to get rid of a compiler warning
+- Added at line 838: OLDY = ZERO in file slamc.unused to get rid of a compiler warning
+- Modified lines 136--140 in file analyzeFMRI.c to remove warning: note: type 'long int' should match type 'void'. Also, I modified lines 1282 and 1358 for the same reason
+- Created the new file wrapper.f for the same reason as above
+
+

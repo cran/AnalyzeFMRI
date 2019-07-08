@@ -133,11 +133,11 @@ void calc_K_JM(float*, int*, int*, float*);
 void icainc_JM(float* ,float* ,int* ,int* ,int* ,float* ,int* ,int* ,int* ,int* ,float* ,int* ,float* ,float* ,float* ,float* ,float*);
 
 
-void F77_NAME (sgesdd) (char *, int *, int *, float *, int *, float *,
-			float *, int *, float *, int *, float *, int *,
-			int *, int *);
-void F77_NAME (sgemm) (char *, char *, int *, int *, int *, float *, float *,
-		       int *, float *, int *, float *, float *, int *);
+void Csgesdd(const char *jobz, const int *m, const int *n, const float *a, const int *lda, const float *s,
+			const float *u, const int *ldu, const float *vt, const int *ldvt, const float *work, const int *lwork,
+			const int *iwork, const int *info);
+void Csgemm(const char *transa, const char *transb, const int *m, const int *n, const int *k, const float *alpha, const float *a,
+		       const int *lda, const float *b, const int *ldb, const float *beta, const float *c, const int *ldc);
 
 
 
@@ -1278,10 +1278,10 @@ svd_JM (float *mat, int *n, int *p, float *u, float *d, float *v)
 	v1 = Calloc ((*p) * (*p), float);
 	
 	transpose_mat_JM (mat, n, p, mat1);
-	
-	F77_CALL (sgesdd) (&jobz, n, p, mat1, n, d, u1, n, v1, p, work,
+
+	Csgesdd(&jobz, n, p, mat1, n, d, u1, n, v1, p, work,
 			   &lwork, iwork, &info);
-		
+
 
 	transpose_mat_JM (u1, n, n, u);
 	
@@ -1354,8 +1354,8 @@ mmult_JM (float *A, int n, int p, float *B, int q, int r, float *C)
 		M = n;
 		K = p;
 		N = r;
-		
-		F77_CALL (sgemm) (&transA, &transB, &N, &M, &K, &alpha, B, &N,
+
+		Csgemm(&transA, &transB, &N, &M, &K, &alpha, B, &N,
 				  A, &K, &beta, C, &N);
 		
 	}
