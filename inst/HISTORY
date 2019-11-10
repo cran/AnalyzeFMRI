@@ -311,4 +311,11 @@ f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.
 - Modified lines 136--140 in file analyzeFMRI.c to remove warning: note: type 'long int' should match type 'void'. Also, I modified lines 1282 and 1358 for the same reason
 - Created the new file wrapper.f for the same reason as above
 
+2019-11-10
+----------
+
+ Version 1.1-21
+
+- I added copyright holders in the DESCRIPTION file (request by Prof. B. Ripley)
+- In file analyzeFMRI.c, I solved "warning: ignoring return value of fread" by adding a nbfread integer.
 

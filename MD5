@@ -1,4 +1,4 @@
-5ad624e09b2f3db34308f91bc51f6579 *DESCRIPTION
+8abb91057ebdb45bdd0124e453aac465 *DESCRIPTION
 31c6dd2ebec24732cf9052676152566a *INDEX
 1fb3fbdc3897502d9df1f172a44a30e6 *NAMESPACE
 5894b7301f449f27c008aea89c7a1af6 *R/analyzeFMRI.R
@@ -15,7 +15,7 @@ cbbba9fda4d2cf9f3ce52819d42115a0 *configure.win
 7ed6cc2d1f01b5674d392293ceab4fd4 *inst/AnalyzeFMRI.gui.R
 1e37cb5eee645da4d01460e6d0f7ad58 *inst/CITATION
 fa5207e05bf059e7c9d795e7e7e7b7cd *inst/GRF.examples.R
-6d43f71cf140cbedb58e2ba286089a65 *inst/HISTORY
+291204ee8b79f127134f7c9f5eefd604 *inst/HISTORY
 ff8e33600d9e6d02a03cda1603341388 *inst/ICA.gui.R
 3019776850ac74a33ba4f099b9037727 *inst/ICAst.gui.R
 e96396d25ba0e9d608520d8660040d9d *inst/README
@@ -116,7 +116,7 @@ cfca2e02049ef35cfdfff60e4e3c9e38 *man/orientation.Rd
 c32d702fae30b435cf571084492c654f *man/xyzt2st.Rd
 ea038e8981ed43ec3b08997fdd2ef962 *src/AnalyzeFMRI_init.c
 c2827c6aa925c63432a9c2cdf70b6d2c *src/Makevars.in
-39233390635b953ef30e89cad72247e9 *src/analyzeFMRI.c
+2c6e5c360ae2f14cb6793aaaf82a4dd7 *src/analyzeFMRI.c
 f033bcd57e423afeb0cca6b60ea0b62a *src/lsame.f
 f033bcd57e423afeb0cca6b60ea0b62a *src/lsame.unused
 ed91eb87b1dd7f8d5c044537305b8e8b *src/niftiFMRI.c
