@@ -22,11 +22,13 @@ elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
 fi
 if ${have_f77_underscore}; then
   scopy_func=scopy_
+  sdot_func=sdot_
   lsame_func=lsame_
   sgesdd_func=sgesdd_
   xerbla=xerbla_
 else
   scopy_func=scopy
+  sdot_func=sdot
   lsame_func=lsame
   sgesdd_func=sgesdd
   xerbla=xerbla
@@ -41,8 +43,15 @@ else
   AC_TRY_LINK([void ${xerbla}(char *srname, int *info){}], ${scopy_func}(),
       [blas_ok=yes], [blas_ok=no])
   AC_MSG_RESULT([${blas_ok}])
+  AC_MSG_CHECKING([for sdot in ${BLAS_LIBS}])
+  AC_TRY_LINK([void ${xerbla}(char *srname, int *info){}], ${sdot_func}(),
+      [blas_ok_sdot=yes], [blas_ok_sdot=no])
+  AC_MSG_RESULT([${blas_ok_sdot}])
+  if test "${blas_ok_sdot}" = no; then
+    blas_ok=no
+  fi	
   if test "${blas_ok}" = no; then
-    AC_MSG_WARN([could not find scopy in your BLAS library, using our BLAS and LAPACK routines])
+    AC_MSG_WARN([could not find scopy or sdot in your BLAS library, using our BLAS and LAPACK routines])
     (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
   else
     LIBS="${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}"

@@ -1626,8 +1626,8 @@ ac_compiler=`set X $ac_compile; echo $2`
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-{ (eval echo "$as_me:$LINENO: \"$ac_compiler -V </dev/null >&5\"") >&5
-  (eval $ac_compiler -V </dev/null >&5) 2>&5
+{ (eval echo "$as_me:$LINENO: \"$ac_compiler -v </dev/null >&5\"") >&5
+  (eval $ac_compiler -v </dev/null >&5) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
@@ -2587,6 +2587,7 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <ctype.h>
+#include <stdlib.h>
 #if ((' ' & 0x0FF) == 0x020)
 # define ISLOWER(c) ('a' <= (c) && (c) <= 'z')
 # define TOUPPER(c) (ISLOWER(c) ? 'A' + ((c) - 'a') : (c))
@@ -2875,11 +2876,13 @@ elif test -n "`grep F77 ${R_HOME}/include/Rconfig.h | grep '_$'`"; then
 fi
 if ${have_f77_underscore}; then
   scopy_func=scopy_
+  sdot_func=sdot_
   lsame_func=lsame_
   sgesdd_func=sgesdd_
   xerbla=xerbla_
 else
   scopy_func=scopy
+  sdot_func=sdot
   lsame_func=lsame
   sgesdd_func=sgesdd
   xerbla=xerbla
@@ -2889,16 +2892,23 @@ if test -z "${BLAS_LIBS}"; then
   echo "it seems you are not using a BLAS library: using our BLAS and LAPACK routines"
   (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
 else
-  LIBS="${BLAS_LIBS} ${FLIBS}"
-  echo "$as_me:$LINENO: checking for scopy in ${BLAS_LIBS}" >&5
-echo $ECHO_N "checking for scopy in ${BLAS_LIBS}... $ECHO_C" >&6
-  cat >conftest.$ac_ext <<_ACEOF
+
+
+
+
+
+    
+    LIBS="${BLAS_LIBS} ${FLIBS}"
+    echo "$as_me:$LINENO: checking for scopy in ${BLAS_LIBS}" >&5
+    echo $ECHO_N "checking for scopy in ${BLAS_LIBS}... $ECHO_C" >&6
+    cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
 cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 void ${xerbla}(char *srname, int *info){}
+void ${scopy_func}(){}
 int
 main ()
 {
@@ -2939,13 +2949,287 @@ fi
 rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
   echo "$as_me:$LINENO: result: ${blas_ok}" >&5
-echo "${ECHO_T}${blas_ok}" >&6
+  echo "${ECHO_T}${blas_ok}" >&6
+
+
+
+
+  
+    echo "$as_me:$LINENO: checking for sdot in ${BLAS_LIBS}" >&5
+    echo $ECHO_N "checking for sdot in ${BLAS_LIBS}... $ECHO_C" >&6
+    cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+void ${xerbla}(char *srname, int *info){}
+void ${sdot_func}(){}
+int
+main ()
+{
+${sdot_func}()
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  blas_ok_sdot=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+blas_ok_sdot=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+  echo "$as_me:$LINENO: result: ${blas_ok_sdot}" >&5
+  echo "${ECHO_T}${blas_ok_sdot}" >&6
+
+  if test "${blas_ok_sdot}" = no; then
+      blas_ok=no
+  fi
+
+
+       as_ac_var=`echo "ac_cv_func_${scopy_func}" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for ${scopy_func}" >&5
+echo $ECHO_N "checking for ${scopy_func}... $ECHO_C" >&6
+if eval "test \"\${$as_ac_var+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+/* Define ${scopy_func} to an innocuous variant, in case <limits.h> declares ${scopy_func}.
+   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
+#define ${scopy_func} innocuous_${scopy_func}
+
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char ${scopy_func} (); below.
+    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
+    <limits.h> exists even on freestanding compilers.  */
+
+#ifdef __STDC__
+# include <limits.h>
+#else
+# include <assert.h>
+#endif
+
+#undef ${scopy_func}
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char ${scopy_func} ();
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_${scopy_func}) || defined (__stub___${scopy_func})
+choke me
+#else
+char (*f) () = ${scopy_func};
+#endif
+#ifdef __cplusplus
+}
+#endif
+
+int
+main ()
+{
+return f != ${scopy_func};
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  eval "$as_ac_var=yes"
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+eval "$as_ac_var=no"
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_var'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_var'}'`" >&6
+if test `eval echo '${'$as_ac_var'}'` = yes; then
+  :
+else
+  NO_SCOPY=1
+fi
+
+
+if test ${NO_SCOPY}; then
+   blas_ok=no
+  fi
+
+      as_ac_var=`echo "ac_cv_func_${sdot_func}" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for ${sdot_func}" >&5
+echo $ECHO_N "checking for ${sdot_func}... $ECHO_C" >&6
+if eval "test \"\${$as_ac_var+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+/* Define ${sdot_func} to an innocuous variant, in case <limits.h> declares ${sdot_func}.
+   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
+#define ${sdot_func} innocuous_${sdot_func}
+
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char ${sdot_func} (); below.
+    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
+    <limits.h> exists even on freestanding compilers.  */
+
+#ifdef __STDC__
+# include <limits.h>
+#else
+# include <assert.h>
+#endif
+
+#undef ${sdot_func}
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char ${sdot_func} ();
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_${sdot_func}) || defined (__stub___${sdot_func})
+choke me
+#else
+char (*f) () = ${sdot_func};
+#endif
+#ifdef __cplusplus
+}
+#endif
+
+int
+main ()
+{
+return f != ${sdot_func};
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  eval "$as_ac_var=yes"
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+eval "$as_ac_var=no"
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_var'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_var'}'`" >&6
+if test `eval echo '${'$as_ac_var'}'` = yes; then
+  :
+else
+  NO_SDOT=1
+fi
+
+
+if test ${NO_SDOT}; then
+   blas_ok=no
+  fi
+
+
+  
   if test "${blas_ok}" = no; then
-    { echo "$as_me:$LINENO: WARNING: could not find scopy in your BLAS library, using our BLAS and LAPACK routines" >&5
-echo "$as_me: WARNING: could not find scopy in your BLAS library, using our BLAS and LAPACK routines" >&2;}
+
+
+      
+    { echo "$as_me:$LINENO: WARNING: could not find scopy or sdot in your BLAS library, using our BLAS and LAPACK routines" >&5
+echo "$as_me: WARNING: could not find scopy or sdot in your BLAS library, using our BLAS and LAPACK routines" >&2;}
     (cd src; ln -s sblas.unused sblas.f; ln -s lsame.unused lsame.f; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
   else
-    LIBS="${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}"
+      
+      LIBS="${LAPACK_LIBS} ${BLAS_LIBS} ${FLIBS}"
+
+      
     as_ac_var=`echo "ac_cv_func_${sgesdd_func}" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for ${sgesdd_func}" >&5
 echo $ECHO_N "checking for ${sgesdd_func}... $ECHO_C" >&6
@@ -3048,6 +3332,9 @@ fi
 echo "$as_me: WARNING: could not find sgesdd: using our LAPACK routines" >&2;}
       (cd src; ln -s slapack.unused slapack.f; ln -s slamc.unused slamc.f)
     fi
+
+
+    
     as_ac_var=`echo "ac_cv_func_${lsame_func}" | $as_tr_sh`
 echo "$as_me:$LINENO: checking for ${lsame_func}" >&5
 echo $ECHO_N "checking for ${lsame_func}... $ECHO_C" >&6
@@ -3150,6 +3437,9 @@ fi
 echo "$as_me: WARNING: could not find lsame in your BLAS or LAPACK library, using our copy" >&2;}
       (cd src; ln -s lsame.unused lsame.f)
     fi
+
+
+
   fi
 fi
 

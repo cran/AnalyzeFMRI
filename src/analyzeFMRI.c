@@ -169,8 +169,8 @@ void swaptest_JM(int *ans, char *name)
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-  
   nbread = fread(ans, 4, 1, fd);
+  if (nbread == 0) warning("Nothing to read");
   fclose(fd);
 }
 
@@ -181,11 +181,9 @@ void readchar_JM(char *ans, char *name, int *swapbytes, int n, long offset, int 
   int nbread;
   
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file \n");
-
   fseek(fd, offset, whence);
-
   nbread = fread(ans, 1, n, fd);
-
+  if (nbread == 0) warning("Nothing to read");
   fclose(fd);
 }
 
@@ -198,14 +196,14 @@ void read2byte_JM(short *ans, char *name, int *swapbytes, int n, long offset, in
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, offset, whence);
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 2, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 2);
     *(ans + i) = buf;
   }
-
+  
   fclose(fd);
 }
 
@@ -219,15 +217,15 @@ void read4byte_JM(int *ans, char *name, int *swapbytes, int n, long offset, int 
   int nbread;
   
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-  
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 4, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 4);
     *(ans + i) = buf;
   }
-
+  
   fclose(fd);
 }
 void readfloat_JM(float *ans, char *name, int *swapbytes, int n, long offset, int whence)
@@ -239,15 +237,15 @@ void readfloat_JM(float *ans, char *name, int *swapbytes, int n, long offset, in
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 4, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 4);
     *(ans + i) = buf;
   }
-
+  
   fclose(fd);
 }
 
@@ -260,15 +258,15 @@ void readdouble_JM(double *ans, char *name, int *swapbytes, int n, long offset, 
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file \n");
-
   fseek(fd, offset, whence);
-   
+  
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 8, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 8);
     *(ans + i) = buf;
   }
-
+  
   fclose(fd);
 }
 
@@ -282,14 +280,14 @@ void readchar_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, 
   int nbread;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file \n");
-
   tmp = Calloc(*n, unsigned char);
-
+  
   fseek(fd, (long) *offset, *whence);
-
+  
   nbread = fread(tmp, 1, *n, fd);
+  if (nbread == 0) warning("Nothing to read");
   for(i = 0; i < *n; i++){
-	  *(ans + i) = (int) *(tmp + i);}
+    *(ans + i) = (int) *(tmp + i);}
   
   Free(tmp);
   fclose(fd);
@@ -305,15 +303,15 @@ void read2byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset,
   int nbread;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, (long) *offset, *whence);
-  
+    
   for(i = 0; i < *n; i++){
     nbread = fread(&buf, 2, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 2);
     *(ans + i)= (int) buf;
   }
-
+  
   fclose(fd);
 }
 void read4byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset, int *whence)
@@ -325,11 +323,11 @@ void read4byte_v1_JM(int *ans, char **name, int *swapbytes, int *n, int *offset,
   int nbread;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, (long) *offset, *whence);
   
   for(i = 0; i < *n; i++){
     nbread = fread(&buf, 4, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 4);
     *(ans + i) = buf;
   }
@@ -347,15 +345,15 @@ void readfloat_v1_JM(float *ans, char **name, int *swapbytes, int *n, int *offse
   int nbread;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, (long) *offset, *whence);
-  
+    
   for(i = 0; i < *n; i++){
     nbread = fread(&buf, 4, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 4);
     *(ans + i)= buf;
   }
-
+  
   fclose(fd);
 }
 
@@ -368,12 +366,12 @@ void readdouble_v1_JM(double *ans, char **name, int *swapbytes, int *n, int *off
   int nbread;
 
   if((fd = fopen(name[0], "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, (long) *offset, *whence);
   
  
   for(i = 0; i < *n; i++){
     nbread = fread(&buf, 8, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 8);
     *(ans + i)= buf;
   }
@@ -390,11 +388,11 @@ void read2byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 2, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 2);
     *(ans + i)= (float) buf;
   }
@@ -411,12 +409,12 @@ void read4byte_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
- 
 
   fseek(fd, offset, whence);
   
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 4, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 4);
     *(ans + i)= (float) buf;
   }
@@ -433,15 +431,15 @@ void readfloat_F_JM(float *ans, char *name, int *swapbytes, int n, long offset, 
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, offset, whence);
-  
+    
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 4, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 4);
     *(ans + i)= buf;
   }
-
+  
   fclose(fd);
 }
 
@@ -454,16 +452,16 @@ void readdouble_F_JM(float *ans, char *name, int *swapbytes, int n, long offset,
   int nbread;
 
   if((fd = fopen(name, "rb")) == NULL) error("Cannot open file");
-
   fseek(fd, offset, whence);
+    
   
- 
   for(i = 0; i < n; i++){
     nbread = fread(&buf, 8, 1, fd);
+    if (nbread == 0) warning("Nothing to read");
     if (*swapbytes == 1) swap_JM(&buf, 8);
     *(ans + i) =  (float) buf;
   }
-
+  
   fclose(fd);
 }
 

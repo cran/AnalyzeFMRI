@@ -10,12 +10,12 @@ citEntry(entry = "Article",
   volume       = "44",
   number       = "9",
   pages        = "1--24",
-  url          = "http://www.jstatsoft.org/v44/i09/",
+  url          = "https://www.jstatsoft.org/v44/i09/",
 
   textVersion  =
   paste("Cecile Bordier, Michel Dojat, Pierre Lafaye de Micheaux (2011).",
         "Temporal and Spatial Independent Component Analysis for fMRI Data Sets Embedded in the AnalyzeFMRI R Package.",
         "Journal of Statistical Software, 44(9), 1-24.",
-        "URL http://www.jstatsoft.org/v44/i09/.")
+        "URL https://www.jstatsoft.org/v44/i09/.")
 )
 

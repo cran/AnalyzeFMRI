@@ -319,3 +319,15 @@ f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.
 - I added copyright holders in the DESCRIPTION file (request by Prof. B. Ripley)
 - In file analyzeFMRI.c, I solved "warning: ignoring return value of fread" by adding a nbfread integer.
 
+2020-12-13
+----------
+
+ Version 1.1-22
+
+- I added at line 2590 of file configure: #include <stdlib.h>
+- I added at line 2903 of file configure: void ${scopy_func}(){}
+- I added several sdot entries in file configure to avoid a compiler error
+- Replaced -V with -v in lines 1629 and 1630
+- In file AnalyzeFMRI.c, I addedd if (nbread == 0) warning("Nothing to read"); several times to prevent compiler WARNINGs
+- I changed in the CITATION file http to https
+
