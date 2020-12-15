@@ -2868,23 +2868,31 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
 
 f.plot.volume.gui <- function(array.fonc=NULL,hdr.fonc=NULL) {
-  #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
-  if (class(array.fonc) == "array" & is.null(hdr.fonc)) stop("You must also provide a list 'hdr.fonc' with a 'pixdim' field containing a vector of length 4")
-                                        
-#  require(tcltk) || stop("tcltk support is absent")
-#  require("tkrplot") || stop("tkrplot support is absent")
 
-  path <- path.package(package = "AnalyzeFMRI")
-  path.gui <- paste(path, "plot.volume.gui.R", sep = .Platform$file.sep)
-  env1245678512457 <- new.env()
-  if (!is.null(array.fonc)) {
-    name.array.fonc <- as.character(as.list(match.call())$array.fonc)
-    assign(name.array.fonc,array.fonc,envir=env1245678512457)
-    assign("array.fonc",name.array.fonc,envir=env1245678512457)
-    assign("hdr.fonc",hdr.fonc,envir=env1245678512457)
+  if (requireNamespace("tkrplot", quietly = TRUE)) {
+  
+    #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
+    if (class(array.fonc) == "array" & is.null(hdr.fonc)) stop("You must also provide a list 'hdr.fonc' with a 'pixdim' field containing a vector of length 4")
+    
+    #  require(tcltk) || stop("tcltk support is absent")
+    #  require("tkrplot") || stop("tkrplot support is absent")
+    
+    path <- path.package(package = "AnalyzeFMRI")
+    path.gui <- paste(path, "plot.volume.gui.R", sep = .Platform$file.sep)
+    env1245678512457 <- new.env()
+    if (!is.null(array.fonc)) {
+      name.array.fonc <- as.character(as.list(match.call())$array.fonc)
+      assign(name.array.fonc,array.fonc,envir=env1245678512457)
+      assign("array.fonc",name.array.fonc,envir=env1245678512457)
+      assign("hdr.fonc",hdr.fonc,envir=env1245678512457)
+    }
+    sys.source(path.gui,envir=env1245678512457)
+    rm("env1245678512457")
+
+  } else {
+    warning("Package tkrplot is not installed (or not available for your platform). Plotting will not work. ")
   }
-  sys.source(path.gui,envir=env1245678512457)
-  rm("env1245678512457")
+  
 }
 
 orientation <- function(L) {

@@ -331,3 +331,15 @@ f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.
 - In file AnalyzeFMRI.c, I addedd if (nbread == 0) warning("Nothing to read"); several times to prevent compiler WARNINGs
 - I changed in the CITATION file http to https
 
+2020-12-15
+----------
+
+ Version 1.1-23
+
+- I moved tkrplot to Suggests field in file DESCRIPTION (because B. Ripley wrote 
+  "Package tkrplot supports only two of the three graphical interfaces of Tk, not covering Aqua which is the only 
+   one currently available for arm64 Macs.")
+- I removed tkrplot in NAMESPACE file
+- I changed the source code for the function f.plot.volume.gui() in file niftiFMRI.R accordingly.
+- I modified file f.plot.volume.gui.Rd to indicate this
+

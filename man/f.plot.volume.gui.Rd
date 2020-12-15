@@ -16,6 +16,8 @@
 \details{
 One has the possibility to enter either a filename (with its path)
 or directly an R object in the file field.
+This function will only work if package tkrplot is installed. It seems
+this package is not available for arm64 Macs.
 }
 \author{P Lafaye de Micheaux <plafaye@club.fr>}
 

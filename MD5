@@ -1,10 +1,10 @@
-7c09a15788d98f07d5fe353841d38e49 *DESCRIPTION
+a76e2b2f980c3d53e129d7e03a008a42 *DESCRIPTION
 31c6dd2ebec24732cf9052676152566a *INDEX
-1fb3fbdc3897502d9df1f172a44a30e6 *NAMESPACE
+e8dd2d1ebf2327830646373c7fdceb40 *NAMESPACE
 5894b7301f449f27c008aea89c7a1af6 *R/analyzeFMRI.R
 bd263dc22269eebe136ac3c04378aa5f *R/f.gaussian.spatial.smoothing.functions.R
 93eb8b1ee841cf89b9716b73761fb6b5 *R/f.non.lin.gaussian.spatial.smoothing.functions.R
-0f67ec29103839e03536ebafc5cfe438 *R/niftiFMRI.R
+06a4beaf7e935b4c5a818f48dca45eb5 *R/niftiFMRI.R
 c2e13968744a4d4fa3aa179815b4888e *R/spatial.mixture.R
 503ee6928bfa41bbf3419983c1a40741 *R/threshold.R
 9171277c4ac58af66edcfb971b07004f *TODO
@@ -15,7 +15,7 @@ cbbba9fda4d2cf9f3ce52819d42115a0 *configure.win
 7ed6cc2d1f01b5674d392293ceab4fd4 *inst/AnalyzeFMRI.gui.R
 3fe0657c9af21ec2da5fef99d484fa20 *inst/CITATION
 fa5207e05bf059e7c9d795e7e7e7b7cd *inst/GRF.examples.R
-8d35ed08bc883750237c601429ca41e4 *inst/HISTORY
+dab2d586a08a884bb15d37975b9e7d5a *inst/HISTORY
 ff8e33600d9e6d02a03cda1603341388 *inst/ICA.gui.R
 3019776850ac74a33ba4f099b9037727 *inst/ICAst.gui.R
 e96396d25ba0e9d608520d8660040d9d *inst/README
@@ -71,7 +71,7 @@ c06bb2eef1a4774a73e21eba7c48fcd6 *man/f.icast.fmri.gui.Rd
 9c02a30d16f82a9812a2b9d76789c316 *man/f.nifti.file.summary.Rd
 971c680f49d32829c708dd2cade8940f *man/f.plot.ica.fmri.Rd
 2d9dce215888108383d026739d4d4c94 *man/f.plot.ica.fmri.jpg.Rd
-4c6538afd6d5b1aad28084668ed62247 *man/f.plot.volume.gui.Rd
+adeb3e5df73220af17e605cff42925e0 *man/f.plot.volume.gui.Rd
 ed0d6af8b66444be0ec9e7ef97417ea9 *man/f.read.analyze.header.Rd
 06f99ed63e4846d2f0606a88dc04d0a5 *man/f.read.analyze.slice.Rd
 55059516ed4a45b848f78ec366205a04 *man/f.read.analyze.slice.at.all.timepoints.Rd
