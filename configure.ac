@@ -40,12 +40,10 @@ if test -z "${BLAS_LIBS}"; then
 else
   LIBS="${BLAS_LIBS} ${FLIBS}"
   AC_MSG_CHECKING([for scopy in ${BLAS_LIBS}])
-  AC_TRY_LINK([void ${xerbla}(char *srname, int *info){}], ${scopy_func}(),
-      [blas_ok=yes], [blas_ok=no])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[[void ${xerbla}(char *srname, int *info){}]]],[[${scopy_func}()]])], [blas_ok=yes], [blas_ok=no])
   AC_MSG_RESULT([${blas_ok}])
   AC_MSG_CHECKING([for sdot in ${BLAS_LIBS}])
-  AC_TRY_LINK([void ${xerbla}(char *srname, int *info){}], ${sdot_func}(),
-      [blas_ok_sdot=yes], [blas_ok_sdot=no])
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[[void ${xerbla}(char *srname, int *info){}]]],[[${sdot_func}()]])], [blas_ok_sdot=yes], [blas_ok_sdot=no])
   AC_MSG_RESULT([${blas_ok_sdot}])
   if test "${blas_ok_sdot}" = no; then
     blas_ok=no
@@ -71,4 +69,5 @@ fi
 
 
 AC_SUBST(BLAS_LIBS)
-AC_OUTPUT(src/Makevars)
+AC_CONFIG_FILES(src/Makevars)
+AC_OUTPUT

@@ -343,3 +343,9 @@ f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.
 - I changed the source code for the function f.plot.volume.gui() in file niftiFMRI.R accordingly.
 - I modified file f.plot.volume.gui.Rd to indicate this
 
+2021-10-05
+----------
+
+ Version 1.1-24
+
+- I got new WARNINGS for "checking top-level files" about obsolete AC_TRY_LINK and AC_OUTPUT. I thus changed these functions in the file configure.ac (from new definitions taken here: https://www.gnu.org/software/autoconf/manual/autoconf-2.61/html_node/Obsolete-Macros.html#Obsolete-Macros)
