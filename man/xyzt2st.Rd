@@ -2,8 +2,11 @@
 \alias{xyzt2st}
 \title{xyzt2st}
 \description{Extract space and time dimension codes from the one byte xyzt.units field of a NIFTI header file.}
-\usage{xyzt2st(xyzt.units)}
-\arguments{\item{xyzt.units}{xyzt.units field of a NIFTI header file}}
+\usage{xyzt2st(xyzt.units, verbose = TRUE)}
+\arguments{
+\item{xyzt.units}{xyzt.units field of a NIFTI header file}
+\item{verbose}{\code{verbose} logical to display information about the units}  
+}
 \value{A list containing space and time fields.
 
 See also the Value Section of the help file of function st2xyzt().

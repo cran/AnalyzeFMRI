@@ -1,4 +1,4 @@
-#include <S.h>
+#include <R.h>
 #include "verR.h"
 #include <math.h>
 
@@ -18,7 +18,8 @@ void non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, float *rad
  y= *(array_dim+1);
  z= *(array_dim+2);
 
- u=Calloc(3,int);
+ // u=Calloc(3,int);
+ u = (int *)calloc(3, sizeof(int));
  nk=0;
  for(i=-19;i<20;i++){
    for(j=-19;j<20;j++){
@@ -33,13 +34,15 @@ void non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, float *rad
 	 *(u+3*nk+1)=j;
 	 *(u+3*nk+2)=k;
 	 nk+=1;
-	 u=Realloc(u,3*(nk+1),int);
+	 //	 u=Realloc(u,3*(nk+1),int);
+	 u = (int *)realloc(u, 3 * (nk + 1) * sizeof(int));
        }
      }
    }
  }
 
- u=Realloc(u,3*nk,int);
+ // u=Realloc(u,3*nk,int);
+ u = (int *)realloc(u, 3 * nk * sizeof(int));
 
  for(i=0;i<x;i++){
    for(j=0;j<y;j++){
@@ -86,7 +89,8 @@ void temporal_non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, f
  z= *(array_dim+2);
  t= *(array_dim+3);
 
- u=Calloc(3,int);
+ // u=Calloc(3,int);
+ u = (int *)calloc(3, sizeof(int));
  nk=0;
  for(i=-19;i<20;i++){
    for(j=-19;j<20;j++){
@@ -101,13 +105,15 @@ void temporal_non_lin_gauss_smooth(float *array, Sint *array_dim, float *mask, f
 	 *(u+3*nk+1)=j;
 	 *(u+3*nk+2)=k;
 	 nk+=1;
-	 u=Realloc(u,3*(nk+1),int);
-       }
+	 // u=Realloc(u,3*(nk+1),int); 
+	 u = (int *)realloc(u, 3 * (nk + 1) * sizeof(int));
+      }
      }
    }
  }
 
- u=Realloc(u,3*nk,int);
+ // u=Realloc(u,3*nk,int);
+ u = (int *)realloc(u, 3 * nk * sizeof(int));
 
  for(i=0;i<x;i++){
    for(j=0;j<y;j++){

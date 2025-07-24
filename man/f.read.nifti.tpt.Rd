@@ -15,6 +15,6 @@
   \code{\link{f.read.nifti.slice.at.all.timepoints}},
   \code{\link{f.write.nifti}}, }
 \examples{
-f.read.nifti.tpt(system.file("example-nifti.img", package="AnalyzeFMRI"),1)
+f.read.nifti.tpt(system.file("example-nifti.img", package = "AnalyzeFMRI"), 1)
 }
 \keyword{utilities}

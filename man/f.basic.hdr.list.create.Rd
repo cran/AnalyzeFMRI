@@ -17,11 +17,9 @@
   \code{\link{f.analyze.file.summary}} 
 }
 \examples{
-\dontrun{
 a <- array(rnorm(20 * 30 * 40 * 3), dim = c(20, 30, 40, 3))
 file <- "temp.hdr"
-f.basic.hdr.list.create(a, file)
-}
+hdr.list <- f.basic.hdr.list.create(a, file)
 }
 \keyword{utilities}
 

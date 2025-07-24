@@ -2,7 +2,7 @@
 \alias{analyze2nifti}
 \title{Create a NIFTI file from an Analyze file}
 \description{Create a NIFTI file from an Analyze file.}
-\usage{analyze2nifti(file.in,path.in=".",path.out=".",file.out=NULL,is.nii=TRUE,
+\usage{analyze2nifti(file.in,path.in=".",path.out=NULL,file.out=NULL,is.nii=TRUE,
 qform.code=2,sform.code=2,data.type=rawToChar(raw(10)),db.name=rawToChar(raw(18)),
 dim.info=rawToChar(raw(1)),dim=NULL,TR=0,slice.code=rawToChar(raw(1)),
 xyzt.units=rawToChar(raw(1)),descrip=NULL,aux.file=rawToChar(raw(24)),
@@ -51,10 +51,11 @@ intent.name=rawToChar(raw(16)))}
 }
 
 \examples{
-\dontrun{
-analyze2nifti(path.in=system.file(package="AnalyzeFMRI"),file.in="example",
-              file.out="nifti-tmp",is.nii=TRUE)
-}
+tmpdir <- tempdir()
+analyze2nifti(path.in = system.file(package = "AnalyzeFMRI"),
+              path.out = tmpdir, file.in = "example",
+              file.out = "nifti-tmp", is.nii = TRUE)
+unlink(tmpdir) # tidy up
 }
 \keyword{utilities}
 

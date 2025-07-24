@@ -728,7 +728,10 @@ f.spectral.summary <- function(file, mask.file, ret.flag = FALSE)
 }
 
 
-f.write.list.to.hdr <- function(L, file){
+f.write.list.to.hdr <- function(L, file, path.out = NULL){
+
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
 
 # To respect the length of some Analyze character fields
   strcomplete <- function(string,max.length) {
@@ -738,7 +741,7 @@ f.write.list.to.hdr <- function(L, file){
 
   
 # Writes a list to a .hdr file
-    a <- .C("write_analyze_header_wrap_JM",
+    a <- with_dir(path.out, {.C("write_analyze_header_wrap_JM",
             file,
             as.integer(L$sizeof.hdr),
             strcomplete(L$data.type,10),
@@ -784,11 +787,14 @@ f.write.list.to.hdr <- function(L, file){
             as.integer(L$omin),
             as.integer(L$smax),
             as.integer(L$smin),
-            PACKAGE="AnalyzeFMRI")
+            PACKAGE="AnalyzeFMRI")})
 }
 
 
-f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.units = "mm", cal.units = "pixels", originator = rep(0,5)){
+f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.units = "mm", cal.units = "pixels", originator = rep(0,5), path.out = NULL){
+
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
 
   #Creates a .img and .hdr pair of files from a given array
 
@@ -812,77 +818,83 @@ f.write.analyze <- function(mat, file, size = "float", pixdim = c(4, 4, 6), vox.
         L$datatype <- 16
         L$bitpix <- 32
        L$data.type <- "float"
-        f.write.array.to.img.float(mat, file.img)
+        f.write.array.to.img.float(mat, file.img, path.out)
     }
     if(size == "int"){
         if(max(mat)>32767 || min(mat) < ( -32768)) return("Values are outside integer range. Files not written.")
         L$datatype <- 4
         L$bitpix <- 16
         L$data.type <- "signed sho" # signed short
-        f.write.array.to.img.2bytes(mat, file.img)
+        f.write.array.to.img.2bytes(mat, file.img, path.out)
     }
     if(size == "char"){
         if(max(mat)>255 || min(mat) < 0) return("Values are outside integer range. Files not written.")
         L$datatype <- 2
         L$bitpix <- 8
         L$data.type <- "unsignchar" # unsigned char
-        f.write.array.to.img.8bit(mat, file.img)
+        f.write.array.to.img.8bit(mat, file.img, path.out)
     }
 
-    f.write.list.to.hdr(L, file.hdr)
+    f.write.list.to.hdr(L, file.hdr, path.out)
 }
 
 
-f.write.array.to.img.2bytes <- function(mat, file){
+f.write.array.to.img.2bytes <- function(mat, file, path.out = NULL){
   #writes an array into a .img file of 2 byte integers
 
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
     dm <- dim(mat)
     dm.ln <- length(dm)
     num.data.pts <- length(mat)
 
-    .C("write2byte_JM",
+    with_dir(path.out, {.C("write2byte_JM",
        as.integer(mat),
        file,
-       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")})
 
 }
 
-f.write.array.to.img.8bit <- function(mat, file){
+f.write.array.to.img.8bit <- function(mat, file, path.out = NULL){
 #writes an array into a .img file of 8 bit (1 byte) integers
 
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
     dm <- dim(mat)
     dm.ln <- length(dm)
     num.data.pts <- length(mat)
 
-    .C("write8bit_JM",
+    with_dir(path.out, {.C("write8bit_JM",
        as.integer(mat),
        file,
-       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")})
 
 }
 
 
 
-f.write.array.to.img.float <- function(mat, file){
+f.write.array.to.img.float <- function(mat, file, path.out = NULL){
   #writes an array into a .img file of 4 byte flotas
+
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
 
     dm <- dim(mat)
     dm.ln <- length(dm)
     num.data.pts <- length(mat)
 
-    .C("writefloat_JM",
+    with_dir(path.out, {.C("writefloat_JM",
        as.single(mat),
        file,
-       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")
+       as.integer(num.data.pts), PACKAGE="AnalyzeFMRI")})
 }
 
 f.analyzeFMRI.gui <- function(){
 
   #starts GUI that allows user to explore an fMRI dataset stored in an ANALYZEfile
-
     path <- path.package(package = "AnalyzeFMRI")
     path.gui <- paste(path, "AnalyzeFMRI.gui.R", sep = .Platform$file.sep)
-    source(path.gui)}
+    source(path.gui)
+    }
 
 
 f.ica.fmri <- function(file.name, n.comp, norm.col = TRUE, fun = "logcosh", maxit = 1000, alg.type = "parallel", alpha = 1, tol = 0.0001, mask.file.name = NULL, slices = NULL){
@@ -892,9 +904,11 @@ f.ica.fmri <- function(file.name, n.comp, norm.col = TRUE, fun = "logcosh", maxi
 
     hdr <- f.read.analyze.header(file.name)
 
-    if(length(slices) == 0) slices  <-  2:(hdr$dim[4] - 1)
-    if(slices == "all") slices  <-  1:(hdr$dim[4])
-    if(any(slices < 1 || slices>hdr$dim[4])) {
+    if(length(slices) == 0) {
+    slices  <-  2:(hdr$dim[4] - 1)} else {
+     if(slices == "all") slices  <-  1:(hdr$dim[4])
+     }
+    if(any(slices < 1 | slices>hdr$dim[4])) {
         return("some of selected slices out of allowable range")}
 
     ns <- hdr$dim[2] * hdr$dim[3] * hdr$dim[4] * n.comp
@@ -963,6 +977,7 @@ f.plot.ica.fmri <- function (obj.ica,  comp,  cols = heat.colors(100))
     nsl  <-  dim(obj.ica$S)[3]
     t  <-  nrow(obj.ica$A)
     im  <-  floor(sqrt(nsl + 3)) + 1
+    oldpar <- par(no.readonly = TRUE); on.exit(par(oldpar))
     par(mfrow = c(im,  im),  mar = c(.5,  .5,  .5,  .5))
     plot(c(0, 1), c(0, 1), typ = "n", axes = FALSE, xlab = "", ylab = "")
 
@@ -996,10 +1011,13 @@ f.plot.ica.fmri <- function (obj.ica,  comp,  cols = heat.colors(100))
 f.ica.fmri.gui <- function(){
 
   #starts GUI that allows user apply Spatial ICA to an fMRI dataset
+gui.env <- new.env(parent = baseenv())  # safe container
 
     path <- path.package(package = "AnalyzeFMRI")
     path.gui <- paste(path, "ICA.gui.R", sep = .Platform$file.sep)
-    source(path.gui)}
+    source(path.gui)
+        return(gui.env$tmp.ica.obj)  # assumes GUI stores output in result
+}
 
 
 

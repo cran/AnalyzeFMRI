@@ -13,8 +13,8 @@
   \code{\link{reduction}}
 }
 \examples{
-# TODO!!
-# Xcentred <- centering(X.masked,col.first=TRUE)$Xcentred
+X <- matrix(rnorm(5 * 4), nrow = 5, ncol = 4)
+Xcentred <- centering(X, col.first = TRUE)$Xcentred
 }
 \keyword{utilities}
 

@@ -19,7 +19,7 @@
   \code{\link{f.write.list.to.hdr}},
    \code{\link{f.basic.hdr.list.create}}   }
  \examples{
-f.analyze.file.summary(system.file("example.img", package="AnalyzeFMRI"))
+f.analyze.file.summary(system.file("example.img", package = "AnalyzeFMRI"))
 }
 \keyword{utilities}
 

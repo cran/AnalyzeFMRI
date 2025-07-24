@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2018-05-05 r74699) -- "Unsuffered Consequences"
-Copyright (C) 2018 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -21,9 +21,7 @@ Type 'q()' to quit R.
 > ## Tests for AnalyzeFMRI package ##
 > ###################################
 > 
-> library(AnalyzeFMRI)
-Loading required package: R.matlab
-R.matlab v3.6.1 (2016-10-19) successfully loaded. See ?R.matlab for help.
+> library(AnalyzeFMRI, quietly = TRUE)
 
 Attaching package: ‘R.matlab’
 
@@ -31,9 +29,6 @@ The following objects are masked from ‘package:base’:
 
     getOption, isOpen
 
-Loading required package: fastICA
-Loading required package: tcltk
-Loading required package: tkrplot
 > 
 > ## Test that reading of examples works
 > 
@@ -57,9 +52,11 @@ Loading required package: tkrplot
 > ## Test that writing of examples works
 > 
 > a2 <- array(1:1000, dim = c(10, 10, 10, 1))
-> f.write.analyze(a2, file = "test.array", size = "float")
+> tmpdir <- tempdir()
+> f.write.analyze(a2, file = "test.array", size = "float", path.out = tmpdir)
 > 
-> a3 <- f.read.analyze.volume(file = "test.array.img")
+> a3 <- f.read.analyze.volume(file = paste0(tmpdir, "/test.array.img"))
+> unlink(tmpdir) # tidy up
 > 
 > sum(a2 != a3) ## should return 0
 [1] 0
@@ -67,4 +64,4 @@ Loading required package: tkrplot
 > 
 > proc.time()
    user  system elapsed 
-  0.852   0.184   0.744 
+  0.653   0.118   1.303 

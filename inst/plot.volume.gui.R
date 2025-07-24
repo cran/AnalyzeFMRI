@@ -26,9 +26,10 @@
       if (!horizontal) {
         image(1, x, matrix(x, 1, length(x)), axes = FALSE, xlab = "",
               ylab = "", col = colmap, ...)
-        par(las = 1)
+        oldpar <- par(las = 1)
         axis(4, at = rev(x.small), labels = signif(rev(x.small),2))
         par(las = 0)
+        par(oldpar)
       }
       box()
     }
@@ -43,7 +44,7 @@
     tcltk::tclvalue(file.name.time.series) <- tcltk::tcl("tk_getOpenFile")  }    
 
 
-  plot.volume <- function(vol.fonc="",vol.anat="",time.series="") {
+  plot.volume <- function(vol.fonc="",vol.anat="",time.series="", envir = NULL) {
 
   ## !!! J'ai pris method=3 (lecture de la matrice affine) pour faire conincider l'anat et la fonctionnelle
   ### si sform.code=0 cela ne marchera pas ...
@@ -220,7 +221,8 @@
         n.fonc.sagit <- as.numeric(tcltk::tclvalue("nn.fonc.sagit"))
         n.fonc.time <- as.numeric(tcltk::tclvalue("nn.fonc.time"))
         if (n.fonc.sagit != nn.fonc.sagit) {
-          nn.fonc.sagit <<- n.fonc.sagit
+        #  nn.fonc.sagit <<- n.fonc.sagit
+        assign("nn.fonc.sagit", n.fonc.sagit, envir = envir)
           tkrplot::tkrreplot(img.fonc.sagit)
           tkrplot::tkrreplot(img.fonc.coron)
           tkrplot::tkrreplot(img.fonc.axia)
@@ -232,7 +234,9 @@
 
         }
         if (n.fonc.time != nn.fonc.time) {
-          nn.fonc.time <<- n.fonc.time
+#          nn.fonc.time <<- n.fonc.time
+assign("nn.fonc.time", n.fonc.time, envir = envir)
+
           tkrplot::tkrreplot(img.fonc.sagit)
           tkrplot::tkrreplot(img.fonc.coron)
           tkrplot::tkrreplot(img.fonc.axia)
@@ -244,7 +248,9 @@
         n.fonc.coron <- as.numeric(tcltk::tclvalue("nn.fonc.coron"))
         n.fonc.time <- as.numeric(tcltk::tclvalue("nn.fonc.time"))
         if (n.fonc.coron != nn.fonc.coron) {
-          nn.fonc.coron <<- n.fonc.coron
+#          nn.fonc.coron <<- n.fonc.coron
+assign("nn.fonc.coron", n.fonc.coron, envir = envir)
+
           tkrplot::tkrreplot(img.fonc.sagit)
           tkrplot::tkrreplot(img.fonc.coron)
           tkrplot::tkrreplot(img.fonc.axia)
@@ -256,7 +262,9 @@
 
         }
         if (n.fonc.time != nn.fonc.time) {
-          nn.fonc.time <<- n.fonc.time
+#          nn.fonc.time <<- n.fonc.time
+assign("nn.fonc.time", n.fonc.time, envir = envir)
+
           tkrplot::tkrreplot(img.fonc.sagit)
           tkrplot::tkrreplot(img.fonc.coron)
           tkrplot::tkrreplot(img.fonc.axia)
@@ -268,7 +276,9 @@
         n.fonc.axia <- as.numeric(tcltk::tclvalue("nn.fonc.axia"))
         n.fonc.time <- as.numeric(tcltk::tclvalue("nn.fonc.time"))
         if (n.fonc.axia != nn.fonc.axia) {
-        nn.fonc.axia <<- n.fonc.axia
+#        nn.fonc.axia <<- n.fonc.axia
+assign("nn.fonc.axia", n.fonc.axia, envir = envir)
+
         tkrplot::tkrreplot(img.fonc.sagit)
         tkrplot::tkrreplot(img.fonc.coron)
         tkrplot::tkrreplot(img.fonc.axia)
@@ -280,7 +290,9 @@
 
       }
         if (n.fonc.time != nn.fonc.time) {
-          nn.fonc.time <<- n.fonc.time
+#          nn.fonc.time <<- n.fonc.time
+assign("nn.fonc.time", n.fonc.time, envir = envir)
+
           tkrplot::tkrreplot(img.fonc.sagit)
           tkrplot::tkrreplot(img.fonc.coron)
           tkrplot::tkrreplot(img.fonc.axia)
@@ -291,11 +303,15 @@
       f.fonc.time <- function(...) {
         n.fonc.time <- as.numeric(tcltk::tclvalue("nn.fonc.time"))
         if (n.fonc.time != nn.fonc.time) {
-          nn.fonc.time <<- n.fonc.time
-          mini.fonc <<- min(vol.fonc[,,,nn.fonc.time],na.rm=TRUE)
-          maxi.fonc <<- max(vol.fonc[,,,nn.fonc.time],na.rm=TRUE)
-          if ((mini.fonc-maxi.fonc) == 0) maxi.fonc <<- maxi.fonc+0.00001
-          breaks.fonc <<- c(seq(from=mini.fonc,to=0,len=length(col.fonc)/2),seq(from=0,to=maxi.fonc,len=length(col.fonc)/2+1)) 
+#          nn.fonc.time <<- n.fonc.time
+assign("nn.fonc.time", n.fonc.time, envir = envir)
+#          mini.fonc <<- min(vol.fonc[,,,nn.fonc.time],na.rm=TRUE)
+assign("mini.fonc", min(vol.fonc[,,,nn.fonc.time],na.rm=TRUE), envir = envir)
+#          maxi.fonc <<- max(vol.fonc[,,,nn.fonc.time],na.rm=TRUE)
+assign("maxi.fonc", max(vol.fonc[,,,nn.fonc.time],na.rm=TRUE), envir = envir)
+          if ((mini.fonc-maxi.fonc) == 0) assign("maxi.fonc", maxi.fonc+0.00001, envir = envir) # maxi.fonc <<- maxi.fonc+0.00001
+#          breaks.fonc <<- c(seq(from=mini.fonc,to=0,len=length(col.fonc)/2),seq(from=0,to=maxi.fonc,len=length(col.fonc)/2+1)) 
+assign("breaks.fonc", c(seq(from=mini.fonc,to=0,len=length(col.fonc)/2),seq(from=0,to=maxi.fonc,len=length(col.fonc)/2+1)), envir = envir)
           tkrplot::tkrreplot(img.fonc.sagit)
           tkrplot::tkrreplot(img.fonc.coron)
           tkrplot::tkrreplot(img.fonc.axia)
@@ -320,10 +336,11 @@
       label.fonc.coron <- tcltk::tklabel(frame1.fonc,text="Coronal ", bg = "#aaaaaa")
       slider.fonc.sagit <- tcltk::tkscale(frame1.fonc, command=f.fonc.sagit, from=as.numeric(tcltk::tclvalue(SliderSagit.fonc)), to=1, variable="nn.fonc.sagit",showvalue=TRUE, resolution=1, orient="verti",label="X") 
       img.fonc.sagit <- tkrplot::tkrplot(parent=frame1.fonc, fun=function() {
-        par(mar=c(0,0,0,0), bg = "#555555")
+        oldpar <- par(mar=c(0,0,0,0), bg = "#555555")
     # coupe sagittale
         image((1:dim.fonc.coron)/abs(hdr.fonc$pixdim[3]),(1:dim.fonc.axia)/abs(hdr.fonc$pixdim[4]),as.matrix(vol.fonc[if (flip.fonc == -1) dim.fonc.sagit-nn.fonc.sagit+1 else nn.fonc.sagit,,,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=dim.fonc.coron/dim.fonc.axia)
         abline(h=nn.fonc.axia/abs(hdr.fonc$pixdim[4]),v=nn.fonc.coron/abs(hdr.fonc$pixdim[3]),col="black")
+        par(oldpar)
     }
                               , hscale=hscaletmp, vscale=vscaletmp)
       tcltk::tkbind(img.fonc.sagit, "<Button-1>", function(x, y) {
@@ -336,12 +353,14 @@
         
         #        if (as.numeric(y)>(hei.fonc/2 - dim.fonc.axia*wid.fonc/dim.fonc.coron) & as.numeric(y)<(hei.fonc/2 + dim.fonc.axia*wid.fonc/dim.fonc.coron)) {
         if (as.numeric(y) >= y0 & as.numeric(y) <= (hei.fonc - y0)) {
-          nn.fonc.coron <<- ceiling(dim.fonc.coron * as.numeric(x) /wid.fonc)
+#          nn.fonc.coron <<- ceiling(dim.fonc.coron * as.numeric(x) /wid.fonc)
+assign("nn.fonc.coron", ceiling(dim.fonc.coron * as.numeric(x) /wid.fonc), envir = envir)
 #          nn.fonc.axia <<- ceiling(dim.fonc.axia/2 + dim.fonc.coron*(hei.fonc/2-as.numeric(y))/(wid.fonc*asp))
 
 
 
-        nn.fonc.axia <<- ceiling( dim.fonc.axia - dim.fonc.axia * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) )
+#        nn.fonc.axia <<- ceiling( dim.fonc.axia - dim.fonc.axia * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) )
+assign("nn.fonc.axia", ceiling( dim.fonc.axia - dim.fonc.axia * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) ), envir = envir)
 #        if (as.numeric(y) < y0) nn.fonc.axia <<- dim.fonc.axia
 #        if (as.numeric(y) > (hei.fonc - y0)) nn.fonc.axia <<- 1
 
@@ -361,9 +380,12 @@
           
           if (is.vol.anat) {
             tmp <- round(xyz2ijk(xyz.fonc,method=method,hdr.anat)$ijk)
-            nn.anat.sagit <<- tmp[1]
-            nn.anat.coron <<- tmp[2]
-            nn.anat.axia <<- tmp[3]
+#            nn.anat.sagit <<- tmp[1]
+assign("nn.anat.sagit", tmp[1], envir = envir)
+#            nn.anat.coron <<- tmp[2]
+assign("nn.anat.coron", tmp[2], envir = envir)
+#            nn.anat.axia <<- tmp[3]
+assign("nn.anat.axia", tmp[3], envir = envir)
             if (exists("img.anat.sagit")) {tkrplot::tkrreplot(img.anat.sagit);tcltk::tkset(slider.anat.sagit,nn.anat.sagit)}
             if (exists("img.anat.coron")) {tkrplot::tkrreplot(img.anat.coron);tcltk::tkset(slider.anat.coron,nn.anat.coron)}
             if (exists("img.anat.axia")) {tkrplot::tkrreplot(img.anat.axia);tcltk::tkset(slider.anat.axia,nn.anat.axia)}
@@ -377,10 +399,11 @@
       })
       slider.fonc.coron <- tcltk::tkscale(frame1.fonc, command=f.fonc.coron, from=as.numeric(tcltk::tclvalue(SliderCoron.fonc)), to=1, variable="nn.fonc.coron",showvalue=TRUE, resolution=1, orient="verti",label="Y")
       img.fonc.coron <- tkrplot::tkrplot(parent=frame1.fonc, fun=function() {
-        par(mar=c(0,0,0,0), bg = "#555555")
+        oldpar <- par(mar=c(0,0,0,0), bg = "#555555")
     # coupe coronale
         image((1:dim.fonc.sagit)/abs(hdr.fonc$pixdim[2]),(1:dim.fonc.axia)/abs(hdr.fonc$pixdim[4]),as.matrix(vol.fonc[if (flip.fonc == -1) rev(1:dim.fonc.sagit) else 1:dim.fonc.sagit,nn.fonc.coron,,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=dim.fonc.sagit/dim.fonc.axia)
         abline(h=nn.fonc.axia/abs(hdr.fonc$pixdim[4]),v=nn.fonc.sagit/abs(hdr.fonc$pixdim[2]),col="black")
+        par(oldpar)
       }
                                 , hscale=hscaletmp, vscale=vscaletmp)
       tcltk::tkbind(img.fonc.coron, "<Button-1>", function(x, y) {
@@ -393,11 +416,13 @@
         if (as.numeric(y) >= y0 & as.numeric(y) <= (hei.fonc - y0)) {
 
           #if (as.numeric(y)>(hei.fonc/2 - dim.fonc.axia*wid.fonc/dim.fonc.sagit) & as.numeric(y)<(hei.fonc/2 + dim.fonc.axia*wid.fonc/dim.fonc.sagit)) {  
-          nn.fonc.sagit <<- ceiling(dim.fonc.sagit * as.numeric(x) /wid.fonc)
+#          nn.fonc.sagit <<- ceiling(dim.fonc.sagit * as.numeric(x) /wid.fonc)
+assign("nn.fonc.sagit", ceiling(dim.fonc.sagit * as.numeric(x) /wid.fonc), envir = envir)
           #          nn.fonc.axia <<- ceiling(dim.fonc.axia/2 + dim.fonc.sagit*(hei.fonc/2-as.numeric(y))/(wid.fonc*asp))
 
 
-        nn.fonc.axia <<- ceiling( dim.fonc.axia - dim.fonc.axia * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) )
+#        nn.fonc.axia <<- ceiling( dim.fonc.axia - dim.fonc.axia * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) )
+assign("nn.fonc.axia", ceiling( dim.fonc.axia - dim.fonc.axia * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) ), envir = envir)
 #        if (as.numeric(y) < y0) nn.fonc.axia <<- dim.fonc.axia
 #        if (as.numeric(y) > (hei.fonc - y0)) nn.fonc.axia <<- 1
 
@@ -416,9 +441,12 @@
 
           if (is.vol.anat) {
             tmp <- round(xyz2ijk(xyz.fonc,method=method,hdr.anat)$ijk)
-            nn.anat.sagit <<- tmp[1]
-            nn.anat.coron <<- tmp[2]
-            nn.anat.axia <<- tmp[3]
+#            nn.anat.sagit <<- tmp[1]
+assign("nn.anat.sagit", tmp[1], envir = envir)
+#            nn.anat.coron <<- tmp[2]
+assign("nn.anat.coron", tmp[2], envir = envir)
+#            nn.anat.axia <<- tmp[3]
+assign("nn.anat.axia", tmp[3], envir = envir)
             if (exists("img.anat.sagit")) {tkrplot::tkrreplot(img.anat.sagit);tcltk::tkset(slider.anat.sagit,nn.anat.sagit)}
             if (exists("img.anat.coron")) {tkrplot::tkrreplot(img.anat.coron);tcltk::tkset(slider.anat.coron,nn.anat.coron)}
             if (exists("img.anat.axia")) {tkrplot::tkrreplot(img.anat.axia);tcltk::tkset(slider.anat.axia,nn.anat.axia)}
@@ -439,11 +467,12 @@
       label.fonc.palette <- tcltk::tklabel(frame2.fonc,text="Palette values ", bg = "#aaaaaa")
       slider.fonc.axia <- tcltk::tkscale(frame2.fonc, command=f.fonc.axia, from=as.numeric(tcltk::tclvalue(SliderAxia.fonc)), to=1, variable="nn.fonc.axia",showvalue=TRUE, resolution=1, orient="verti",label="Z")
       img.fonc.axia <- tkrplot::tkrplot(parent=frame2.fonc, fun=function() {
-        par(mar=c(0,0,0,0), bg = "#555555")
+        oldpar <- par(mar=c(0,0,0,0), bg = "#555555")
     # coupe axiale     
         image((1:dim.fonc.sagit)/abs(hdr.fonc$pixdim[2]),(1:dim.fonc.coron)/abs(hdr.fonc$pixdim[3]),as.matrix(vol.fonc[if (flip.fonc == -1) rev(1:dim.fonc.sagit) else 1:dim.fonc.sagit,,nn.fonc.axia,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=dim.fonc.sagit/dim.fonc.coron)
 #      image((1:dim.fonc.sagit)/abs(hdr.fonc$pixdim[2]),(1:dim.fonc.coron)/abs(hdr.fonc$pixdim[3]),as.matrix(vol.fonc[1:dim.fonc.sagit,,nn.fonc.axia,nn.fonc.time]),col=col.fonc,breaks=breaks.fonc,axes=FALSE,xlab="",ylab="",asp=dim.fonc.sagit/dim.fonc.coron)
         abline(h=nn.fonc.coron/abs(hdr.fonc$pixdim[3]),v=nn.fonc.sagit/abs(hdr.fonc$pixdim[2]),col="black")    
+        par(oldpar)
       }
                                , hscale=hscaletmp, vscale=vscaletmp)
       tcltk::tkbind(img.fonc.axia, "<Button-1>", function(x, y) {
@@ -454,10 +483,12 @@
 
         if (as.numeric(y) >= y0 & as.numeric(y) <= (hei.fonc - y0)) {
 
-        nn.fonc.sagit <<- ceiling(dim.fonc.sagit * as.numeric(x) /wid.fonc)
+#        nn.fonc.sagit <<- ceiling(dim.fonc.sagit * as.numeric(x) /wid.fonc)
+assign("nn.fonc.sagit", ceiling(dim.fonc.sagit * as.numeric(x) /wid.fonc), envir = envir)
           #        nn.fonc.coron <<- ceiling(dim.fonc.coron - dim.fonc.coron * as.numeric(y) /hei.fonc)
 
-                  nn.fonc.coron <<- ceiling( dim.fonc.coron - dim.fonc.coron * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) )
+#                  nn.fonc.coron <<- ceiling( dim.fonc.coron - dim.fonc.coron * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) )
+assign("nn.fonc.coron", ceiling( dim.fonc.coron - dim.fonc.coron * (as.numeric(y) - y0) / (hei.fonc - 2 * y0) ), envir = envir)
 
         tcltk::tkset(slider.fonc.sagit,nn.fonc.sagit)
         tcltk::tkset(slider.fonc.coron,nn.fonc.coron)
@@ -472,9 +503,12 @@
  
         if (is.vol.anat) {
           tmp <- round(xyz2ijk(xyz.fonc,method=method,hdr.anat)$ijk)
-          nn.anat.sagit <<- tmp[1]
-          nn.anat.coron <<- tmp[2]
-          nn.anat.axia <<- tmp[3]
+#          nn.anat.sagit <<- tmp[1]
+assign("nn.anat.sagit", tmp[1], envir = envir)
+#          nn.anat.coron <<- tmp[2]
+assign("nn.anat.coron", tmp[2], envir = envir)
+#          nn.anat.axia <<- tmp[3]
+assign("nn.anat.axia", tmp[3], envir = envir)
           if (exists("img.anat.sagit")) {tkrplot::tkrreplot(img.anat.sagit);tcltk::tkset(slider.anat.sagit,nn.anat.sagit)}
           if (exists("img.anat.coron")) {tkrplot::tkrreplot(img.anat.coron);tcltk::tkset(slider.anat.coron,nn.anat.coron)}
           if (exists("img.anat.axia")) {tkrplot::tkrreplot(img.anat.axia);tcltk::tkset(slider.anat.axia,nn.anat.axia)}
@@ -489,13 +523,14 @@
 
       })
       img.fonc.palette <- tkrplot::tkrplot(parent=frame2.fonc, fun=function() {
-        par(mfrow=c(2,1), bg = "#555555")
+        oldpar <- par(mfrow=c(2,1), bg = "#555555")
         nf.fonc <- layout(matrix(c(1,2), nrow=2, ncol=1, byrow = TRUE),respect = FALSE,widths=c(0.8,0.8),height=c(0.3,0.8))
         par(mar=c(5.1,4.1,4.1,2.1), mai=c(0.5,0.82,0.2,0.42), bg = "#555555")
         maColorBar(x=seq(from=mini.fonc,to=maxi.fonc,len=length(col.fonc)+1),col=col.fonc,horizontal=TRUE)
         par(mar=c(1.1,2.1,2.1,0.1), mai=c(0.5,0.42,0.4,0.22))
         plot(vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,],type="l",main=paste("Time course of the selected voxel.\nValue at that time: ",round(vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,nn.fonc.time],4),sep=""),xlab="",ylab="",cex.main=0.8)
         points(nn.fonc.time,vol.fonc[nn.fonc.sagit,nn.fonc.coron,nn.fonc.axia,nn.fonc.time],col="blue",pch=1,cex=1.2)
+        par(oldpar)
       }
                                   , hscale=hscaletmp, vscale=vscaletmp)
     
@@ -532,12 +567,13 @@
         tcltk::tkwm.title(tt.fonc.time.series, "Associated time course")
       
         img.time.series <- tkrplot::tkrplot(parent=tt.fonc.time.series, fun=function() {
-          par(mar=c(2,2,2,2), bg = "#555555")
+          oldpar <- par(mar=c(2,2,2,2), bg = "#555555")
           if (dim(time.series)[1] > dim(time.series)[2]) {
             plot(time.series[,nn.fonc.time],type="l",main=paste("Component number ",nn.fonc.time,sep=""))
           } else {
             plot(time.series[nn.fonc.time,],type="l",main=paste("Component number ",nn.fonc.time,sep=""))
           }
+          par(oldpar)
         }
                                    , hscale=1.5, vscale=0.5)                   
         
@@ -553,7 +589,8 @@
       f.anat.sagit <- function(...) {
         n.anat.sagit <- as.numeric(tcltk::tclvalue("nn.anat.sagit"))
         if (n.anat.sagit != nn.anat.sagit) {
-          nn.anat.sagit <<- n.anat.sagit
+#          nn.anat.sagit <<- n.anat.sagit
+assign("nn.anat.sagit", n.anat.sagit, envir = envir)
           tkrplot::tkrreplot(img.anat.sagit)
           tkrplot::tkrreplot(img.anat.coron)
           tkrplot::tkrreplot(img.anat.axia)
@@ -568,7 +605,8 @@
       f.anat.coron <- function(...) {
         n.anat.coron <- as.numeric(tcltk::tclvalue("nn.anat.coron"))
         if (n.anat.coron != nn.anat.coron) {
-          nn.anat.coron <<- n.anat.coron
+#          nn.anat.coron <<- n.anat.coron
+assign("nn.anat.coron", n.anat.coron, envir = envir)
           tkrplot::tkrreplot(img.anat.sagit)
           tkrplot::tkrreplot(img.anat.coron)
           tkrplot::tkrreplot(img.anat.axia)
@@ -584,7 +622,8 @@
       f.anat.axia <- function(...) {
         n.anat.axia <- as.numeric(tcltk::tclvalue("nn.anat.axia"))
         if (n.anat.axia != nn.anat.axia) {
-          nn.anat.axia <<- n.anat.axia
+#          nn.anat.axia <<- n.anat.axia
+assign("nn.anat.axia", n.anat.axia, envir = envir)
           tkrplot::tkrreplot(img.anat.sagit)
           tkrplot::tkrreplot(img.anat.coron)
           tkrplot::tkrreplot(img.anat.axia)
@@ -614,10 +653,11 @@
       label.anat.coron <- tcltk::tklabel(frame1.anat,text="Coronal ", bg = "#aaaaaa")
       slider.anat.sagit <- tcltk::tkscale(frame1.anat, command=f.anat.sagit, from=as.numeric(tcltk::tclvalue(SliderSagit.anat)), to=1, variable="nn.anat.sagit",showvalue=TRUE, resolution=1, orient="verti",label="X") 
       img.anat.sagit <- tkrplot::tkrplot(parent=frame1.anat, fun=function() {
-        par(mar=c(0,0,0,0), bg = "#555555")
+        oldpar <- par(mar=c(0,0,0,0), bg = "#555555")
     # coupe sagittale
         image((1:dim.anat.coron)/abs(hdr.anat$pixdim[3]),(1:dim.anat.axia)/abs(hdr.anat$pixdim[4]),as.matrix(vol.anat[if (flip.anat == -1) dim.anat.sagit-nn.anat.sagit+1 else nn.anat.sagit,,]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.coron/dim.anat.axia)
         abline(h=nn.anat.axia/abs(hdr.anat$pixdim[4]),v=nn.anat.coron/abs(hdr.anat$pixdim[3]),col="red")
+        par(oldpar)
       }
                                 , hscale=hscaletmp, vscale=vscaletmp)
       tcltk::tkbind(img.anat.sagit, "<Button-1>", function(x, y) {
@@ -628,11 +668,13 @@
         if (as.numeric(y) >= y0 & as.numeric(y) <= (hei.anat - y0)) {
 
         
-        nn.anat.coron <<- ceiling(dim.anat.coron * as.numeric(x) /wid.anat)
+#        nn.anat.coron <<- ceiling(dim.anat.coron * as.numeric(x) /wid.anat)
+assign("nn.anat.coron", ceiling(dim.anat.coron * as.numeric(x) /wid.anat), envir = envir)
 #        nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * as.numeric(y) /hei.anat )
 
 
-        nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * (as.numeric(y) - y0) / (hei.anat - 2 * y0) )
+#        nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * (as.numeric(y) - y0) / (hei.anat - 2 * y0) )
+assign("nn.anat.axia", ceiling( dim.anat.axia - dim.anat.axia * (as.numeric(y) - y0) / (hei.anat - 2 * y0) ), envir = envir)
 #        if (as.numeric(y) < y0) nn.anat.axia <<- dim.anat.axia
 #        if (as.numeric(y) > (hei.anat - y0)) nn.anat.axia <<- 1
 
@@ -653,9 +695,12 @@
 
         if (is.vol.fonc) {
           tmp <- round(xyz2ijk(xyz.anat,method=method,hdr.fonc)$ijk)
-          nn.fonc.sagit <<- tmp[1]
-          nn.fonc.coron <<- tmp[2]
-          nn.fonc.axia <<- tmp[3]
+#          nn.fonc.sagit <<- tmp[1]
+assign("nn.fonc.sagit", tmp[1], envir = envir)
+#          nn.fonc.coron <<- tmp[2]
+assign("nn.fonc.coron", tmp[2], envir = envir)
+#          nn.fonc.axia <<- tmp[3]
+assign("nn.fonc.axia", tmp[3], envir = envir)
           if ((1 <= nn.fonc.sagit) & (nn.fonc.sagit <= dim.fonc.sagit) &(1 <= nn.fonc.coron) & (nn.fonc.coron <= dim.fonc.coron) & (1 <= nn.fonc.axia) & (nn.fonc.axia <= dim.fonc.axia)) {
             tkrplot::tkrreplot(img.fonc.sagit)
             tkrplot::tkrreplot(img.fonc.coron)
@@ -676,10 +721,11 @@
       })
       slider.anat.coron <- tcltk::tkscale(frame1.anat, command=f.anat.coron, from=as.numeric(tcltk::tclvalue(SliderCoron.anat)), to=1, variable="nn.anat.coron",showvalue=TRUE, resolution=1, orient="verti",label="Y")
       img.anat.coron <- tkrplot::tkrplot(parent=frame1.anat, fun=function() {
-        par(mar=c(0,0,0,0), bg = "#555555")
+        oldpar <- par(mar=c(0,0,0,0), bg = "#555555")
     # coupe coronale
         image((1:dim.anat.sagit)/abs(hdr.anat$pixdim[2]),(1:dim.anat.axia)/abs(hdr.anat$pixdim[4]),as.matrix(vol.anat[if (flip.anat == -1) rev(1:dim.anat.sagit) else 1:dim.anat.sagit,nn.anat.coron,]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.axia)
         abline(h=nn.anat.axia/abs(hdr.anat$pixdim[4]),v=nn.anat.sagit/abs(hdr.anat$pixdim[2]),col="red")
+        par(oldpar)
       }
                                 , hscale=hscaletmp, vscale=vscaletmp)
       tcltk::tkbind(img.anat.coron, "<Button-1>", function(x, y) {
@@ -690,11 +736,13 @@
         y0 <- (hei.anat - hei.anat * abs(hdr.anat$pixdim[2]) / abs(hdr.anat$pixdim[4])) / 2
         if (as.numeric(y) >= y0 & as.numeric(y) <= (hei.anat - y0)) {
 
-        nn.anat.sagit <<- ceiling(dim.anat.sagit * as.numeric(x) /wid.anat)
+#        nn.anat.sagit <<- ceiling(dim.anat.sagit * as.numeric(x) /wid.anat)
+assign("nn.anat.sagit", ceiling(dim.anat.sagit * as.numeric(x) /wid.anat), envir = envir)
 #        nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * as.numeric(y) /hei.anat )
 
 
-        nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * (as.numeric(y) - y0) / (hei.anat - 2 * y0) )
+#        nn.anat.axia <<- ceiling( dim.anat.axia - dim.anat.axia * (as.numeric(y) - y0) / (hei.anat - 2 * y0) )
+assign("nn.anat.axia", ceiling( dim.anat.axia - dim.anat.axia * (as.numeric(y) - y0) / (hei.anat - 2 * y0) ), envir = envir)
 #        if (as.numeric(y) < y0) nn.anat.axia <<- dim.anat.axia
 #        if (as.numeric(y) > (hei.anat - y0)) nn.anat.axia <<- 1
 
@@ -713,9 +761,12 @@
 
         if (is.vol.fonc) {
           tmp <- round(xyz2ijk(xyz.anat,method=method,hdr.fonc)$ijk)
-          nn.fonc.sagit <<- tmp[1]
-          nn.fonc.coron <<- tmp[2]
-          nn.fonc.axia <<- tmp[3]
+#          nn.fonc.sagit <<- tmp[1]
+assign("nn.fonc.sagit", tmp[1], envir = envir)
+#          nn.fonc.coron <<- tmp[2]
+assign("nn.fonc.coron", tmp[2], envir = envir)
+#          nn.fonc.axia <<- tmp[3]
+assign("nn.fonc.axia", tmp[3], envir = envir)
           if ((1 <= nn.fonc.sagit) & (nn.fonc.sagit <= dim.fonc.sagit) &(1 <= nn.fonc.coron) & (nn.fonc.coron <= dim.fonc.coron) & (1 <= nn.fonc.axia) & (nn.fonc.axia <= dim.fonc.axia)) {
             tkrplot::tkrreplot(img.fonc.sagit)
             tkrplot::tkrreplot(img.fonc.coron)
@@ -741,10 +792,11 @@
       label.anat.palette <- tcltk::tklabel(frame2.anat,text="Palette values ", bg = "#aaaaaa")
       slider.anat.axia <- tcltk::tkscale(frame2.anat, command=f.anat.axia, from=as.numeric(tcltk::tclvalue(SliderAxia.anat)), to=1, variable="nn.anat.axia",showvalue=TRUE, resolution=1, orient="verti",label="Z")
       img.anat.axia <- tkrplot::tkrplot(parent=frame2.anat, fun=function() {
-        par(mar=c(0,0,0,0), bg = "#555555")
+        oldpar <- par(mar=c(0,0,0,0), bg = "#555555")
     # coupe axiale     
         image((1:dim.anat.sagit)/abs(hdr.anat$pixdim[2]),(1:dim.anat.coron)/abs(hdr.anat$pixdim[3]),as.matrix(vol.anat[if (flip.anat == -1) rev(1:dim.anat.sagit) else 1:dim.anat.sagit,,nn.anat.axia]),col=col.anat,breaks=breaks.anat,axes=FALSE,xlab="",ylab="",asp=dim.anat.sagit/dim.anat.coron)
         abline(h=nn.anat.coron/abs(hdr.anat$pixdim[3]),v=nn.anat.sagit/abs(hdr.anat$pixdim[2]),col="red")    
+        par(oldpar)
       }
                                , hscale=hscaletmp, vscale=vscaletmp)
       tcltk::tkbind(img.anat.axia, "<Button-1>", function(x, y) {
@@ -755,10 +807,12 @@
         if (as.numeric(y) >= y0 & as.numeric(y) <= (hei.anat - y0)) {
 
         
-        nn.anat.sagit <<- ceiling(dim.anat.sagit * as.numeric(x) /wid.anat)
+#        nn.anat.sagit <<- ceiling(dim.anat.sagit * as.numeric(x) /wid.anat)
+assign("nn.anat.sagit", ceiling(dim.anat.sagit * as.numeric(x) /wid.anat), envir = envir)
           #        nn.anat.coron <<- ceiling(dim.anat.coron - dim.anat.coron * as.numeric(y) /hei.anat)
 
-        nn.anat.coron <<- ceiling( dim.anat.coron - dim.anat.coron * (as.numeric(y) - y0) / (hei.anat - 2 * y0) )
+#        nn.anat.coron <<- ceiling( dim.anat.coron - dim.anat.coron * (as.numeric(y) - y0) / (hei.anat - 2 * y0) )
+assign("nn.anat.coron", ceiling( dim.anat.coron - dim.anat.coron * (as.numeric(y) - y0) / (hei.anat - 2 * y0) ), envir = envir)
 
           
         tcltk::tkset(slider.anat.sagit,nn.anat.sagit)
@@ -773,9 +827,12 @@
         
         if (is.vol.fonc) {
           tmp <- round(xyz2ijk(xyz.anat,method=method,hdr.fonc)$ijk)
-          nn.fonc.sagit <<- tmp[1]
-          nn.fonc.coron <<- tmp[2]
-          nn.fonc.axia <<- tmp[3]
+#          nn.fonc.sagit <<- tmp[1]
+assign("nn.fonc.sagit", tmp[1], envir = envir)
+#          nn.fonc.coron <<- tmp[2]
+assign("nn.fonc.coron", tmp[2], envir = envir)
+#          nn.fonc.axia <<- tmp[3]
+assign("nn.fonc.axia", tmp[3], envir = envir)
           if ((1 <= nn.fonc.sagit) & (nn.fonc.sagit <= dim.fonc.sagit) &(1 <= nn.fonc.coron) & (nn.fonc.coron <= dim.fonc.coron) & (1 <= nn.fonc.axia) & (nn.fonc.axia <= dim.fonc.axia)) {
             tkrplot::tkrreplot(img.fonc.sagit)
             tkrplot::tkrreplot(img.fonc.coron)
@@ -795,8 +852,9 @@
       })
       img.anat.palette <- tkrplot::tkrplot(parent=frame2.anat, fun=function() {
         nf.anat <- layout(matrix(c(0,1,0), 1, 3, byrow = TRUE),respect = FALSE,widths=c(4,1,4),height=0.8)
-        par(mar=c(0.4,0.1,0.4,0.1), bg = "#555555")
+        oldpar <- par(mar=c(0.4,0.1,0.4,0.1), bg = "#555555")
         maColorBar(x=seq(from=mini.anat,to=maxi.anat,len=length(col.anat)+1),col=col.anat,horizontal=FALSE)
+        par(oldpar)
       }
                                   , hscale=hscaletmp, vscale=vscaletmp)
   
@@ -863,7 +921,7 @@
   
     #frame for start and end buttons     
   frame2 <- tcltk::tkframe(base.plot, borderwidth = 2, bg = "#555555")
-  go.but <- tcltk::tkbutton(frame2, text = "Start", bg = "#aaaaaa", command = plot.volume)
+  go.but <- tcltk::tkbutton(frame2, text = "Start", bg = "#aaaaaa", command = function() plot.volume(envir = gui_env))
   q.but <- tcltk::tkbutton(frame2, text = "Quit",command = gui.end, bg = "#aaaaaa")
   
   hscale.txt <- tcltk::tklabel(frame2,text="hscale factor", bg = "#aaaaaa")

@@ -1,10 +1,10 @@
-
 #f.gaussian.spatial.smoothing.functions.R
 
 #examples of 3 different kernels 
 a <- GaussSmoothKernel(voxdim = c(1, 1, 1), ksize = 5, sigma = diag(1, 3))
 ##f.grid(1,5)
-par(mfrow = c(1, 5))
+
+oldpar <- par(mfrow = c(1, 5))
 for(i in 1:5){
     image(a[i, , ], zlim = c(min(a), max(a)),axes = FALSE)
     box()
@@ -85,3 +85,6 @@ for(i in 1:10){
         lines(h[1, i, j, ], col = 2)
     }
 }
+
+par(oldpar)
+

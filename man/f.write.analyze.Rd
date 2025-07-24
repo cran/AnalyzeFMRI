@@ -9,9 +9,9 @@
 \alias{writefloatappend_JM}
 \title{writes an array to a .img/.hdr pair in ANALYZE format}
 \description{Creates a .img and .hdr pair of files from a given array}
-\usage{f.write.analyze(mat,file,size,pixdim,vox.units,cal.units,originator)}
+\usage{f.write.analyze(mat,file,size,pixdim,vox.units,cal.units,originator,path.out=NULL)}
 \arguments{\item{mat}{An array}
-  \item{file}{The name of the file to be written, without .img or .hdr
+  \item{file}{The name of the file to be written to, without .img or .hdr
     suffix}
   \item{size}{Specify the format of the .img file. Either "float" (for 4
     byte floats) or "int" (2 byte integers) or "char" (1 byte integers).}
@@ -22,6 +22,7 @@
   \item{cal.units}{String specifying the name of calibration unit}
   \item{originator}{vector of length 5, only the three first values are
     used. Put the last two equal to zero}
+    \item{path.out}{The path where to write the file (mandatory argument, even if the default value is NULL for backward compatibility)}
 }
 
 \value{Nothing is returned}
@@ -30,11 +31,10 @@
   \code{\link{f.write.array.to.img.2bytes}},
   \code{\link{f.write.array.to.img.float}} }    
 \examples{
-\dontrun{
-a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
-file<-"temp"
-f.write.analyze(a,file,size="float")
-f.analyze.file.summary("temp.img")
-}
+a <- array(rnorm(20 * 30 * 40 * 3), dim = c(20, 30, 40, 3))
+file <- "temp"
+tmpdir <- tempdir()
+f.write.analyze(a, file, size = "float", path.out = tmpdir)
+unlink(tmpdir) # tidy up
 }
 \keyword{utilities}

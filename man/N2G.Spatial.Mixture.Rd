@@ -56,12 +56,10 @@ ans <- N2G.Spatial.Mixture(y, par.start = c(4, 2, 4, 2, 0.9, 0.05),
 
 ## plot original image, standard mixture model estimate and spatial mixture
 ## model estimate
-
-par(mfrow = c(1, 3))
+oldpar <- par(mfrow = c(1, 3))
 image(y[, , 1])
 image(y[, , 1] > ans$lims[1]) ## this line plots the results of a Non-Spatial Mixture Model
 image(ans$p.map[, , 1] > 0.5) ## this line plots the results of the Spatial Mixture Model
-
-
+par(oldpar)
 }
 \keyword{utilities}

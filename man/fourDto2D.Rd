@@ -7,16 +7,14 @@ This is usefull to perform a subsequent ICA.}
 \arguments{\item{volume.4d}{a 4D array to be transformed}
   \item{tm}{number of time dimensions}
 }
-\value{
-\item{x.2d}{matrix of size tm x vm which contains the tm images}
-}
+\value{a matrix of size tm x vm which contains the tm images}
 \seealso{
   \code{\link{threeDto4D}}
   \code{\link{twoDto4D}}
 }
 \examples{
-# TODO!!
-
+volume.4d <- array(rnorm(96), dim = c(2, 4, 4, 3)) # a fake 4D image array
+x.2d <- fourDto2D(volume.4d, tm = 3)
 }
 \keyword{utilities}
 

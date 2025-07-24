@@ -2,6 +2,7 @@
 
 local({
 
+    gui.env <- environment()  # capture this local environment
 
     gui.file<-function(){
         tcltk::tclvalue(file.name) <- tcltk::tcl("tk_getOpenFile")   }
@@ -34,7 +35,7 @@ local({
         
         cat("Computations have begun. Please, be patient ...\n")
 
-        tmp.ica.obj <<- f.icast.fmri(foncfile = tcltk::tclvalue(file.name),
+        gui.env$tmp.ica.obj <- f.icast.fmri(foncfile = tcltk::tclvalue(file.name),
                                maskfile = msk,
                                is.spatial = is.spatial,
                                n.comp.compute = as.numeric(tcltk::tclvalue(n.comp.compute)),
@@ -44,14 +45,14 @@ local({
 
         
         cat("done\n")
-        if (exists("tmp.ica.obj")) rm(tmp.ica.obj, envir = .GlobalEnv)
+        #if (exists("tmp.ica.obj")) rm(tmp.ica.obj, envir = .GlobalEnv)
         gc(F)
         
     }
     
     
     gui.end<-function(...){
-        if (exists("tmp.ica.obj")) rm(tmp.ica.obj, envir = .GlobalEnv)
+        #if (exists("tmp.ica.obj")) rm(tmp.ica.obj, envir = .GlobalEnv)
         tcltk::tkdestroy(base.ica)
     }
 
@@ -134,4 +135,6 @@ local({
     tcltk::tkgrid(go.but, q.but, padx = 30, pady = 20)
     tcltk::tkgrid(fr3)
     
+         tcltk::tkwait.window(base.ica)
+
 })

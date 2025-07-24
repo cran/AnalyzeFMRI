@@ -150,7 +150,7 @@ parameters contain an affine (non-rigid) transformation ("Method 3" in the nifti
    the image data is byte #352. In a separate .hdr file, these bytes may
    or may not be present. If not present (i.e., if the length of the .hdr
    file is 348 bytes), then a NIfTI-1 compliant program should use the
-   default value of extension={0,0,0,0}. The first byte (extension[0])
+   default value of extension=\{0,0,0,0\}. The first byte (extension[0])
    is the only value of this array that is specified at present. The other
    3 bytes are reserved for future use.
 
@@ -163,7 +163,7 @@ parameters contain an affine (non-rigid) transformation ("Method 3" in the nifti
 
 
 \examples{
-f.read.nifti.header(system.file("example-nifti.hdr", package="AnalyzeFMRI"))
+f.read.nifti.header(system.file("example-nifti.hdr", package = "AnalyzeFMRI"))
 }
 \keyword{utilities}
 

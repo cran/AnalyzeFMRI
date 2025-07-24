@@ -20,7 +20,7 @@
   \code{\link{f.write.list.to.hdr.nifti}},
    \code{\link{f.basic.hdr.nifti.list.create}}   }
  \examples{
-f.nifti.file.summary(system.file("example-nifti.img", package="AnalyzeFMRI"))
+f.nifti.file.summary(system.file("example-nifti.img", package = "AnalyzeFMRI"))
 }
 \keyword{utilities}
 

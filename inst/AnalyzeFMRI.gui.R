@@ -28,7 +28,7 @@ local({
     }
 
     period <- function(...){
-        par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
+        oldpar <- par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
         a <- f.read.analyze.ts(tcltk::tclvalue(file.name),
                                as.numeric(tcltk::tclvalue(x)),
                                as.numeric(tcltk::tclvalue(y)),
@@ -37,22 +37,23 @@ local({
         b <- b[10:floor(length(b) / 2) + 1]
         b <- Mod(b)^2
         plot(b, ylab = "Periodogram", xlab = "Fourier Frequency")
+        par(oldpar)
     }
     
     im.sl <- function(...){
-        par(mfrow = c(1, 1), mar = c(0, 0, 0, 0))
+        oldpar <- par(mfrow = c(1, 1), mar = c(0, 0, 0, 0))
         a <- f.read.analyze.slice(tcltk::tclvalue(file.name),
                                   as.numeric(tcltk::tclvalue(z)),
                                   as.numeric(tcltk::tclvalue(t)))
         
         image(a)
-        par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
+        par(oldpar)
     }
     
     im.vol <- function(...){
         a <- f.read.analyze.header(tcltk::tclvalue(file.name))$dim
         d <- ceiling(sqrt(a[4]))
-        par(mfrow =c(d, d), mar = c(0, 0, 0, 0))
+        oldpar <- par(mfrow =c(d, d), mar = c(0, 0, 0, 0))
         b <- array(0, dim = a[2:4])
         for(i in 1:a[4]){
             b[, , i] <- f.read.analyze.slice(tcltk::tclvalue(file.name),
@@ -63,12 +64,11 @@ local({
             image(b[, , i], axes = FALSE)
             box()
         }
-        
-        par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
+        par(oldpar)
     }
     
     im.mov <- function(...){
-        par(mfrow = c(1, 1), mar = c(0, 0, 0, 0))
+        oldpar <- par(mfrow = c(1, 1), mar = c(0, 0, 0, 0))
         a <- f.read.analyze.header(tcltk::tclvalue(file.name))$dim
         b <- array(0, dim = c(a[2], a[3], a[5]))
         for(i in 1:a[5]){
@@ -80,14 +80,14 @@ local({
         for(i in 2:a[5]){
             image(b[, , i], axes = FALSE, add = TRUE)
         }
-        par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
+        par(oldpar)
     }
     
     im.spec <- function(...){
-        par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
+        oldpar <- par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
         if(tcltk::tclvalue(mask) == "") tcltk::tclvalue(mask) <- FALSE
         a <- f.spectral.summary(tcltk::tclvalue(file.name), tcltk::tclvalue(mask))
-        par(mfrow = c(1, 1), mar = c(4, 4, 5, 5))
+        par(oldpar)
     }
     
     ## set up tclVar variables

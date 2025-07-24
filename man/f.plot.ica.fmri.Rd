@@ -15,6 +15,7 @@ f.plot.ica.fmri(obj.ica, comp, cols)
   sequentially in a grid followed by the components associated
   time-course and that time-courses periodogram/power spectrum
 }
+\value{No return value, just plot graphs}
 \author{J L Marchini <marchini@stats.ox.ac.uk> and C Heaton <chrisheaton99@yahoo.com>}
 
 \seealso{\code{\link{f.ica.fmri}},\code{\link{f.ica.fmri.gui}}}

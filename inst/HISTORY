@@ -349,3 +349,54 @@ f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.
  Version 1.1-24
 
 - I got new WARNINGS for "checking top-level files" about obsolete AC_TRY_LINK and AC_OUTPUT. I thus changed these functions in the file configure.ac (from new definitions taken here: https://www.gnu.org/software/autoconf/manual/autoconf-2.61/html_node/Obsolete-Macros.html#Obsolete-Macros)
+
+2025-07-11
+----------
+
+ Version 1.1-25
+
+- Previous version has been archived (by Ripley) on 2022-03-15 as check problems were not corrected despite months of notice.
+  I need to not use anymore the header S.h
+- In file spatial.filters.non.linear.c, I replaced S.h with R.h
+   which then resulted in errors such as: unknown type name ‘Sint’; did you mean ‘uint’
+   which I solved by replacing all occurences of Sint (resp., Sint*) with just int (resp., int*)
+- I also got this warning: 
+   analyzeFMRI.c:880:26: warning: format ‘%s’ expects argument of type ‘char *’, but argument 2 has type ‘short int *’ [-Wformat=]
+  which I solved by replacing this line with:
+  Rprintf("originator = %d %d %d %d %d \n",
+        (*head).originator[0],
+        (*head).originator[1],
+        (*head).originator[2],
+        (*head).originator[3],
+        (*head).originator[4]);
+- I corrected this: checkRd: (-1) f.read.nifti.header.Rd:153: Lost braces; missing escapes or markup?
+- I corrected this:
+  Package CITATION file contains call(s) to old-style personList() or
+   as.personList().  Please use c() on person objects instead.
+   Package CITATION file contains call(s) to old-style citEntry().  Please
+   use bibentry() instead.
+- I corrected several errors related to Calloc, Realloc and Free not existing anymore 
+- In file niftiFMRI.R, I corrected: if (class(array.fonc) == "array" & is.null(hdr.fonc))
+- In file analyzeFMRI.c, in function svd_JM, I initialised: int info = 0
+- To correct this Warning: Obsolescent feature: Computed GOTO at (1), I replaced in file slapack.unused all lines from 15593 to the end of the file by a new version created with gpt, with IF ELSEIF constructs instead of GOTO.
+- Possibly misspelled words in DESCRIPTION:    NIFTI (5:9, 24:142)    XQuartz (24:188)
+  I single quoted software names in both Title and Description fields of the DESCRIPTION file.
+- In file test.R, I modified this line: library(AnalyzeFMRI, quietly = TRUE)
+- I added a \value tag to files f.plot.ica.fmri.jpg.Rd and f.plot.ica.fmri.Rd
+- I modified (or deleted) examples in files centering.Rd, eigenvalues.Rd, reduction.Rd, threeDto4D.Rd, twoDto4D.Rd, fourDto2D.Rd, f.plot.volume.gui.Rd, ICAspat.Rd, ICAtemp.Rd, f.basic.hdr.list.create.Rd, f.basic.hdr.nifti.list.create.Rd, f.complete.hdr.nifti.list.create.Rd
+- I replaced \dontrun with \donttest (or removed it) in files analyze2nifti.Rd, f.basic.hdr.list.create.Rd, f.basic.hdr.nifti.list.create.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.analyze.Rd, f.write.list.to.hdr.nifti.Rd, f.write.list.to.hdr.Rd
+- In file niftiFMRI.R, I added a verbose argument to functions f.spectral.summary.nifti(), xyzt2st(), magicfield(), f.icast.fmri() (and modified their man pages accordingly)
+- I added a with_dir() function (borrowed from the withr package)
+- I added an argument 'path.out=NULL' to functions f.write.analyze(), f.write.array.to.img.2bytes(), f.write.array.to.img.8bit(), f.write.array.to.img.float(), f.write.list.to.hdr(), f.write.list.to.hdr.nifti(), f.write.nifti(), f.write.nii.array.to.img.2bytes(), f.write.nii.array.to.img.8bit(), f.write.nii.array.to.img.float(), f.icast.fmri() and I updated the doc files accordingly
+- I added in files niftiFMRI.R, analyzeFMRI.R, analyzeFMRI.gui.R, plot.volume.gui.R, smoothing.examples.R, N2G.Spatial.Mixture.Rd, NonLinearSmoothArray.Rd: oldpar <- par(something) ...  par(oldpar)
+- I modified function f.ica.fmri.gui() in file AnalyzeFMRI.R so that the user can return a value
+- I modified file ICA.gui.R to stop writing to .GlobalEnv by default
+- I modified function f.icast.fmri.gui() in file niftiFMRI.R so that the user can return a value
+- I modified file ICAst.gui.R to stop writing to .GlobalEnv by default
+- In function f.ica.fmri, I replaced || with | in if(any(slices < 1 || slices>hdr$dim[4]))
+- I rewrote the function f.plot.volume.gui()
+- In file plot.volume.gui.R, I replaced every occurence of <<- with assign(), and used an environment
+
+
+
+

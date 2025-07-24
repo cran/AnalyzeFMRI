@@ -19,11 +19,9 @@ or the header part of a .nii file}
   \code{\link{f.nifti.file.summary}} 
 }
 \examples{
-\dontrun{
-dim.mat <- c(20,30,40,3)
-file<-"temp.hdr"
-f.basic.hdr.nifti.list.create(dim.mat, file)
-}
+dim.mat <- c(20, 30, 40, 3)
+file <- "temp.hdr"
+hdr.nifti <- f.basic.hdr.nifti.list.create(dim.mat, file)
 }
 \keyword{utilities}
 

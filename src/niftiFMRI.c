@@ -382,8 +382,9 @@ void write8bitappend_JM(int *imp, char **name, int *n)
 
   extension = &val;
 
-  temp = Calloc(*n, unsigned char);
-
+  //  temp = Calloc(*n, unsigned char);
+  temp = (unsigned char *)calloc(*n, sizeof(unsigned char));
+ 
   for(i = 0; i < *n; i++) {
 /*      if((*(imp+i))>255) *(imp+1)=255; */
 /*      if((*(impp+i))<0) *(imp+1)=0; */
@@ -396,7 +397,8 @@ void write8bitappend_JM(int *imp, char **name, int *n)
   fwrite(extension, 4, 1, fp);
   fwrite(temp, 1, *n, fp);
 
-  Free(temp);
+  // Free(temp);
+  free(temp);
   fclose(fp);
 }
 
@@ -411,7 +413,8 @@ void write2byteappend_JM(int *imp, char **name, int *n)
 
   extension = &val;
 
-  temp = Calloc(*n, short);
+  //  temp = Calloc(*n, short);
+  temp = (short *)calloc(*n, sizeof(short));
 
   for(i = 0; i < *n; i++) {
   *(temp + i) = (short) *(imp + i);
@@ -422,7 +425,8 @@ void write2byteappend_JM(int *imp, char **name, int *n)
   fwrite(extension, 4, 1, fp);
   fwrite(temp, 2, *n, fp);
 
-  Free(temp);
+  //  Free(temp);
+  free(temp);
   fclose(fp);
 }
 

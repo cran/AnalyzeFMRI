@@ -38,7 +38,7 @@ SmoothEst(mat, mask, voxdim, method = "Forman")
 
 
 \examples{
-
+\donttest{
 ###############
 ## EXAMPLE 1 ##
 ###############
@@ -83,6 +83,6 @@ grf <- Sim.3D.GRF(d = d, voxdim = voxdim, sigma = sigma,
 SmoothEst(grf, mask, voxdim, method = "Friston")
 SmoothEst(grf, mask, voxdim, method = "Forman")                
 sigma
-
+}
 }
 \keyword{utilities}

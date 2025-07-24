@@ -169,3 +169,33 @@ I am sorry to bother you! I hope you will find a moment to write an answer.
 Best regards,
 
 Wiktor Olszowy <wo222@cam.ac.uk>
+
+############################################################
+
+I solved this one below on 10/07/2025
+
+
+To,
+Jonathan Marchini
+Pierre Lafaye de Micheaux
+
+Thank you for maintaining AnalyzeFMRI. AnalyzeFMRI has been pulled from CRAN. Its is failing build with R-4.2. There is a  build issue that can be resolved with the following patch. After more than 20 years S.h has finally been pulled from the R source.
+
+
+diff -ruN AnalyzeFMRI.orig/src/spatial.filters.non.linear.c AnalyzeFMRI/src/spatial.filters.non.linear.c
+--- AnalyzeFMRI.orig/src/spatial.filters.non.linear.c   2019-05-22 00:35:44.000000000 -0700
++++ AnalyzeFMRI/src/spatial.filters.non.linear.c        2022-04-28 10:39:12.585490000 -0700
+@@ -1,4 +1,4 @@
+-#include <S.h>
++#include <R.h>
+ #include "verR.h"
+ #include <math.h>
+
+
+
+John Dey
+HPC Support
+CIT-SciComp
+Fred Hutchinson Cancer Research Center
+jfdey@fredhutch
+follow me as fizwit on Github

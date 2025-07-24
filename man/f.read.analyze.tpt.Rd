@@ -15,6 +15,6 @@
   \code{\link{f.read.analyze.slice.at.all.timepoints}},
   \code{\link{f.write.analyze}}, }
 \examples{
-f.read.analyze.tpt(system.file("example.img", package="AnalyzeFMRI"),1)
+a <- f.read.analyze.tpt(system.file("example.img", package = "AnalyzeFMRI"), 1)
 }
 \keyword{utilities}

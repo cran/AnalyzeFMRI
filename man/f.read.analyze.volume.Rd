@@ -25,7 +25,7 @@
   \code{\link{f.read.analyze.ts}}
 }
 \examples{
-a<-f.read.analyze.volume(system.file("example.img", package="AnalyzeFMRI"))
+a <- f.read.analyze.volume(system.file("example.img", package = "AnalyzeFMRI"))
 dim(a)
 }
 \keyword{utilities}

@@ -43,8 +43,7 @@ a[,5:10,5:10]<-7
 a<-a+array(rnorm(n=1000,sd=1),dim=d)
 
 h<-NonLinearSmoothArray(a,voxdim=c(1,1,1),radius=2,sm=3)
-
-par(mfrow=c(2,2))
+oldpar <- par(mfrow=c(2,2))
 image(a[1,,],zlim=c(-1,12));title("Before smoothing")
 image(h[1,,],zlim=c(-1,12));title("After smoothing")
 persp(a[1,,],zlim=c(-1,12))
@@ -64,6 +63,6 @@ for(i in 1:10){
         plot(a[1,i,j,],type="l",ylim=c(0,3),axes=FALSE);box()
         lines(h[1,i,j,],col=2)
     }}
-
+par(oldpar)
 }
 \keyword{utilities}

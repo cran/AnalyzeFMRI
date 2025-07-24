@@ -326,25 +326,27 @@ f.complete.hdr.nifti.list.create <- function(file,dim.info=character(1),dim,inte
 
 
 
-f.write.list.to.hdr.nifti <- function(L, file){
+f.write.list.to.hdr.nifti <- function(L, file, path.out = NULL) {
+
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
 
 # To respect the length of some Nifti character fields
-  strcomplete <- function(string,max.length) {
-    string <- substr(string,1,max.length)
-    as.character(paste(as.character(string),paste(rep(" ",max.length-nchar(string)),collapse=""),collapse="",sep=""))
+  strcomplete <- function(string, max.length) {
+    string <- substr(string, 1, max.length)
+    as.character(paste(as.character(string), paste(rep(" ", max.length - nchar(string)), collapse = ""), collapse = "", sep = ""))
   }
   
 
 # Writes a list to a .hdr file in NIFTI format (and always in little-endian)
-  a <- .C("write_nifti_header_wrap_JM",
+  a <- with_dir(path.out, {.C("write_nifti_header_wrap_JM",
           file,
           as.integer(L$sizeof.hdr),
-          if (L$data.type != rawToChar(raw(10))) strcomplete(L$data.type,10) else rawToChar(raw(10)),
-          if (L$db.name != rawToChar(raw(18))) strcomplete(L$db.name,18) else rawToChar(raw(18)),
+          if (L$data.type != rawToChar(raw(10))) strcomplete(L$data.type, 10) else rawToChar(raw(10)),
+          if (L$db.name != rawToChar(raw(18))) strcomplete(L$db.name, 18) else rawToChar(raw(18)),
           as.integer(L$extents),
           as.integer(L$session.error),
-          if (L$regular != rawToChar(raw(1))) strcomplete(L$regular,1) else rawToChar(raw(1)),
-          if (L$dim.info != rawToChar(raw(1))) strcomplete(L$dim.info,1) else rawToChar(raw(1)),
+          if (L$regular != rawToChar(raw(1))) strcomplete(L$regular, 1) else rawToChar(raw(1)),
+          if (L$dim.info != rawToChar(raw(1))) strcomplete(L$dim.info, 1) else rawToChar(raw(1)),
           as.integer(L$dim),
           as.single(L$intent.p1),
           as.single(L$intent.p2),
@@ -381,7 +383,7 @@ f.write.list.to.hdr.nifti <- function(L, file){
           as.single(L$srow.z),
           if (L$intent.name != rawToChar(raw(16))) strcomplete(L$intent.name,16) else rawToChar(raw(16)),
           as.character(L$magic),
-          PACKAGE="AnalyzeFMRI")
+          PACKAGE="AnalyzeFMRI")})
 }
 
 
@@ -881,7 +883,7 @@ f.read.nifti.volume <- function(file){
 
 
 
-f.spectral.summary.nifti <- function(file, mask.file, ret.flag = FALSE)
+f.spectral.summary.nifti <- function(file, mask.file, ret.flag = FALSE, verbose = TRUE)
 {
   #for a NIFTI .img file the periodogram of the time series are divided by a flat spectral estimate using the median periodogram ordinate. The resulting values are then combined within each Fourier frequency and quantiles are plotted against freequency. This provides a fast look at a fMRI dataset to identify any artefacts that reside at single frequencies.
 
@@ -984,9 +986,9 @@ f.spectral.summary.nifti <- function(file, mask.file, ret.flag = FALSE)
 #####################
 #main evaluation loop
 #####################
-  cat("Processing slices...")
+  if (verbose) cat("Processing slices...")
   for(l in 1:nsl){
-    cat(" [", l, "]", sep = "")
+    if (verbose) cat(" [", l, "]", sep = "")
     
     slice <- f.read.nifti.slice.at.all.timepoints(file, l)
     
@@ -1001,7 +1003,7 @@ f.spectral.summary.nifti <- function(file, mask.file, ret.flag = FALSE)
       }
     }
   }
-  cat("\n")
+  if (verbose) cat("\n")
   
   b <- apply(res, 4, FUN = quantile, probs = seq(.5, 1, .05), na.rm = TRUE)
   plot(c(0, n - 1), c(0, 30), type = "n", xlab = "", ylab = "", axes = FALSE)
@@ -1089,10 +1091,11 @@ return(res)
 
 
 
-f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE){
+f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE, path.out = NULL){
 # Creates a NIFTI .img/.hdr pair of files or a .nii file from a given array
 
-
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+	
   if(max(mat) == "NA") stop("NA values in array not allowed. Files not written.")
 
   extension <- substring(file, nchar(file) - 2,nchar(file))
@@ -1140,11 +1143,11 @@ f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE){
     L$bitpix <- 32
     L$data.type <- "float"
     if (nii) {
-      f.write.nii.array.to.img.float(mat, L, file.img)
+      f.write.nii.array.to.img.float(mat, L, file.img, path.out)
     }
     else {
-      f.write.array.to.img.float(mat, file.img)
-      f.write.list.to.hdr.nifti(L, file.hdr)
+      f.write.array.to.img.float(mat, file.img, path.out)
+      f.write.list.to.hdr.nifti(L, file.hdr, path.out)
     }
   }
   
@@ -1154,11 +1157,11 @@ f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE){
     L$bitpix <- 16
     L$data.type <- "signed sho" # signed short
     if (nii) {
-      f.write.nii.array.to.img.2bytes(mat, L, file.img)
+      f.write.nii.array.to.img.2bytes(mat, L, file.img, path.out)
     }
     else {
-      f.write.array.to.img.2bytes(mat, file.img)
-      f.write.list.to.hdr.nifti(L, file.hdr)
+      f.write.array.to.img.2bytes(mat, file.img, path.out)
+      f.write.list.to.hdr.nifti(L, file.hdr, path.out)
     }
   }
   
@@ -1168,69 +1171,75 @@ f.write.nifti <- function(mat, file, size = "float", L = NULL, nii = FALSE){
     L$bitpix <- 8
     L$data.type <- "unsignchar" # unsigned char
     if (nii) {
-      f.write.nii.array.to.img.8bit(mat, L, file.img)
+      f.write.nii.array.to.img.8bit(mat, L, file.img, path.out)
     }
     else {
-      f.write.array.to.img.8bit(mat, file.img)
-      f.write.list.to.hdr.nifti(L, file.hdr)
+      f.write.array.to.img.8bit(mat, file.img, path.out)
+      f.write.list.to.hdr.nifti(L, file.hdr, path.out)
     }
   }
   
 }
 
 
-f.write.nii.array.to.img.2bytes <- function(mat, L, file){
+f.write.nii.array.to.img.2bytes <- function(mat, L, file, path.out = NULL){
   #writes an array into a .img file of 2 byte integers
   # and add at the begining of the file the NIFTI header part
 
-  f.write.list.to.hdr.nifti(L, file)
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
+  f.write.list.to.hdr.nifti(L, file, path.out)
   
   dm <- dim(mat)
   dm.ln <- length(dm)
   num.data.pts <- prod(dm)
   
-  null <- .C("write2byteappend_JM",
+  null <- with_dir(path.out, {.C("write2byteappend_JM",
      as.integer(mat),
      file,
-     as.integer(num.data.pts),NAOK=TRUE, PACKAGE="AnalyzeFMRI")
+     as.integer(num.data.pts),NAOK=TRUE, PACKAGE="AnalyzeFMRI")})
   # NAOK=TRUE is necessary here to be able to pass NaN values. This is important because SPM uses NaN values as markers for voxels for which it has not calculated any statistics.
   
 }
 
-f.write.nii.array.to.img.8bit <- function(mat, L, file){
+f.write.nii.array.to.img.8bit <- function(mat, L, file, path.out = NULL){
 #writes an array into a .img file of 8 bit (1 byte) integers
   # and add at the begining of the file the NIFTI header part
 
-  f.write.list.to.hdr.nifti(L, file)
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
+  f.write.list.to.hdr.nifti(L, file, path.out)
 
   dm <- dim(mat)
   dm.ln <- length(dm)
   num.data.pts <- prod(dm)
   
-  null <- .C("write8bitappend_JM",
+  null <- with_dir(path.out, {.C("write8bitappend_JM",
      as.integer(mat),
      file,
-     as.integer(num.data.pts),NAOK=TRUE, PACKAGE="AnalyzeFMRI")
+     as.integer(num.data.pts),NAOK=TRUE, PACKAGE="AnalyzeFMRI")})
   # NAOK=TRUE is necessary here to be able to pass NaN values. This is important because SPM uses NaN values as markers for voxels for which it has not calculated any statistics.
   
 }
 
 
 
-f.write.nii.array.to.img.float <- function(mat, L, file){
+f.write.nii.array.to.img.float <- function(mat, L, file, path.out = NULL){
   #writes an array into a .img file of 4 byte flotas
   # and add at the begining of the file the NIFTI header part
 
-  f.write.list.to.hdr.nifti(L, file)
+	if (is.null(path.out)) stop("You did not provide a value for the 'path.out' argument.")
+
+  f.write.list.to.hdr.nifti(L, file, path.out)
 
   dm <- dim(mat)
   dm.ln <- length(dm)
   num.data.pts <- prod(dm)
   
-  null <- .C("writefloatappend_JM",
+  null <- with_dir(path.out, {.C("writefloatappend_JM",
      as.single(mat),
      file,
-     as.integer(num.data.pts),NAOK=TRUE,PACKAGE="AnalyzeFMRI")
+     as.integer(num.data.pts),NAOK=TRUE,PACKAGE="AnalyzeFMRI")})
   # NAOK=TRUE is necessary here to be able to pass NaN values. This is important because SPM uses NaN values as markers for voxels for which it has not calculated any statistics.
   
 }
@@ -1281,7 +1290,7 @@ fps2diminfo <- function(freq.dim,phase.dim,slice.dim) {
   
 }
 
-xyzt2st <- function(xyzt.units) {
+xyzt2st <- function(xyzt.units, verbose = TRUE) {
 
   # Extract space and time dimensions fields from the one byte xyzt.units field
 
@@ -1293,7 +1302,7 @@ xyzt2st <- function(xyzt.units) {
   pr.space <- if (space == 0) "unknown" else if (space == 1) "meters" else if (space == 2) "millimeters" else if (space == 3) "micrometers"
   time <- as.integer(packBits(rev(z2 & rev(rawToBits(charToRaw((xyzt.units)))))))
   pr.time <- if (time == 8) "seconds" else if (time == 16) "milliseconds" else if (time == 24) "microseconds" else if (time == 32) "Hertz" else if (time == 40) "ppm" else if (time == 48) "radians per second"
-  cat(paste("space: ",pr.space,"\t","time: ",pr.time,"\n"))
+  if (verbose) cat(paste("space: ",pr.space,"\t","time: ",pr.time,"\n"))
   
   return(list(space=space,time=time))
 
@@ -1323,7 +1332,7 @@ st2xyzt <- function(space,time) {
   
 }
 
-magicfield <- function(file) {
+magicfield <- function(file, verbose = TRUE) {
 #  Determine the type of a file : NIFIT .nii format, NIFTI .hdr/.img pair format, Analyze format
 
   hdr <- f.read.header(file)
@@ -1331,7 +1340,7 @@ magicfield <- function(file) {
   if (is.null(magic)) magic <- ""
   dim <- hdr$dim[5]
 
-  
+  if (verbose) {
   if (substr(magic,start=1,stop=2) == "ni") {
     cat(paste("NIFTI ",magic," - .hdr/.img pair with ",dim," image(s)\n",sep=""))
   }
@@ -1346,12 +1355,12 @@ magicfield <- function(file) {
   else {
     stop("Problem in your magic field!")
   }
-
+}
   return(list(magic=magic,dim=dim))
 }
 
 
-analyze2nifti <- function(file.in,path.in=".",path.out=".",file.out=NULL,is.nii=TRUE,qform.code=2,sform.code=2,data.type=rawToChar(raw(10)),db.name=rawToChar(raw(18)),dim.info=rawToChar(raw(1)),dim=NULL,TR=0,slice.code=rawToChar(raw(1)),xyzt.units=rawToChar(raw(1)),descrip=NULL,aux.file=rawToChar(raw(24)),intent.name=rawToChar(raw(16))) {
+analyze2nifti <- function(file.in,path.in=".",path.out=NULL,file.out=NULL,is.nii=TRUE,qform.code=2,sform.code=2,data.type=rawToChar(raw(10)),db.name=rawToChar(raw(18)),dim.info=rawToChar(raw(1)),dim=NULL,TR=0,slice.code=rawToChar(raw(1)),xyzt.units=rawToChar(raw(1)),descrip=NULL,aux.file=rawToChar(raw(24)),intent.name=rawToChar(raw(16))) {
 # Passage du format Analyze 4D (resp. 3D) vers le format Nifti 4D (resp. 3D)
 # C'est un equivalent de la fonction SPM5: spm_write_vol
 
@@ -1585,7 +1594,7 @@ Lnifti$sform.code <- as.integer(sform.code)
 
 
 # Ecriture du nifti .hdr/.img ou .nii
-f.write.nifti(mat=data,file=paste(path.out,file.out,sep=""),size="int",L=Lnifti,nii=is.nii)
+f.write.nifti(mat=data,file=file.out,size="int",L=Lnifti,nii=is.nii,path.out=path.out)
 
 }
 
@@ -1672,7 +1681,7 @@ removeext <- function(filename) {res <- unlist(strsplit(x=filename,split="\\."))
 # ni1  : NIFTI hdr/img pair
 # n+1  : single NIFTI nii file
 if (is.null(L$magic)) {
-  f.write.list.to.hdr(L,paste(path.out,outputfile,".hdr",sep=""))
+  f.write.list.to.hdr(L, file = paste0(outputfile,".hdr"), path.out = path.out)
   if (file.exists(paste(path.in,removeext(list.of.in.files[1]),".mat",sep=""))) file.copy(from=paste(path.in,removeext(list.of.in.files[1]),".mat",sep=""), to=paste(path.out,outputfile,".mat",sep=""), overwrite = FALSE)
   
 #  M <- readMat(paste(path.in,removeext(list.of.in.files[1]),".mat",sep=""))
@@ -1797,7 +1806,7 @@ twoDto4D <- function(x.2d, dim) {
 
 volume.4d <- array(t(x.2d),dim=dim)
 
-return(volume.4d=volume.4d)
+return(volume.4d = volume.4d)
 
 }
 
@@ -1820,9 +1829,9 @@ fourDto2D <- function(volume.4d, tm) {
 # --------
 
 
-x.2d <- matrix(volume.4d,nrow=tm,byrow=TRUE)
+x.2d <- matrix(volume.4d, nrow = tm, byrow = TRUE)
 
-return(x.2d=x.2d)
+return(x.2d = x.2d)
 
 }
 
@@ -2441,13 +2450,14 @@ return(list(T=translation,Z=diag(c(scales,1)),S=skew,Rot=Rot,RotX=RotX,RotY=RotY
 f.icast.fmri.gui <- function(){
 
   #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
-
+gui.env <- new.env(parent = baseenv())  # safe container
   path <- path.package(package = "AnalyzeFMRI")
   path.gui <- paste(path, "ICAst.gui.R", sep = .Platform$file.sep)
   source(path.gui)
+      return(gui.env$tmp.ica.obj)  # assumes GUI stores output in result
 }
 
-f.icast.fmri <- function(foncfile,maskfile,is.spatial,n.comp.compute=TRUE,n.comp=0,hp.filter=TRUE) {
+f.icast.fmri <- function(foncfile,maskfile,is.spatial,n.comp.compute=TRUE,n.comp=0,hp.filter=TRUE, verbose = TRUE, path.out = ".") {
 
     #function for performing Spatial or Temporal ICA on an fMRI dataset
     #The function of Marchini avoids reading the dataset into R to minimise the memory used : see what can be done here !!
@@ -2477,7 +2487,7 @@ pixdim <- fonc.hdr$pixdim[2:4]
 vox.units <- fonc.hdr$vox.units
 cal.units <- fonc.hdr$cal.units
 
-cat("Data have been read\n")
+if (verbose) cat("Data have been read\n")
 gc(FALSE)
 
 
@@ -2544,8 +2554,8 @@ gc(FALSE)
 
 n.comp <- sum(valpcr>1)
 
-cat("Eigenvalues have been computed\n")
-cat(paste(n.comp," components will now be extracted using ICA\n",sep=""))
+if (verbose) cat("Eigenvalues have been computed\n")
+if (verbose) cat(paste(n.comp," components will now be extracted using ICA\n",sep=""))
 
 }
 
@@ -2584,7 +2594,7 @@ for (i in 1:n.comp) {
   }
 }
 
-cat("ICA has been performed\n")
+if (verbose) cat("ICA has been performed\n")
 
 #############################
 # Ecriture de donnees
@@ -2593,9 +2603,9 @@ cat("ICA has been performed\n")
 # on ecrit les decours temporels
 
 if (is.spatial) { # spatial ICA
-  write.table(time.series,file=paste(substr(foncfile,1,nchar(foncfile)-4),"-ICAs-time-series.dat",sep=""))
+  with_dir(path.out, {write.table(time.series,file=paste(substr(foncfile,1,nchar(foncfile)-4),"-ICAs-time-series.dat",sep=""))})
 } else { # temporal ICA
-  write.table(time.series,file=paste(substr(foncfile,1,nchar(foncfile)-4),"-ICAt-time-series.dat",sep=""))
+  with_dir(path.out, {write.table(time.series,file=paste(substr(foncfile,1,nchar(foncfile)-4),"-ICAt-time-series.dat",sep=""))})
 }
 
 
@@ -2622,7 +2632,7 @@ spatial.component.vol[,,,i] <- spatial.components.vol[[i]]
 }
 
 spatial.component.vol[is.na(spatial.component.vol)] <- 0
-f.write.nifti(mat=spatial.component.vol,file=name.prefix.fonc,size="int",L=Lbis,nii=TRUE)
+f.write.nifti(mat=spatial.component.vol,file=name.prefix.fonc,size="int",L=Lbis,nii=TRUE, path.out)
 
 
 
@@ -2742,6 +2752,7 @@ eigenvalues <- function(X,draw=FALSE) {
 
   if (draw) {
 # Inspection visuelle du pouvoir explicatif des valeurs propres
+    oldpar <- par(no.readonly = TRUE); on.exit(par(oldpar))
     par(mfrow=c(2,1))
     plot(valp/sum(valp),type="l",col="blue",ylim=c(0,1),main=paste("Percentage of explained variance\nThreshold: eigenvalues > 1/tm=",round(1/tm,3)," are selected",sep=""),xlab="Index of sorted (decreasing) eigenvalues")
     abline(h=1/tm) # A VOIR!! pourquoi pas 1/vm ??
@@ -2867,32 +2878,33 @@ ICAtemp <- function(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE) {
 
 
 
-f.plot.volume.gui <- function(array.fonc=NULL,hdr.fonc=NULL) {
+f.plot.volume.gui <- function(array.fonc = NULL, hdr.fonc = NULL) {
 
-  if (requireNamespace("tkrplot", quietly = TRUE)) {
-  
-    #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
-    if (class(array.fonc) == "array" & is.null(hdr.fonc)) stop("You must also provide a list 'hdr.fonc' with a 'pixdim' field containing a vector of length 4")
-    
-    #  require(tcltk) || stop("tcltk support is absent")
-    #  require("tkrplot") || stop("tkrplot support is absent")
-    
-    path <- path.package(package = "AnalyzeFMRI")
-    path.gui <- paste(path, "plot.volume.gui.R", sep = .Platform$file.sep)
-    env1245678512457 <- new.env()
-    if (!is.null(array.fonc)) {
-      name.array.fonc <- as.character(as.list(match.call())$array.fonc)
-      assign(name.array.fonc,array.fonc,envir=env1245678512457)
-      assign("array.fonc",name.array.fonc,envir=env1245678512457)
-      assign("hdr.fonc",hdr.fonc,envir=env1245678512457)
-    }
-    sys.source(path.gui,envir=env1245678512457)
-    rm("env1245678512457")
-
-  } else {
-    warning("Package tkrplot is not installed (or not available for your platform). Plotting will not work. ")
+  if (!requireNamespace("tkrplot", quietly = TRUE)) {
+    warning("Package 'tkrplot' is not installed (or not available for your platform). Plotting will not work.")
+    return(invisible(NULL))
   }
   
+    #starts GUI that allows user apply Spatial or Temporal ICA to an fMRI dataset
+    if (inherits(array.fonc, "array") & is.null(hdr.fonc)) stop("You must also provide a list 'hdr.fonc' with a 'pixdim' field containing a vector of length 4")
+    
+    gui_env <- new.env(parent = emptyenv())
+     
+  if (!is.null(array.fonc)) {
+    # Capture the object name used for array.fonc (for use in GUI logic)
+      name.array.fonc <- as.character(as.list(match.call())$array.fonc)
+    assign(name.array.fonc, array.fonc, envir = gui_env)
+    assign("array.fonc", name.array.fonc, envir = gui_env)
+    assign("hdr.fonc", hdr.fonc, envir = gui_env)
+  }     
+     
+    path <- path.package(package = "AnalyzeFMRI")
+    path.gui <- paste(path, "plot.volume.gui.R", sep = .Platform$file.sep)
+ 
+    sys.source(path.gui, envir = gui_env)
+    
+    invisible(NULL)
+
 }
 
 orientation <- function(L) {

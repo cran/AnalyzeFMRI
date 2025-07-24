@@ -5,7 +5,8 @@
 \description{Decomposes an fMRI dataset into a specified number of
   Spatially or Temporally Independent Components maps and associated time-courses using the FastICA algorithm}
 \usage{
-f.icast.fmri(foncfile,maskfile,is.spatial,n.comp.compute=TRUE,n.comp=0,hp.filter=TRUE)
+f.icast.fmri(foncfile, maskfile, is.spatial, n.comp.compute = TRUE,
+             n.comp = 0, hp.filter = TRUE, verbose = TRUE, path.out = "")
 }
 \arguments{
   \item{foncfile}{path and filename to fMRI dataset (NIFTI format .img
@@ -19,6 +20,8 @@ f.icast.fmri(foncfile,maskfile,is.spatial,n.comp.compute=TRUE,n.comp=0,hp.filter
     components to exatract. If FALSE, n.comp value (>0) should be provided}
   \item{n.comp}{number of components to extract}
 \item{hp.filter}{Logical. Should we perform high-pass filtering on the data}
+  \item{verbose}{\code{verbose} logical to display information on the progress of computations}  
+      \item{path.out}{The path where to write the file}
 }
 \details{TODO!!!
   The fMRI dataset is rearranged into a 2-dimensional data matrix

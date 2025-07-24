@@ -1,10 +1,10 @@
 citHeader("To cite AnalyzeFMRI in publications use:")
 
-citEntry(entry = "Article",
+bibentry(bibtype = "Article",
   title        = "Temporal and Spatial Independent Component Analysis for fMRI Data Sets Embedded in the {AnalyzeFMRI} {R} Package",
-  author       = personList(as.person("C\\'ecile Bordier"),
-                   as.person("Michel Dojat"),
-                   as.person("Pierre Lafaye de Micheaux")),
+  author       = c(person("C\\'ecile", "Bordier"),
+                   person("Michel", "Dojat"),
+                   person("Pierre", "Lafaye de Micheaux")),
   journal      = "Journal of Statistical Software",
   year         = "2011",
   volume       = "44",

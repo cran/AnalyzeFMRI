@@ -1,13 +1,6 @@
 \name{ICAspat}
 \alias{ICAspat}
 \alias{ica_fmri_JM}
-
-
-
-
-
-
-
 \title{ICAspat}
 \description{This function performs a spatial ICA}
 \usage{ICAspat(X,n.comp,alg.typ="parallel",centering=TRUE,hp.filter=TRUE)}
@@ -28,9 +21,7 @@
 \seealso{
   \code{\link{ICAtemp}}
 }
-\examples{
-# TODO!!
-}
+
 \keyword{utilities}
 
 

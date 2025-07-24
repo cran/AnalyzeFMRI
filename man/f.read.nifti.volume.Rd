@@ -14,7 +14,7 @@
   \code{\link{f.read.nifti.ts}}
 }
 \examples{
-a<-f.read.nifti.volume(system.file("example-nifti.img", package="AnalyzeFMRI"))
+a <- f.read.nifti.volume(system.file("example-nifti.img", package = "AnalyzeFMRI"))
 dim(a)
 }
 \keyword{utilities}

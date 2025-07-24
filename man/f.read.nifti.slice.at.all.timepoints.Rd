@@ -18,7 +18,8 @@
 
 }
 \examples{
-a<-f.read.nifti.slice.at.all.timepoints(system.file("example-nifti.img", package="AnalyzeFMRI"),10)
+a <- f.read.nifti.slice.at.all.timepoints(system.file("example-nifti.img",
+                                             package = "AnalyzeFMRI"), 10)
 dim(a)
 }
 \keyword{utilities}

@@ -7,30 +7,34 @@
   disk. Note that this function outputs the files in the format sent
   in. If desired, one can use the function \code{analyze2nifti} to
   create NIFTI files from ANALYZE files.}
-\usage{threeDto4D(outputfile,path.in=NULL,prefix=NULL,regexp=NULL,times=NULL,
-       list.of.in.files=NULL,path.out=NULL,is.nii.pair=FALSE,hdr.number=1)}
+\usage{threeDto4D(outputfile, path.in = NULL, prefix = NULL, regexp = NULL, times = NULL,
+       list.of.in.files = NULL, path.out = NULL, is.nii.pair = FALSE, hdr.number = 1)}
 \arguments{\item{outputfile}{character. Name of the outputfile without extension}
   \item{path.in}{character with the path to the directory containing the image files}
-  \item{prefix}{character. common prefix to each file}
-  \item{regexp}{character. Regular expression to get all the files}
-  \item{times}{vector. numbers of the image files to retrieve}
+  \item{prefix}{character. Common prefix to each file}
+  \item{regexp}{character. Regular expression to get all the files, e.g., "????.img"}
+  \item{times}{vector. Numbers (indices) of the image files to retrieve}
   \item{list.of.in.files}{names of img files to concatenate (with full path)}
   \item{path.out}{where to write the output hdr/img pair files. Will be taken as path.in if not provided.}
-  \item{is.nii.pair}{logical. Should we write a signle nii NIFTI file or a hdr/img NIFTI pair file}
+  \item{is.nii.pair}{logical. Should we write a single nii NIFTI file or a hdr/img NIFTI pair file}
   \item{hdr.number}{Number of the original 3D Analyze or NIFTI image file from
     which to take the header that should serve as the final header of the newly 4D created image file}
 }
-\value{None.}
+\value{None. Writes an Analyze or a NIFTI file on the disk.}
 \seealso{
   \code{\link{twoDto4D}}
   \code{\link{fourDto2D}}
 }
 \examples{
-
-# path.fonc <- "/network/home/lafayep/Stage/Data/map284/functional/
-# MondrianApril2007/preprocessing/1801/smoothed/"
-# threeDto4D("essai",path.in=path.fonc,prefix="su1801_",regexp="????.img",times=1:120)
-
+a <- f.read.analyze.volume(system.file("example.img", package = "AnalyzeFMRI"))
+dim(a)
+tmpdir <- tempdir()
+b <- threeDto4D(outputfile = "fourdfile", path.in =
+          paste0(system.file(package = "AnalyzeFMRI"), "/"), 
+      prefix = NULL, regexp = NULL, times = 2, list.of.in.files = rep("example.img", 2), 
+      path.out = tmpdir, is.nii.pair = FALSE, hdr.number = 1)
+dim(b)
+unlink(tmpdir) # tidy up
 }
 \keyword{utilities}
 

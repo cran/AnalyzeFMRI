@@ -20,9 +20,7 @@
 \seealso{
   \code{\link{ICAspat}}
 }
-\examples{
-# TODO!!
-}
+
 \keyword{utilities}
 
 

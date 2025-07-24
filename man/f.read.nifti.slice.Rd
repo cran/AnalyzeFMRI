@@ -19,7 +19,7 @@
  
 }
 \examples{
-a<-f.read.nifti.slice(system.file("example-nifti.img", package="AnalyzeFMRI"),10,1)
+a <- f.read.nifti.slice(system.file("example-nifti.img", package = "AnalyzeFMRI"), 10, 1)
 dim(a)
 }
 \keyword{utilities}

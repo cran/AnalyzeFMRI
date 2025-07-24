@@ -2,7 +2,7 @@
 \alias{f.write.nifti}
 \title{writes an array to a .img/.hdr pair in NIFTI format or to a .nii file}
 \description{Creates a .img/.hdr pair of files or a .nii file from a given array}
-\usage{f.write.nifti(mat,file,size,L,nii)}
+\usage{f.write.nifti(mat,file,size,L,nii,path.out=NULL)}
 \arguments{\item{mat}{An array}
   \item{file}{The name of the file to be written, without .img or .hdr
     suffix}
@@ -13,6 +13,7 @@
     be provided. This list contains the header part of a NIFTI image.}
     \item{nii}{should we write only one .nii file or a .hdr/.img pair of
     files}
+          \item{path.out}{The path where to write the file (mandatory argument, even if the default value is NULL for backward compatibility)}
 }
 
 \value{Nothing is returned}
@@ -24,10 +25,10 @@
   \code{\link{f.write.nii.array.to.img.2bytes}},
   \code{\link{f.write.nii.array.to.img.float}}}
 \examples{
-\dontrun{
 a<-array(rnorm(20*30*40*3),dim=c(20,30,40,3))
 file<-"temp"
-f.write.nifti(a,file,size="float",nii=TRUE)
-}
+tmpdir <- tempdir()
+f.write.nifti(a,file,size="float",nii=TRUE, path.out = tmpdir)
+unlink(tmpdir) # tidy up
 }
 \keyword{utilities}

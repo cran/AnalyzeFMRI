@@ -2,7 +2,8 @@
 
 local({
 
-
+    gui.env <- environment()  # capture this local environment
+    
     gui.file<-function(){
         tcltk::tclvalue(file.name) <- tcltk::tcl("tk_getOpenFile")   }
     
@@ -35,7 +36,7 @@ local({
         sl <- NULL
         if(tcltk::tclvalue(slices) == 0) sl <- "all"
         
-        tmp.ica.obj <<- f.ica.fmri(tcltk::tclvalue(file.name),
+        gui.env$tmp.ica.obj <- f.ica.fmri(tcltk::tclvalue(file.name),
                                    n.comp = as.numeric(tcltk::tclvalue(n.comp)),
                                    norm.col = v.norm,
                                    fun = "logcosh",
@@ -54,7 +55,7 @@ local({
         f.plot.ica.fmri.jpg(tmp.ica.obj, tcltk::tclvalue(jpeg), width = 700, height = 700)}
     
     gui.end<-function(...){
-        rm(tmp.ica.obj, envir = .GlobalEnv)
+        #rm(tmp.ica.obj, envir = .GlobalEnv)
         tcltk::tkdestroy(base.ica)
     }
     gui.plot.ica<-function(...){  
@@ -115,9 +116,9 @@ local({
     #frame for saving object to R session
     ica.f4 <- tcltk::tkframe(base.ica, relief = "groove", borderwidth = 2, bg = "#555555")
     
-    ica.save.entry <- tcltk::tkentry(ica.f4, textvariable = save.r, width = 40, bg = "#ffffff")
-    ica.save.but <- tcltk::tkbutton(ica.f4, text = "Save to R object", width = 15, command = gui.save, bg = "#aaaaaa")
-    tcltk::tkgrid(ica.save.but, ica.save.entry, padx = 10, pady = 10)
+#    ica.save.entry <- tcltk::tkentry(ica.f4, textvariable = save.r, width = 40, bg = "#ffffff")
+#    ica.save.but <- tcltk::tkbutton(ica.f4, text = "Save to R object", width = 15, command = gui.save, bg = "#aaaaaa")
+#    tcltk::tkgrid(ica.save.but, ica.save.entry, padx = 10, pady = 10)
     
     tcltk::tkgrid(ica.f4,sticky = "ew")
     
@@ -147,5 +148,6 @@ local({
                       command = gui.end, bg = "#aaaaaa")
     tcltk::tkgrid(go.but, q.but, padx = 30, pady = 20)
     tcltk::tkgrid(fr3)
-    
+
+     tcltk::tkwait.window(base.ica)
 })

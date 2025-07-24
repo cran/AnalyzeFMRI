@@ -10,8 +10,8 @@
   \code{\link{f.read.nifti.header}}
 }
 \examples{
-f.read.header(system.file("example.hdr", package="AnalyzeFMRI"))
-f.read.header(system.file("example-nifti.hdr", package="AnalyzeFMRI"))
+f.read.header(system.file("example.hdr", package = "AnalyzeFMRI"))
+f.read.header(system.file("example-nifti.hdr", package = "AnalyzeFMRI"))
 }
 \keyword{utilities}
 

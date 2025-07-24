@@ -18,7 +18,7 @@
 
 }
 \examples{
-a<-f.read.analyze.slice.at.all.timepoints(system.file("example.img", package="AnalyzeFMRI"),10)
+a <- f.read.analyze.slice.at.all.timepoints(system.file("example.img", package = "AnalyzeFMRI"),10)
 dim(a)
 }
 \keyword{utilities}

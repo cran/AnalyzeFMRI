@@ -19,7 +19,7 @@
  
 }
 \examples{
-a<-f.read.analyze.slice(system.file("example.img", package="AnalyzeFMRI"),10,1)
+a <- f.read.analyze.slice(system.file("example.img", package = "AnalyzeFMRI"), 10, 1)
 dim(a)
 }
 \keyword{utilities}
