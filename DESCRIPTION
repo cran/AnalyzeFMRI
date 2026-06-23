@@ -1,6 +1,6 @@
 Package: AnalyzeFMRI
-Version: 1.1-25
-Date: 2025-07-11
+Version: 1.1-26
+Date: 2026-06-23
 Title: Functions for Analysis of fMRI Datasets Stored in the ANALYZE or
         'NIFTI' Format
 Author: Pierre Lafaye De Micheaux [aut, cre],
@@ -29,10 +29,10 @@ Depends: R (>= 4.4.0), R.matlab, fastICA, tcltk
 Suggests: tkrplot
 Description: Functions for I/O, visualisation and analysis of functional Magnetic Resonance Imaging (fMRI) datasets stored in the ANALYZE or 'NIFTI' format. Note that the latest version of 'XQuartz' seems to be necessary under MacOS.
 License: GPL (>= 2)
-Packaged: 2025-07-23 01:43:41 UTC; lafaye
+Packaged: 2026-06-23 13:43:00 UTC; lafaye
 Copyright: For LAPACK/BLAS routines in src (Univ. of Tennessee, Univ.
         of California Berkeley, NAG Ltd., Courant Institute, Argonne
         National Lab, and Rice University).
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2025-07-24 12:50:12 UTC
+Date/Publication: 2026-06-23 14:40:02 UTC

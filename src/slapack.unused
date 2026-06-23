@@ -1332,7 +1332,7 @@
 *
 *           Apply H(i) to A(i:m,i+1:n) from the left
 *
-            CALL SLARF( 'Left', M-I+1, N-I, A( I, I ), 1, TAUQ( I ),
+            CALL SLARF( 'L', M-I+1, N-I, A( I, I ), 1, TAUQ( I ),
      $                  A( I, I+1 ), LDA, WORK )
             A( I, I ) = D( I )
 *
@@ -1348,7 +1348,7 @@
 *
 *              Apply G(i) to A(i+1:m,i+1:n) from the right
 *
-               CALL SLARF( 'Right', M-I, N-I, A( I, I+1 ), LDA,
+               CALL SLARF( 'R', M-I, N-I, A( I, I+1 ), LDA,
      $                     TAUP( I ), A( I+1, I+1 ), LDA, WORK )
                A( I, I+1 ) = E( I )
             ELSE
@@ -1370,7 +1370,7 @@
 *
 *           Apply G(i) to A(i+1:m,i:n) from the right
 *
-            CALL SLARF( 'Right', M-I, N-I+1, A( I, I ), LDA, TAUP( I ),
+            CALL SLARF( 'R', M-I, N-I+1, A( I, I ), LDA, TAUP( I ),
      $                  A( MIN( I+1, M ), I ), LDA, WORK )
             A( I, I ) = D( I )
 *
@@ -1386,7 +1386,7 @@
 *
 *              Apply H(i) to A(i+1:m,i+1:n) from the left
 *
-               CALL SLARF( 'Left', M-I, N-I, A( I+1, I ), 1, TAUQ( I ),
+               CALL SLARF( 'L', M-I, N-I, A( I+1, I ), 1, TAUQ( I ),
      $                     A( I+1, I+1 ), LDA, WORK )
                A( I+1, I ) = E( I )
             ELSE
@@ -1780,7 +1780,7 @@
 *
             AII = A( I, I )
             A( I, I ) = ONE
-            CALL SLARF( 'Right', M-I, N-I+1, A( I, I ), LDA, TAU( I ),
+            CALL SLARF( 'R', M-I, N-I+1, A( I, I ), LDA, TAU( I ),
      $                  A( I+1, I ), LDA, WORK )
             A( I, I ) = AII
          END IF
@@ -1959,13 +1959,13 @@
 *              Form the triangular factor of the block reflector
 *              H = H(i) H(i+1) . . . H(i+ib-1)
 *
-               CALL SLARFT( 'Forward', 'Rowwise', N-I+1, IB, A( I, I ),
+               CALL SLARFT( 'F', 'R', N-I+1, IB, A( I, I ),
      $                      LDA, TAU( I ), WORK, LDWORK )
 *
 *              Apply H to A(i+ib:m,i:n) from the right
 *
-               CALL SLARFB( 'Right', 'No transpose', 'Forward',
-     $                      'Rowwise', M-I-IB+1, N-I+1, IB, A( I, I ),
+               CALL SLARFB( 'R', 'N', 'F',
+     $                      'R', M-I-IB+1, N-I+1, IB, A( I, I ),
      $                      LDA, WORK, LDWORK, A( I+IB, I ), LDA,
      $                      WORK( IB+1 ), LDWORK )
             END IF
@@ -2098,7 +2098,7 @@
 *
             AII = A( I, I )
             A( I, I ) = ONE
-            CALL SLARF( 'Left', M-I+1, N-I, A( I, I ), 1, TAU( I ),
+            CALL SLARF( 'L', M-I+1, N-I, A( I, I ), 1, TAU( I ),
      $                  A( I, I+1 ), LDA, WORK )
             A( I, I ) = AII
          END IF
@@ -2278,13 +2278,13 @@
 *              Form the triangular factor of the block reflector
 *              H = H(i) H(i+1) . . . H(i+ib-1)
 *
-               CALL SLARFT( 'Forward', 'Columnwise', M-I+1, IB,
+               CALL SLARFT( 'F', 'C', M-I+1, IB,
      $                      A( I, I ), LDA, TAU( I ), WORK, LDWORK )
 *
 *              Apply H' to A(i:m,i+ib:n) from the left
 *
-               CALL SLARFB( 'Left', 'Transpose', 'Forward',
-     $                      'Columnwise', M-I+1, N-I-IB+1, IB,
+               CALL SLARFB( 'L', 'T', 'F',
+     $                      'C', M-I+1, N-I-IB+1, IB,
      $                      A( I, I ), LDA, WORK, LDWORK, A( I, I+IB ),
      $                      LDA, WORK( IB+1 ), LDWORK )
             END IF
@@ -13286,7 +13286,7 @@
 *
          IF( I.LT.N ) THEN
             A( I, I ) = ONE
-            CALL SLARF( 'Left', M-I+1, N-I, A( I, I ), 1, TAU( I ),
+            CALL SLARF( 'L', M-I+1, N-I, A( I, I ), 1, TAU( I ),
      $                  A( I, I+1 ), LDA, WORK )
          END IF
          IF( I.LT.M )
@@ -13666,7 +13666,7 @@
          IF( I.LT.N ) THEN
             IF( I.LT.M ) THEN
                A( I, I ) = ONE
-               CALL SLARF( 'Right', M-I, N-I+1, A( I, I ), LDA,
+               CALL SLARF( 'R', M-I, N-I+1, A( I, I ), LDA,
      $                     TAU( I ), A( I+1, I ), LDA, WORK )
             END IF
             CALL SSCAL( N-I, -TAU( I ), A( I, I+1 ), LDA )
@@ -13870,12 +13870,12 @@
 *              Form the triangular factor of the block reflector
 *              H = H(i) H(i+1) . . . H(i+ib-1)
 *
-               CALL SLARFT( 'Forward', 'Rowwise', N-I+1, IB, A( I, I ),
+               CALL SLARFT( 'F', 'R', N-I+1, IB, A( I, I ),
      $                      LDA, TAU( I ), WORK, LDWORK )
 *
 *              Apply H' to A(i+ib:m,i:n) from the right
 *
-               CALL SLARFB( 'Right', 'Transpose', 'Forward', 'Rowwise',
+               CALL SLARFB( 'R', 'T', 'F', 'R',
      $                      M-I-IB+1, N-I+1, IB, A( I, I ), LDA, WORK,
      $                      LDWORK, A( I+IB, I ), LDA, WORK( IB+1 ),
      $                      LDWORK )
@@ -14089,13 +14089,13 @@
 *              Form the triangular factor of the block reflector
 *              H = H(i) H(i+1) . . . H(i+ib-1)
 *
-               CALL SLARFT( 'Forward', 'Columnwise', M-I+1, IB,
+               CALL SLARFT( 'F', 'C', M-I+1, IB,
      $                      A( I, I ), LDA, TAU( I ), WORK, LDWORK )
 *
 *              Apply H to A(i:m,i+ib:n) from the left
 *
-               CALL SLARFB( 'Left', 'No transpose', 'Forward',
-     $                      'Columnwise', M-I+1, N-I-IB+1, IB,
+               CALL SLARFB( 'L', 'N', 'F',
+     $                      'C', M-I+1, N-I-IB+1, IB,
      $                      A( I, I ), LDA, WORK, LDWORK, A( I, I+IB ),
      $                      LDA, WORK( IB+1 ), LDWORK )
             END IF
@@ -15042,7 +15042,7 @@
 *           Form the triangular factor of the block reflector
 *           H = H(i) H(i+1) . . . H(i+ib-1)
 *
-            CALL SLARFT( 'Forward', 'Rowwise', NQ-I+1, IB, A( I, I ),
+            CALL SLARFT( 'F', 'R', NQ-I+1, IB, A( I, I ),
      $                   LDA, TAU( I ), T, LDT )
             IF( LEFT ) THEN
 *
@@ -15060,7 +15060,7 @@
 *
 *           Apply H or H'
 *
-            CALL SLARFB( SIDE, TRANST, 'Forward', 'Rowwise', MI, NI, IB,
+            CALL SLARFB( SIDE, TRANST, 'F', 'R', MI, NI, IB,
      $                   A( I, I ), LDA, T, LDT, C( IC, JC ), LDC, WORK,
      $                   LDWORK )
    10    CONTINUE
@@ -15305,7 +15305,7 @@
 *           Form the triangular factor of the block reflector
 *           H = H(i) H(i+1) . . . H(i+ib-1)
 *
-            CALL SLARFT( 'Forward', 'Columnwise', NQ-I+1, IB, A( I, I ),
+            CALL SLARFT( 'F', 'C', NQ-I+1, IB, A( I, I ),
      $                   LDA, TAU( I ), T, LDT )
             IF( LEFT ) THEN
 *
@@ -15323,7 +15323,7 @@
 *
 *           Apply H or H'
 *
-            CALL SLARFB( SIDE, TRANS, 'Forward', 'Columnwise', MI, NI,
+            CALL SLARFB( SIDE, TRANS, 'F', 'C', MI, NI,
      $                   IB, A( I, I ), LDA, T, LDT, C( IC, JC ), LDC,
      $                   WORK, LDWORK )
    10    CONTINUE

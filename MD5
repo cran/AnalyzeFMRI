@@ -1,4 +1,4 @@
-35a78a8e5da9c7a409ffdd22dc0d5c6e *DESCRIPTION
+509ec52a9d451b33addb172ed81df897 *DESCRIPTION
 31c6dd2ebec24732cf9052676152566a *INDEX
 e8dd2d1ebf2327830646373c7fdceb40 *NAMESPACE
 748deb410934a42d925f7634909d65a3 *R/analyzeFMRI.R
@@ -16,7 +16,7 @@ cbbba9fda4d2cf9f3ce52819d42115a0 *configure.win
 2405b0cf3e4feee109015ccac809e2ab *inst/AnalyzeFMRI.gui.R
 eda89a550fa7615b02df6cd286e77d99 *inst/CITATION
 fa5207e05bf059e7c9d795e7e7e7b7cd *inst/GRF.examples.R
-fc1858df1e888a5d6959b85537d62b11 *inst/HISTORY
+0c0ee0a0bc447874b2438b13ec39ba95 *inst/HISTORY
 cf7659c8332478aafce8a48e693664b2 *inst/ICA.gui.R
 eb0a9805d1f6333b9170b1d447541ff1 *inst/ICAst.gui.R
 e96396d25ba0e9d608520d8660040d9d *inst/README
@@ -124,7 +124,7 @@ ecafd10d4384a3a61e05c1598ce83939 *src/niftiFMRI.c
 15763e7f8f423d0cdcdd21d701cb957b *src/sblas.unused
 abb546ab83bf74354d1f5b794cd673d6 *src/sim.3d.GRF.c
 363d9a32be0badcf7f6c1fa82cf9da2c *src/slamc.unused
-1503ba95180d13305b62f40ba2b9eeab *src/slapack.unused
+04762b6ae4f7ce5736bcefad36d65e3c *src/slapack.unused
 5c068ed096dfee0580b95b884c250de7 *src/spatial.c
 b5aa3aed3d47ad1248e23a4841807465 *src/spatial.est.c
 3c3091b43c567a7693079e9186787eb9 *src/spatial.filters.linear.f

@@ -397,6 +397,18 @@ f.write.list.to.hdr.nifti.Rd, f.complete.hdr.nifti.list.create.Rd, f.write.list.
 - I rewrote the function f.plot.volume.gui()
 - In file plot.volume.gui.R, I replaced every occurence of <<- with assign(), and used an environment
 
+2026-06-23
+----------
 
+ Version 1.1-26
 
+* Updated calls to the LAPACK auxiliary routines `SLARF`, `SLARFT`,
+  and `SLARFB` in `slapack.f` to use standard one-character LAPACK
+  option codes instead of long descriptive strings. For example,
+  strings such as `'Forward'`, `'Rowwise'`, `'Columnwise'`, `'Right'`,
+  `'Left'`, `'Transpose'`, and `'No transpose'` were replaced by
+  `'F'`, `'R'`, `'C'`, `'R'`, `'L'`, `'T'`, and `'N'`, respectively.
+  This avoids GCC/GFortran 16 `-Wcharacter-truncation` warnings caused
+  by passing multi-character actual arguments to dummy arguments
+  declared as `CHARACTER(LEN=1)`.
 
